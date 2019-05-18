@@ -1,0 +1,224 @@
+BASE_URL = "http://node.boneapplication.com:2368/api/";
+BASE = "http://node.boneapplication.com/";
+TWILIO_URL = "http://node.boneapplication.com:2368/api/twilio/token";
+SOCKET_URL = "http://node.boneapplication.com:2368/";
+
+
+==============================
+
+POST
+http://node.boneapplication.com:2368/api/user/signup
+
+Body
+email, password, firebaseToken
+
+========================
+Test Result
+
+Content-Type  application/x-www-form-urlencoded
+
+email: dingtester2@mail.com, 
+password: 914237997fb36b329aa746cd5ef1cbb69a44e3fbf97a624620b24f37b94ac539,
+firebaseToken: erelHtlWAWE:APA91bFBkCvtKwtMXzzyO2IvXf9PYzATar5SLHkxcEA3LFsRnNCdSzgia4uzrakQ161qF-5ICkqWdhqrOKOHdcIHEqVRBoLqK7F58sdnggc9cpzXyTcUVNzExQkzxm0dgjDMQJnavMct
+
+123qwe!@#QWE getSHA256
+
+{
+    "success": true,
+    "message": "Signup Successful!",
+    "data": {
+        "token": "eyJhbGciOiJIUzI1NiJ9.ZGluZ3Rlc3RlcjJAbWFpbC5jb20.x3E765miPkVvXUC7qZY_1GqHvnG41QPfrB5eYSccVTs",
+        "user": {
+            "id": 2742,
+            "about": "",
+            "email": "dingtester2@mail.com",
+            "password": "914237997fb36b329aa746cd5ef1cbb69a44e3fbf97a624620b24f37b94ac539",
+            "profilePicture": null,
+            "smallImageUrl": "",
+            "bigImageUrl": "",
+            "username": "boneuser4999678902980",
+            "firebaseToken": "erelHtlWAWE:APA91bFBkCvtKwtMXzzyO2IvXf9PYzATar5SLHkxcEA3LFsRnNCdSzgia4uzrakQ161qF-5ICkqWdhqrOKOHdcIHEqVRBoLqK7F58sdnggc9cpzXyTcUVNzExQkzxm0dgjDMQJnavMct",
+            "weight": 80,
+            "height": 170,
+            "age": 21,
+            "showAge": true,
+            "hasPlace": false,
+            "rating": 0,
+            "onlineStatus": 1,
+            "isDeactivated": false,
+            "sexualStatusId": 1,
+            "tribeId": 1,
+            "locationId": 1,
+            "isIncognito": false,
+            "showDistance": true,
+            "bodyTypeId": 1,
+            "roleId": 1,
+            "allowsAllComments": true,
+            "chatNotificationsEnabled": true,
+            "warnings": 0,
+            "adminBlock": false,
+            "createdAt": "2019-05-16T09:49:00.000Z",
+            "forgotPasswordToken": "",
+            "bAndroid": false,
+            "hivStatusId": 1,
+            "lastTestDate": null,
+            "incomingCalls": true,
+            "lastWarningType": "0",
+            "lastWarningDate": "0",
+            "sexualStatus": {
+                "id": 1,
+                "name": "None"
+            },
+            "tribes": [],
+            "bodyType": {
+                "id": 1,
+                "name": "None"
+            },
+            "role": {
+                "id": 1,
+                "name": "None",
+                "abbreviatedName": ""
+            },
+            "lookingFors": [],
+            "hivStatus": {
+                "id": 1,
+                "name": "Do Not Show"
+            },
+            "location": {
+                "id": 1,
+                "locationX": "none",
+                "locationY": "none"
+            },
+            "userPhotos": [],
+            "toUserReview": []
+        }
+    }
+}
+
+=============================
+
+POST
+http://node.boneapplication.com:2368/api/user/login
+
+Body
+email, password, firebaseToken
+
+========================
+
+Test Result
+
+Content-Type  application/x-www-form-urlencoded
+
+email: dingtester@mail.com, 
+password: 914237997fb36b329aa746cd5ef1cbb69a44e3fbf97a624620b24f37b94ac539,
+firebaseToken: erelHtlWAWE:APA91bFBkCvtKwtMXzzyO2IvXf9PYzATar5SLHkxcEA3LFsRnNCdSzgia4uzrakQ161qF-5ICkqWdhqrOKOHdcIHEqVRBoLqK7F58sdnggc9cpzXyTcUVNzExQkzxm0dgjDMQJnavMct
+
+{
+    "success": true,
+    "message": "Sign in Successful",
+    "data": {
+        "user": {
+            "id": 2741,
+            "about": "",
+            "email": "dingtester@mail.com",
+            "password": "914237997fb36b329aa746cd5ef1cbb69a44e3fbf97a624620b24f37b94ac539",
+            "profilePicture": "{\"path\": \"public/uploads/profilePictures/profilePicture-1557991009331.jpeg\", \"size\": 6687720, \"encoding\": \"7bit\", \"filename\": \"profilePicture-1557991009331.jpeg\", \"mimetype\": \"image/jpeg\", \"fieldname\": \"profilePicture\", \"croppedPath\": \"public/uploads/profilePictures/cropped/profilePicture-1557991009331.jpeg\", \"destination\": \"public/uploads/profilePictures/\", \"originalname\": \"swift_file.jpeg\", \"thumbnailPath\": \"public/uploads/profilePictures/thumbnails/profilePicture-1557991009331.jpeg\"}",
+            "smallImageUrl": "public/uploads/profilePictures/thumbnails/profilePicture-1557991009331.jpeg",
+            "bigImageUrl": "public/uploads/profilePictures/profilePicture-1557991009331.jpeg",
+            "username": "boneuser21336783443012",
+            "firebaseToken": "erelHtlWAWE:APA91bFBkCvtKwtMXzzyO2IvXf9PYzATar5SLHkxcEA3LFsRnNCdSzgia4uzrakQ161qF-5ICkqWdhqrOKOHdcIHEqVRBoLqK7F58sdnggc9cpzXyTcUVNzExQkzxm0dgjDMQJnavMct",
+            "weight": 80,
+            "height": 170,
+            "age": 21,
+            "showAge": true,
+            "hasPlace": false,
+            "rating": 0,
+            "onlineStatus": 1,
+            "isDeactivated": false,
+            "sexualStatusId": 1,
+            "tribeId": 1,
+            "locationId": 1,
+            "isIncognito": false,
+            "showDistance": true,
+            "bodyTypeId": 1,
+            "roleId": 1,
+            "allowsAllComments": true,
+            "chatNotificationsEnabled": true,
+            "warnings": 0,
+            "adminBlock": false,
+            "createdAt": "2019-05-16T07:10:39.000Z",
+            "forgotPasswordToken": "",
+            "bAndroid": false,
+            "hivStatusId": 1,
+            "lastTestDate": null,
+            "incomingCalls": true,
+            "lastWarningType": "0",
+            "lastWarningDate": "0",
+            "sexualStatus": {
+                "id": 1,
+                "name": "None"
+            },
+            "tribes": [],
+            "bodyType": {
+                "id": 1,
+                "name": "None"
+            },
+            "role": {
+                "id": 1,
+                "name": "None",
+                "abbreviatedName": ""
+            },
+            "lookingFors": [],
+            "hivStatus": {
+                "id": 1,
+                "name": "Do Not Show"
+            },
+            "location": {
+                "id": 1,
+                "locationX": "none",
+                "locationY": "none"
+            },
+            "userPhotos": [],
+            "toUserReview": []
+        },
+        "token": "eyJhbGciOiJIUzI1NiJ9.ZGluZ3Rlc3RlckBtYWlsLmNvbQ.2Bw1iFrPPYHWqjcK_ibcrAtcSubg5kRtgrFDZVjYxog"
+    }
+}
+
+============================
+
+POST
+http://node.boneapplication.com:2368/api/user/{id}/edit
+
+Body
+
+    public String token;
+    public String email;
+    public String about;
+    public String username;
+    public Integer weight;
+    public Integer height;
+    public Integer age;
+    public String showAge;
+    public String hasPlace;
+    public Integer sexualStatusId;
+
+    public int[] tribeIds;
+    public int[] lookingForIds;
+
+    public String showDistance;
+    public Integer bodyTypeId;
+    public Integer roleId;
+    public String approveAllComments;
+    public String incognito;
+    public String chatNotificationsEnabled;
+    public String unitSystem;
+
+============================
+
+POST
+http://node.boneapplication.com:2368/api/user/{id}/password
+
+BODY
+id, newPassword, token
+
