@@ -2,6 +2,7 @@ import React from 'react';
 import {
   StyleSheet,
   View,
+  WebView,
   ScrollView
 } from 'react-native';
 
@@ -9,7 +10,6 @@ import { fonts, colors } from '../../styles';
 import { Button, BackgroundView } from '../../components'; 
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import { terms } from '../../config'
-import { WebView } from 'react-native-webview';
 import HTML from 'react-native-render-html';
 
 export default class Terms extends React.Component {
