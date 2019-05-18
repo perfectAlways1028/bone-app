@@ -13,7 +13,7 @@ import { Button, BackgroundView, IconizedTextInput, LoadingOverlay } from '../..
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { calculatePortraitDimension, showToast, emailValidate, passwordValidate } from '../../helpers'
+import { calculatePortraitDimension, showToast, emailValidate, passwordValidate, sha256Hash } from '../../helpers'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { connect } from 'react-redux';
 
@@ -22,15 +22,28 @@ import { login } from './actions/AuthActions';
 const { width: deviceWidth, height: deviceHeight } = calculatePortraitDimension();
 
 class Login extends React.Component {
-  state= {
-    email: 'dingtester@mail.com',
-    password: 'aaAA11!!'
-    
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: 'dingtester@mail.com',
+      password: 'aaAA11!!'
+    }
   }
+
   componentDidMount() {
   }
-
-
+  
+  componentWillReceiveProps(nextProps) {
+    if (this.props.auth.error !== nextProps.auth.error && nextProps.auth.error) {
+      //login faild
+      console.log("login faild");
+      showToast("Invalid email or password.", "short")
+    } else if (this.props.auth.success !== nextProps.auth.success && nextProps.auth.success) {
+      //login success
+      console.log("login success");
+      
+    }
+  }
 
   getBackButton() {
       return <View style={{position:'absolute', width: 32, height:32, left: 16, alignItems:'center', justifyContent:'center', top: Platform.OS === 'ios' ? getStatusBarHeight(true) + 16 : 16}}>
@@ -58,6 +71,7 @@ class Login extends React.Component {
 
   getMiddleView() {
       const { email, password } = this.state;
+      console.log('email:', email);
       return <View style={{flexDirection:'column', margin: 16, alignItems:'center'}}>
             <IconizedTextInput
               placeholder="Email"
@@ -70,11 +84,10 @@ class Login extends React.Component {
               onChangeText={text => {
                 this.setState({ email : text})
               }}
-              vaule={{email}}
+              value={email}
               autoCapitalize="none"
               autoCorrect={false}
               containerStyle={{marginTop: 0}}
-              keyboardType='email-address'
               returnKeyType='next'
               
             />
@@ -115,6 +128,7 @@ class Login extends React.Component {
 
   loginAction = () => {
     const {email, password} = this.state;
+    const { dispatch } = this.props;
     if (!emailValidate(email)) {
       showToast('Invalid email address.')
       return;
@@ -123,15 +137,17 @@ class Login extends React.Component {
       showToast('Password should contain minimum 8 and maximum 20 characters with 1 upper case letter and 1 number minimum');
       return;
     }
-    let credential = {
-      email: email,
-      password: password,
-      firebaseToken : ''
-    }
-    this.props.dispatch(login(credential));
-    
 
+    sha256Hash(password, ( hashedPassword)=>{
+      let credential = {
+        email: email,
+        password: hashedPassword,
+        firebaseToken : ''
+      }
+      dispatch(login(credential));
+    })
   }
+  
   render() {
 
     const { auth } = this.props; 

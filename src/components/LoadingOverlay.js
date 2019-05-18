@@ -10,7 +10,7 @@ class LoadingOverlay extends Component {
         return null;
     return (
       <View style={styles.background}>
-        <ActivityIndicator animating={true} size="medium" color="#fff" />
+        <ActivityIndicator animating={true} size="large" color="#fff" />
       </View>
 
     );
@@ -24,6 +24,9 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
+    zIndex: 1,
+    justifyContent: 'center',
+    alignItems:'center'
   },
 });
 

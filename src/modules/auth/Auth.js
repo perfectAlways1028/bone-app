@@ -26,7 +26,7 @@ export default class Auth extends React.Component {
                 bordered
                 style={{ alignSelf: 'stretch', marginBottom: 16 }}
                 caption={'Sign up'}
-                onPress={() => {{this.props.navigation.navigate('SignUp')}}}
+                onPress={() => {{this.props.navigation.navigate('Register')}}}
             />
             <Button
                 primary

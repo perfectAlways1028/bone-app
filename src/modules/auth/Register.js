@@ -9,24 +9,67 @@ import {
 } from 'react-native';
 
 import { fonts, colors } from '../../styles';
-import { Button, BackgroundView, IconizedTextInput } from '../../components'; 
+import { Button, BackgroundView, IconizedTextInput, LoadingOverlay } from '../../components'; 
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { calculatePortraitDimension, showToast } from '../../helpers'
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import { calculatePortraitDimension, showToast, emailValidate, passwordValidate, sha256Hash } from '../../helpers'
 
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { connect } from 'react-redux';
+
+import { signup } from './actions/AuthActions';
+
+import CheckBox from 'react-native-check-box';
 
 const { width: deviceWidth, height: deviceHeight } = calculatePortraitDimension();
 
-export default class Register extends React.Component {
-  state= {
-    robot:'Robot',
-    email: '',
-    password: ''
-    
+class Register extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+      robot: 'Robot',
+      privacyCheck: false
+    }
   }
   componentDidMount() {
+  }
+
+  registerAction = () => {
+    const {email, password, robot, privacyCheck} = this.state;
+    const { dispatch } = this.props;
+    if (!emailValidate(email)) {
+      showToast('Invalid email address.')
+      return;
+    }
+    if (!passwordValidate(password)) {
+      showToast('Password should contain minimum 8 and maximum 20 characters with 1 upper case letter and 1 number minimum');
+      return;
+    }
+
+    if (robot.length > 0) {
+      showToast('Failed Captcha');
+      return;
+    }
+    if (!privacyCheck) {
+      showToast('You must agree to the terms of use!')
+    }
+
+    sha256Hash(password, ( hashedPassword)=>{
+      let credential = {
+        email: email,
+        password: hashedPassword,
+        firebaseToken : ''
+      }
+      dispatch(signup(credential));
+    })
+  }
+
+  gotoPrivacyPolicyPage(){
+    console.log("privacy and policy");
+    this.props.navigation.navigate('Terms');
   }
 
   getBackButton() {
@@ -67,13 +110,12 @@ export default class Register extends React.Component {
               onChangeText={text => {
                 this.setState({ email : text})
               }}
-              vaule={{email}}
+              value={email}
               autoCapitalize="none"
               autoCorrect={false}
               containerStyle={{marginTop: 0}}
               keyboardType='email-address'
               returnKeyType='next'
-              
             />
             <IconizedTextInput
               placeholder="Password"
@@ -119,19 +161,40 @@ export default class Register extends React.Component {
   }
 
   getBottomView = () =>  {
-    return <View styles={{alignItems:'center', marign:16, height: 64, alignSelf:'stretch'}}>
+    return <View style={{alignItems:'center', margin:16, height: 64, alignSelf:'stretch'}}>
         <Button
             primary
             bordered
-            style={{ alignSelf: 'stretch', marginBottom: 32 }}
+            style={{ alignSelf: 'stretch' }}
             caption={'GET IN'}
-            onPress={() => {this.props.navigation.navigate('Main')}}
+            onPress={() => {this.registerAction()}}
         />
+        <View style={{flexDirection: 'row', justifyContent:'center', alignItems:'center', marginTop: 16}}>
+          <CheckBox
+              style={{width:30}}
+                  onClick={()=>{
+                  this.setState({
+                    privacyCheck:!this.state.privacyCheck
+                  })
+              }}
+              checkBoxColor={'white'}
+              isChecked={this.state.privacyCheck}
+              color={{color: 'white'}}
+          />
+        <TouchableOpacity 
+          onPress={()=>{
+            this.gotoPrivacyPolicyPage()
+          }}>
+         <Text style={{color: 'red'}}>{"You agreed to bone's terms of use"}</Text>
+        </TouchableOpacity>
+        </View>
       </View>
   }
   render() {
+    const { auth } = this.props; 
     return (
       <View style={styles.background}>
+        <LoadingOverlay visible={auth.isLoading}/>
         <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='always'>
           <View style={styles.container}>
             <View style={{flex:1}}>
@@ -145,6 +208,8 @@ export default class Register extends React.Component {
       </View>
     );
   }
+
+  
 }
 
 const styles = StyleSheet.create({
@@ -163,3 +228,7 @@ const styles = StyleSheet.create({
     color: 'white'
   }
 });
+
+const mapStateToProps = (state) => ({ app: state.app, auth: state.auth });
+
+export default connect(mapStateToProps)(Register);

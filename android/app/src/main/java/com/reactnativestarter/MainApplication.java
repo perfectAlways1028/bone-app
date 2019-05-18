@@ -3,6 +3,8 @@ package com.reactnativestarter;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
+import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.sha256lib.Sha256Package;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.airbnb.android.react.maps.MapsPackage;
@@ -31,6 +33,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFirebasePackage(),
+            new RNCWebViewPackage(),
             new Sha256Package(),
             new ReactNativeConfigPackage(),
             new MapsPackage(),

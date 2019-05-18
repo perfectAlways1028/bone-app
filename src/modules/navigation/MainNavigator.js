@@ -6,12 +6,18 @@ import { createAppContainer, createStackNavigator } from 'react-navigation';
 import Auth from '../auth/Auth';
 import Login from '../auth/Login';
 import Register from '../auth/Register';
-import Terms from '../term/Terms';
 
 import { colors, fonts } from '../../styles';
 
 const stackNavigator = createStackNavigator(
-  {
+  {    
+    
+    Register: {
+        screen: Register,
+        navigationOptions: {
+        header: null,
+        },
+    },
     Auth: {
       screen: Auth,
       navigationOptions: {
@@ -24,18 +30,7 @@ const stackNavigator = createStackNavigator(
         header: null,
       },
     },
-    Register: {
-      screen: Register,
-      navigationOptions: {
-        header: null,
-      },
-    },
-    Terms: {
-      screen: Terms,
-      navigationOptions: {
-        title: 'Terms of Service'
-      }
-    }
+
   },
   {
     defaultNavigationOptions: () => ({
@@ -52,10 +47,10 @@ const stackNavigator = createStackNavigator(
         />
       ),
       headerTitleStyle: {
-        color: 'white',
+        color: colors.white,
         fontFamily: fonts.primaryRegular,
       },
-      headerTintColor: 'white',
+      headerTintColor: '#222222',
       headerLeft: props => (
         <TouchableOpacity
           onPress={props.onPress}

@@ -1,12 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import AuthNavigator from './AuthNavigator';
+import MainNavigator from './MainNavigator';
 
-export default function NavigatorView() {
-  // if (authState.isLoggedIn || authState.hasSkippedLogin) {
-  //     return <AppNavigator />;
-  // }
-  // return <AuthScreen />;
+class NavigatorView extends React.Component {
 
-  return <AuthNavigator />;
+  render () {
+    const { auth } = this.props;
+    if(auth.success)
+      return <MainNavigator />
+    else
+      return <AuthNavigator />
+  } 
 }
+
+const mapStateToProps = (state) => ({ app: state.app, auth: state.auth });
+
+export default connect(mapStateToProps)(NavigatorView);
