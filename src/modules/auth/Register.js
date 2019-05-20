@@ -30,7 +30,8 @@ class Register extends React.Component {
     this.state = {
       email: '',
       password: '',
-      privacyCheck: false
+      privacyCheck: false,
+      seePassword: false
     }
   }
   componentDidMount() {
@@ -92,7 +93,7 @@ class Register extends React.Component {
   }
 
   getMiddleView() {
-      const { email, password } = this.state;
+      const { email, password, seePassword } = this.state;
       return <View style={{flexDirection:'column', margin: 16, alignItems:'center'}}>
             <IconizedTextInput
               placeholder="Email"
@@ -120,8 +121,16 @@ class Register extends React.Component {
               onChangeText={text => {
                 this.setState({ password : text})
               }}
+              onSubmitEditing={() => {
+
+              }}
+              seePassword={(visible) => {
+                this.setState({seePassword: visible})
+              }}
+              seePasswordEyeIcon={<Icon name="eye" size={24} color="white" solid />}
+              seePasswordEyeSlashIcon={<Icon name="eye-slash" size={24} color="white" solid />}
               value={password}
-              secureTextEntry
+              secureTextEntry={!seePassword}
               textContentType='password'
               autoCapitalize="none"
               autoCorrect={false}

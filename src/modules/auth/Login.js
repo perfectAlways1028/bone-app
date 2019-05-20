@@ -26,7 +26,8 @@ class Login extends React.Component {
     super(props);
     this.state = {
       email: 'dingtester@mail.com',
-      password: 'aaAA11!!'
+      password: 'aaAA11!!',
+      seePassword: false
     }
   }
 
@@ -70,7 +71,7 @@ class Login extends React.Component {
   }
 
   getMiddleView() {
-      const { email, password } = this.state;
+      const { email, password, seePassword } = this.state;
       console.log('email:', email);
       return <View style={{flexDirection:'column', margin: 16, alignItems:'center'}}>
             <IconizedTextInput
@@ -100,10 +101,15 @@ class Login extends React.Component {
                 this.setState({ password : text})
               }}
               onSubmitEditing={() => {
-                this.robotTxt.focus();
+  
               }}
+              seePassword={(visible) => {
+                this.setState({seePassword: visible})
+              }}
+              seePasswordEyeIcon={<Icon name="eye" size={24} color="white" solid />}
+              seePasswordEyeSlashIcon={<Icon name="eye-slash" size={24} color="white" solid />}
               value={password}
-              secureTextEntry
+              secureTextEntry={!seePassword}
               textContentType='password'
               autoCapitalize="none"
               autoCorrect={false}
@@ -131,10 +137,6 @@ class Login extends React.Component {
     const { dispatch } = this.props;
     if (!emailValidate(email)) {
       showToast('Invalid email address.')
-      return;
-    }
-    if (!passwordValidate(password)) {
-      showToast('Password should contain minimum 8 and maximum 20 characters with 1 upper case letter and 1 number minimum');
       return;
     }
 
