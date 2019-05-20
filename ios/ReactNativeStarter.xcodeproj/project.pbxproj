@@ -13,7 +13,6 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* ReactNativeStarterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ReactNativeStarterTests.m */; };
-		0F007C2713BA43D5BB95D204 /* aller_std_bd.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EF53EBFE8B4C4178B2807556 /* aller_std_bd.ttf */; };
 		0FFD7B45228DD48D004C2935 /* Lato-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FFD7B2F228DD48D004C2935 /* Lato-Italic.ttf */; };
 		0FFD7B46228DD48D004C2935 /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FFD7B30228DD48D004C2935 /* Lato-LightItalic.ttf */; };
 		0FFD7B47228DD48D004C2935 /* Lato-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FFD7B31228DD48D004C2935 /* Lato-Thin.ttf */; };
@@ -75,43 +74,22 @@
 		2D16E6881FA4F8E400B85C8A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D16E6891FA4F8E400B85C8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* ReactNativeStarterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ReactNativeStarterTests.m */; };
 		2DF0FFEE2056DD460020B375 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
-		2E08CC30898B4FB3B32E2902 /* helvetica_ltstd_bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 71AE5227E20E4E469DB06183 /* helvetica_ltstd_bold.otf */; };
-		364BEF9BC584403EAAC242A2 /* aller_display_std_rg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6820B4053B04F009AB0FE40 /* aller_display_std_rg.ttf */; };
-		370A328C805F4069BB390812 /* aller_std_bd_it.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 316F3B0000704EEFB14899C4 /* aller_std_bd_it.ttf */; };
-		43020F63B83741F6934FCB80 /* Lato-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9580B61B24354D679F56434F /* Lato-Medium.ttf */; };
 		442C3503754247E3930A481A /* libRNSVG-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 846F920A842F46F0B66E8994 /* libRNSVG-tvOS.a */; };
-		4705258DA4EA438493667642 /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04F8D6B9B92E4E228EC62EA2 /* Lato-Light.ttf */; };
 		4759ABCA216A465187F88C69 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 269A8D6F2C224FF5AEB0D6EA /* libRNSVG.a */; };
 		476C97A1472A49C6B64A32F6 /* libReactNativeConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7214D3693F6644749EAF36D1 /* libReactNativeConfig.a */; };
-		5719F2AF0F2F471786114452 /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 694248D573B8431E9D77B63F /* Lato-BoldItalic.ttf */; };
 		5EFEAC94057647C1B01A11A7 /* libreact-native-sha256.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7707D67B26CB44E3BD3E5C19 /* libreact-native-sha256.a */; };
 		6198F238DB1F40C2BC4FF557 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B1D17BEF7DE44CCB8F797014 /* libAirMaps.a */; };
-		630DDF5B53074D9AADA1A94A /* Lato-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 64BD44A0560E40F8911CD18A /* Lato-Thin.ttf */; };
-		6892F7E13AA344069D4E9997 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F27C77F7D4264F169E0EB58A /* Lato-Regular.ttf */; };
-		71CFA1C768684979B17E6E7E /* proxima_nova_alt_bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 56B3236E0CED4496939009D4 /* proxima_nova_alt_bold.otf */; };
-		727320BB897842518960039E /* aller_std_it.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 920549B5E9904BC7844CECCD /* aller_std_it.ttf */; };
 		73C6642C0CE94D698AECB6A2 /* libRNVectorIcons-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAAA3F1906574E769036A7F7 /* libRNVectorIcons-tvOS.a */; };
 		81A3FBA6A124402DA58CA7D0 /* libRNLocalize-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C4209D7DE64233A6905E8B /* libRNLocalize-tvOS.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		837F0B49415B41C4B007A398 /* libReactNativeConfig-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B40E8BC69247D4AC54B068 /* libReactNativeConfig-tvOS.a */; };
-		956A8CE763634BEC988BFD48 /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2D248527BDBE4B2DA9C6E317 /* Lato-LightItalic.ttf */; };
-		9988884CC8394042AD8B740A /* proxima_nova_alt_thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8919611B262A443C82DCD0A0 /* proxima_nova_alt_thin.otf */; };
-		9B354CBC18E84D989386D815 /* proxima_nova_alt_regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4556A77171D6418DA7B931FB /* proxima_nova_alt_regular.otf */; };
-		9F9A25510FC54CE6951E951B /* Lato-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1126A668B4C94AED8FAF1425 /* Lato-Italic.ttf */; };
-		A996E8F700404A42A42F1D28 /* aller_std_lt_it.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4D7F70D00C949F791D1716A /* aller_std_lt_it.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B7BCCA45E01B4A2C981918B5 /* libRNLocalize.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 132B6454729E49DD91A745D0 /* libRNLocalize.a */; };
-		BB0D7E6034D04DB6A5CF8380 /* proxima_nova_alt_light.otf in Resources */ = {isa = PBXBuildFile; fileRef = BE522E66DDD54CCE8D803146 /* proxima_nova_alt_light.otf */; };
-		BC9024B7E54B4955BB0788DC /* proxima_nova_alt_semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CC2347CF362E444C9E8A74A2 /* proxima_nova_alt_semibold.otf */; };
-		BE165EBF432246A086CAC555 /* Lato-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26000603E5A64FE68386E7FC /* Lato-Semibold.ttf */; };
 		C1E149A3423943ED885659F6 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 219F5D48B8424050955A6450 /* libRNVectorIcons.a */; };
-		C30C1C62F1F04192A2768E80 /* aller_std_lt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 700ACB19926A440CB49B8306 /* aller_std_lt.ttf */; };
 		CBF650F3033C43049B09E03F /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 25737DBE6AF547DDBC2F6349 /* libBVLinearGradient.a */; };
-		CF376BA2CB214A868D4C9200 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 32680D4B01574EDFA724A479 /* Lato-Bold.ttf */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
 		F987B34F856A42E7AFDDA1FD /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C83D8577C1E4845AACD13FC /* libRNGestureHandler.a */; };
-		F9C23506D5F146B28EFFFB61 /* aller_std_rg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84D2E40DAB804969A3360CAE /* aller_std_rg.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1686,28 +1664,6 @@
 				0FFD7B4E228DD48D004C2935 /* aller_std_bd_it.ttf in Resources */,
 				0FFD7B4D228DD48D004C2935 /* Lato-Regular.ttf in Resources */,
 				0FFD7B50228DD48D004C2935 /* aller_display_std_rg.ttf in Resources */,
-				364BEF9BC584403EAAC242A2 /* aller_display_std_rg.ttf in Resources */,
-				370A328C805F4069BB390812 /* aller_std_bd_it.ttf in Resources */,
-				0F007C2713BA43D5BB95D204 /* aller_std_bd.ttf in Resources */,
-				727320BB897842518960039E /* aller_std_it.ttf in Resources */,
-				A996E8F700404A42A42F1D28 /* aller_std_lt_it.ttf in Resources */,
-				C30C1C62F1F04192A2768E80 /* aller_std_lt.ttf in Resources */,
-				F9C23506D5F146B28EFFFB61 /* aller_std_rg.ttf in Resources */,
-				2E08CC30898B4FB3B32E2902 /* helvetica_ltstd_bold.otf in Resources */,
-				CF376BA2CB214A868D4C9200 /* Lato-Bold.ttf in Resources */,
-				5719F2AF0F2F471786114452 /* Lato-BoldItalic.ttf in Resources */,
-				9F9A25510FC54CE6951E951B /* Lato-Italic.ttf in Resources */,
-				4705258DA4EA438493667642 /* Lato-Light.ttf in Resources */,
-				956A8CE763634BEC988BFD48 /* Lato-LightItalic.ttf in Resources */,
-				43020F63B83741F6934FCB80 /* Lato-Medium.ttf in Resources */,
-				6892F7E13AA344069D4E9997 /* Lato-Regular.ttf in Resources */,
-				BE165EBF432246A086CAC555 /* Lato-Semibold.ttf in Resources */,
-				630DDF5B53074D9AADA1A94A /* Lato-Thin.ttf in Resources */,
-				71CFA1C768684979B17E6E7E /* proxima_nova_alt_bold.otf in Resources */,
-				BB0D7E6034D04DB6A5CF8380 /* proxima_nova_alt_light.otf in Resources */,
-				9B354CBC18E84D989386D815 /* proxima_nova_alt_regular.otf in Resources */,
-				BC9024B7E54B4955BB0788DC /* proxima_nova_alt_semibold.otf in Resources */,
-				9988884CC8394042AD8B740A /* proxima_nova_alt_thin.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

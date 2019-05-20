@@ -30,7 +30,6 @@ class Register extends React.Component {
     this.state = {
       email: '',
       password: '',
-      robot: 'Robot',
       privacyCheck: false
     }
   }
@@ -38,7 +37,7 @@ class Register extends React.Component {
   }
 
   registerAction = () => {
-    const {email, password, robot, privacyCheck} = this.state;
+    const {email, password, privacyCheck} = this.state;
     const { dispatch } = this.props;
     if (!emailValidate(email)) {
       showToast('Invalid email address.')
@@ -49,10 +48,6 @@ class Register extends React.Component {
       return;
     }
 
-    if (robot.length > 0) {
-      showToast('Failed Captcha');
-      return;
-    }
     if (!privacyCheck) {
       showToast('You must agree to the terms of use!')
     }
@@ -97,7 +92,7 @@ class Register extends React.Component {
   }
 
   getMiddleView() {
-      const { email, password, robot } = this.state;
+      const { email, password } = this.state;
       return <View style={{flexDirection:'column', margin: 16, alignItems:'center'}}>
             <IconizedTextInput
               placeholder="Email"
@@ -125,9 +120,6 @@ class Register extends React.Component {
               onChangeText={text => {
                 this.setState({ password : text})
               }}
-              onSubmitEditing={() => {
-                this.robotTxt.focus();
-              }}
               value={password}
               secureTextEntry
               textContentType='password'
@@ -137,26 +129,6 @@ class Register extends React.Component {
               returnKeyType='next'
             />
 
-            <View style={{flexDirection:'column', alignSelf:'stretch', alignItems:'flex-start', marginTop: 8}}>
-              <Text style={[styles.text, {fontWeight:'bold'}]}>Empty the following field unless you are a:</Text>
-              <IconizedTextInput
-                placeholder="Robot"
-                ref={(instance) => {
-                  this.robotTxt = instance;
-                }}
-                onChangeText={text => {
-                  this.setState({ robot : text})
-                }}
-                onSubmitEditing={() => {
-                }}
-                value={this.state.robot}
-                bordered 
-                bold
-                autoCapitalize="none"
-                autoCorrect={false}
-                containerStyle={{marginTop: 4}}
-              />
-            </View>
       </View>
   }
 
