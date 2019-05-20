@@ -8,7 +8,7 @@ class NavigatorView extends React.Component {
 
   render () {
     const { auth } = this.props;
-    if(auth.success)
+    if(auth.user && auth.token)
       return <MainNavigator />
     else
       return <AuthNavigator />

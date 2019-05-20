@@ -123,8 +123,8 @@ class Register extends React.Component {
               seePassword={(visible) => {
                 this.setState({seePassword: visible})
               }}
-              seePasswordEyeIcon={<Icon name="eye" size={24} color="white" solid />}
-              seePasswordEyeSlashIcon={<Icon name="eye-slash" size={24} color="white" solid />}
+              seePasswordEyeIcon={<Icon name="eye" size={24} color="white" light />}
+              seePasswordEyeSlashIcon={<Icon name="eye-slash" size={24} color="white" light />}
               value={password}
               secureTextEntry={!seePassword}
               textContentType='password'

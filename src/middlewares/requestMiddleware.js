@@ -23,7 +23,7 @@ export default function requestMiddleware() {
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            'token': auth ? `${auth.accessToken}` : '',
+            'token': auth ? `${auth.token}` : '',
           },
         };
 
@@ -32,7 +32,13 @@ export default function requestMiddleware() {
             if (res.status === 204) {
               next({ ...rest, type: SUCCESS, isLoading: false });
             } else if (res.ok) {
-              return res.json().then((data) => next({ ...rest, data, type: SUCCESS, isLoading: false }));
+              return res.json().then((data) => {
+                if(data.success) {
+                  next({ ...rest, data, type: SUCCESS, isLoading: false })
+                }else {
+                  next({ ...rest, type: FAILURE, lastAction: action, isLoading: false, message: data.message });
+                }
+              });
             } else if (res.status === 401) {
               next({ ...rest, type: FAILURE, lastAction: action, isLoading: false });
               next({ ...rest, type: UNAUTHORIZED, lastAction: action });

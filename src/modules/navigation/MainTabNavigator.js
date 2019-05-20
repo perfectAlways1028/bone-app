@@ -110,7 +110,7 @@ export default createMaterialTopTabNavigator(
       style: {
         backgroundColor: 'black',
         borderTopWidth: 0.5,
-        borderTopColor: '#d6d6d6',
+        borderTopColor: 'rgba(255,255,255,0.3)',
         paddingBottom: getBottomSpace()
       },
       labelStyle: {
