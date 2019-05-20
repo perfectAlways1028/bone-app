@@ -8,16 +8,17 @@ import Login from '../auth/Login';
 import Register from '../auth/Register';
 
 import { colors, fonts } from '../../styles';
+import MainTabNavigator from './MainTabNavigator';
 
 const stackNavigator = createStackNavigator(
   {    
-    
-    Register: {
-        screen: Register,
-        navigationOptions: {
+    Main: {
+      screen: MainTabNavigator,
+      navigationOptions: {
         header: null,
-        },
+      },
     },
+
     Auth: {
       screen: Auth,
       navigationOptions: {
@@ -30,6 +31,12 @@ const stackNavigator = createStackNavigator(
         header: null,
       },
     },
+    Register: {
+      screen: Register,
+      navigationOptions: {
+      header: null,
+      },
+    }
 
   },
   {

@@ -44,10 +44,6 @@ class Register extends React.Component {
       showToast('Invalid email address.')
       return;
     }
-    if (!passwordValidate(password)) {
-      showToast('Password should contain minimum 8 and maximum 20 characters with 1 upper case letter and 1 number minimum');
-      return;
-    }
 
     if (!privacyCheck) {
       showToast('You must agree to the terms of use!')
