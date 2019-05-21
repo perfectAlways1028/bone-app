@@ -3,6 +3,7 @@ package com.reactnativestarter;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.dylanvann.fastimage.FastImageViewPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import com.sha256lib.Sha256Package;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
@@ -33,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new FastImageViewPackage(),
             new RNFirebasePackage(),
             new RNFirebaseMessagingPackage(),
             new Sha256Package(),

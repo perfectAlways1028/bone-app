@@ -12,6 +12,8 @@ import {
 import { connect } from 'react-redux';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import { getNearByUsers, getWatchList, getNewUsers } from './actions/UserActions';
+import UsersGrid from './components/UsersGrid'
+import HorizontalUserList from './components/HorizontalUserList'
 
 class Home extends React.Component {
   constructor(props) {
@@ -77,7 +79,6 @@ class Home extends React.Component {
           <Image style={styles.icon} source={searchon ? require('../../../assets/images/searchon.png') : require('../../../assets/images/searchoff.png')}/>
         </TouchableOpacity>
       </View>
-
       <View style={{width:40, flexDirection: 'row', alignItems:'center', justifyContent:'flex-end'}}>
           <TouchableOpacity style={{ alignItems:'center', justifyContent: 'center', width: 40, height:40}}>
             <Image style={styles.icon} source={locationon ? require('../../../assets/images/locationon.png') : require('../../../assets/images/locationoff.png')}/>
@@ -97,7 +98,8 @@ class Home extends React.Component {
       <View style={styles.background}>
           <View style={styles.container}>
             {this.getTopToolBar()}
-            <Text style={styles.text}>Home Screen</Text>
+            <HorizontalUserList/>
+            <UsersGrid/>
           </View>
        
       </View>
@@ -123,7 +125,7 @@ const styles = StyleSheet.create({
   topToolbarContainer: {
     height: 40,
     alignSelf: 'stretch',
-    borderBottomColor: 'rgba(255,255,255,0.3)',
+    borderBottomColor: '#2b2b2b',
     borderBottomWidth: 0.5,
     alignItems: 'center',
     flexDirection: 'row',

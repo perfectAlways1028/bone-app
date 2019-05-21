@@ -1,8 +1,6 @@
 import { api } from '../../../config';
 import * as ACTION_TYPES from './ActionTypes';
 import { AsyncStorage } from 'react-native';
-import { showToast } from '../../../helpers';
-import { param } from 'change-case';
 
 
 export function  getNearByUsers(data) {

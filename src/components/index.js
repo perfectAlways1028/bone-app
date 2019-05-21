@@ -8,6 +8,7 @@ import SegmentedControl from './SegmentedControl';
 import BackgroundView from './BackgroundView';
 import IconizedTextInput from './IconizedTextInput';
 import LoadingOverlay from './LoadingOverlay';
+import ImageView from './ImageView';
 
 export {
   // ## Generator Components Exports
@@ -19,5 +20,6 @@ export {
   SegmentedControl,
   BackgroundView,
   IconizedTextInput,
-  LoadingOverlay
+  LoadingOverlay,
+  ImageView
 };
