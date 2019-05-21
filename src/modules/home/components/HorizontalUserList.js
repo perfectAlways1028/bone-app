@@ -43,7 +43,7 @@ class HorizontalUserList extends React.Component {
           this.onUserPressed(item);
         }}
       >
-      <View style={{margin:16, width:72, height: 72,borderRadius:36, borderWidth: 0.5, borderColor:'rgba(255,255,255, 0.3)', justifyContent: 'center', alignItems:'center'}}>
+      <View style={{margin:16, width:72, height: 72,borderRadius:36, borderWidth: 1, borderColor:'#2b2b2b', justifyContent: 'center', alignItems:'center'}}>
         <ImageView style={styles.profileImage} source= {{uri: item.smallImageUrl}}/>
       </View>
       </TouchableOpacity>
@@ -94,7 +94,7 @@ class HorizontalUserList extends React.Component {
         <View style={styles.container}>
           {this.renderHorizonalUsers()}
         </View>
-
+        
     );
   }
 
@@ -152,12 +152,9 @@ const styles = StyleSheet.create({
     color: colors.gray,
   },
   profileImage: {
-    backgroundColor: 'black',
-    borderWidth: 0.5,
-    borderColor: '#2b2b2b',
-    borderRadius: 36,
-    height: 72,
-    width: 72
+    borderRadius: 30,
+    height: 60,
+    width: 60
   }
 });
 

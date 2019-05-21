@@ -7097,6 +7097,11 @@ react-native-animatable@^1.1.0, react-native-animatable@^1.2.4:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-autocomplete-input@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-autocomplete-input/-/react-native-autocomplete-input-4.0.0.tgz#f2574c972aff8ba8e356982c7cca585c87a5a59b"
+  integrity sha512-rNoBcJEAikZwj7nZQ+UtZ98Z9BmSn0T7zP+lBoUo02n+9teGIThRVOABKJ4ex0mfi3+E0v60yNAcO/8CqwLxhw==
+
 react-native-blur@^3.1.1:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/react-native-blur/-/react-native-blur-3.2.2.tgz#5bfb50638d148982c9560436554ed01d77d6d07d"

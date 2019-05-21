@@ -15,7 +15,7 @@ const authPersistConfig = {
 const usersPersistConfig = {
   key: 'users',
   storage: storage,
-  blacklist: ['isLoading', 'success', 'error'],
+  blacklist: ['isLoading', 'success', 'error', 'searchUsers'],
 };
 
 export default combineReducers({

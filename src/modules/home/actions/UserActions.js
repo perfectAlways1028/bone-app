@@ -2,6 +2,23 @@ import { api } from '../../../config';
 import * as ACTION_TYPES from './ActionTypes';
 import { AsyncStorage } from 'react-native';
 
+export function search(data) {
+
+  let params = {
+    id : data.id,
+    limit : data.limit,
+    query: data.query,
+    offset : data.offset
+  }
+  
+  return {
+    type: ACTION_TYPES.SEARCH_USERS,
+    request: {
+      url: `${api.baseURL}/api/user/${params.id}/search?username=${params.query}&limit=${params.limit}&offset=${params.offset}`,
+    }
+    
+  }
+} 
 
 export function  getNearByUsers(data) {
 
@@ -68,4 +85,20 @@ export function getFilterUsers(data, filterSettings) {
           body: JSON.stringify(filterSettings)
         },
       }
+}
+
+export function setFlag(name, value) {
+  switch(name) {
+    case 'searchon':
+      return { type: ACTION_TYPES.USERS_SET_FLAG, data: {searchon: value}}
+    case  'locationon':
+      return { type: ACTION_TYPES.USERS_SET_FLAG, data: {locationon: value}}
+    case  'eyeon':
+      return { type: ACTION_TYPES.USERS_SET_FLAG, data: {eyeon: value}}
+    case  'filteron':
+          return { type: ACTION_TYPES.USERS_SET_FLAG, data: {filteron: value}}
+    default: 
+          return { type: ACTION_TYPES.USERS_SET_FLAG, data: {}}
+  }
+
 }

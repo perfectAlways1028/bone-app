@@ -1,0 +1,140 @@
+import React from 'react';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Platform,
+  TouchableOpacity,
+  FlatList,
+  Image
+} from 'react-native';
+
+import { connect } from 'react-redux';
+import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
+import { calculatePortraitDimension } from '../../../helpers';
+import { colors } from '../../../styles';
+import { ImageView } from '../../../components';
+import Autocomplete from 'react-native-autocomplete-input';
+import { search } from '../actions/UserActions';
+
+const { width :deviceWidth, height: deviceHeight } = calculatePortraitDimension();
+
+class UserSearchView extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state ={
+            query: ''
+        }
+    }
+    onSearch = (text, userId) => {
+        if(text && text.length > 0) {
+            let data = {
+                id: userId,
+                query: text,
+                offset: 0,
+                limit: 50,
+
+            }
+            this.props.dispatch(search(data));
+        }
+        
+    }
+
+    getSearchItemView = (item, i) => {
+        return <TouchableOpacity onPress={() => {
+            console.log('search item clinck', item);
+        }}>
+        <View style={{flexDirection: 'row', height: 40, alignItems:'center'}}>
+            <ImageView style={styles.userImage} source={{uri: item.smallImageUrl}}/>
+            <Text style={styles.username} > {item.username}</Text>
+        </View>
+      </TouchableOpacity>
+    }
+
+    getSearchBox = () => {
+        const { searchUsers } = this.props.users;
+        const { user } = this.props.auth;
+        const { query } = this.state;
+        return <View style={{flexDirection:'column', alignItems:'center', backgroundColor: colors.red}}>
+            <Text style={[styles.text, {padding: 16, }]}>{'SEARCH BY NAME'}</Text>
+            <View style={{marginLeft:16, marginRight:16, marginBottom:16, backgroundColor:'white', height: 40, alignSelf:'stretch',}}>
+                <Autocomplete style={styles.autocompleteContainer}
+                    data={searchUsers}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    defaultValue={query}
+                    placeholder={'@username'}
+                    onChangeText={text => {
+                        if(user && user.id)
+                            this.onSearch(text, user.id);
+                    }}
+                    renderItem={({ item, i }) => (
+                        this.getSearchItemView(item, i)
+                    )}
+                />
+            </View>
+        </View>
+    }
+
+    render() {
+        return (
+            <View style={styles.transparentOverlay}>
+                <View style={styles.container}>
+                    {this.getSearchBox()}
+                </View>
+            </View>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    transparentOverlay: {
+        backgroundColor: colors.transparentBlack,
+        left: 0,
+        position: 'absolute',
+
+        right: 0,
+        top: 0,
+        bottom: 0,
+        
+    },
+    container: {
+        height: deviceHeight/2,
+        backgroundColor: 'white',
+        flexDirection:'column'
+    },
+    text: {
+        fontSize: 14,
+        color: 'white'
+    },
+    autocompleteContainer: {
+        left: 0,
+        position: 'absolute',
+        right: 0,
+        top: 0,
+        height: 40,
+        zIndex: 1,
+        alignItems:'center'
+    },
+    userImage: {
+        padding: 4,
+        width : 32,
+        height: 32,
+        borderRadius: 16,
+        borderWidth: 1,
+        borderColor: 'white'
+    },
+    username: {
+        marginLeft: 16,
+        fontSize: 12,
+        color: 'black' 
+    }
+    
+
+});
+  
+  
+  
+const mapStateToProps = (state) => ({auth: state.auth, users: state.users });
+  
+export default connect(mapStateToProps)(UserSearchView);

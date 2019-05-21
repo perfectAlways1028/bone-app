@@ -11,18 +11,15 @@ import {
 
 import { connect } from 'react-redux';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
-import { getNearByUsers, getWatchList, getNewUsers } from './actions/UserActions';
+import { getNearByUsers, getWatchList, getNewUsers, setFlag } from './actions/UserActions';
 import UsersGrid from './components/UsersGrid'
 import HorizontalUserList from './components/HorizontalUserList'
+import UserSearchView from './components/UserSearchView'
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state ={
-      searchon: false,
-      locationon: false,
-      eyeon: false,
-      filteron: false,
       onlineBit: 0,
       gridType: 'nearby' // nearby, watchlist, filter
     }
@@ -75,7 +72,9 @@ class Home extends React.Component {
   getTopToolBar = (searchon, locationon, eyeon, filteron ) => {
     return <View style={styles.topToolbarContainer}>
       <View style={{width:40, height:40}}>
-        <TouchableOpacity style={{flex: 1, alignItems:'center', justifyContent: 'center'}}>
+        <TouchableOpacity style={{flex: 1, alignItems:'center', justifyContent: 'center'}}
+          onPress={this.onSearchPress}
+        >
           <Image style={styles.icon} source={searchon ? require('../../../assets/images/searchon.png') : require('../../../assets/images/searchoff.png')}/>
         </TouchableOpacity>
       </View>
@@ -92,14 +91,27 @@ class Home extends React.Component {
       </View>
     </View>
   }
+
+  onSearchPress = () =>{
+    const { searchon } = this.props.users;
+    this.props.dispatch(setFlag("searchon", !searchon));
+  }
   render() {
-    
+    const { searchon, locationon, eyeon, filteron } = this.props.users;
     return (
       <View style={styles.background}>
           <View style={styles.container}>
-            {this.getTopToolBar()}
-            <HorizontalUserList/>
-            <UsersGrid/>
+            {this.getTopToolBar(searchon, locationon, eyeon, filteron)}
+            <View style={styles.content}>
+
+              <HorizontalUserList/>
+              <UsersGrid/>
+              {
+                searchon &&
+                <UserSearchView/>
+              }
+            </View>
+            
           </View>
        
       </View>
@@ -112,11 +124,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Platform.OS === 'ios' ? getStatusBarHeight(true) : 0,
-    marginBottom: getBottomSpace()
   },
   background: {
     flex: 1,
     backgroundColor: 'black'
+  },
+  content: {
+    flex: 1
   },
   text: {
     fontSize: 14,
