@@ -102,7 +102,7 @@ export default createMaterialTopTabNavigator(
       },
     }),
     tabBarPosition: 'bottom',
-    animationEnabled: true,
+    animationEnabled: false,
     swipeEnabled: true,
     tabBarOptions: {
       showIcon: true,

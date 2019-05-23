@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     },
     autocompleteContainer: {
         flex: 1,
-        zIndex: 2
+ 
     },
     userImage: {
         padding: 8,
