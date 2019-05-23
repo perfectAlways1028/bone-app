@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ImageBackground } from 'react-native';
 import { connect } from 'react-redux';
+import ImageView from './ImageView';
 
 class BackgroundView extends Component {
   render = () => {
     return (
-        <ImageBackground
+        <ImageView
           style={styles.background}
-          source={require('../../assets/images/splash.jpg')}
+          source={this.props.source}
+          defaultImage={require('../../assets/images/bone_profile_default.jpg')}
           resizeMode='cover'
         />
 

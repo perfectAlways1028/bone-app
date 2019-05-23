@@ -4,7 +4,8 @@ import {
   View,
   Text,
   Animated,
-  Image
+  Image,
+  Platform
 } from 'react-native';
 
 
@@ -13,6 +14,9 @@ import { connect } from 'react-redux';
 import { calculatePortraitDimension } from '../../helpers';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import BottomSheet from './components/BottomSheet';
+import { BackgroundView } from '../../components';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
 const { height : deviceHeight } = calculatePortraitDimension();
 
 class Profile extends React.Component {
@@ -21,16 +25,28 @@ class Profile extends React.Component {
     super(props);
   }
 
+  getSettingsButton = () => {
+    return <View style={{ position:'absolute', top: 16, right: 16, alignItems: 'center', justifyContent:'center'}}>
+      <TouchableOpacity>
+        <Image style={{width: 48, height: 48}} source={require('../../../assets/images/settings.png')}>
 
+        </Image>
+      </TouchableOpacity>
+    </View>
+  }
 
   render() {
- 
+    const { user } = this.props.auth;
     return (
-      <View style={styles.container}>
-        <Text>Hello world</Text>
-        <BottomSheet/>
-      
+      <View style={styles.background}>
+        <View style={styles.container}>
+          <BackgroundView source={{uri: user.bigImageUrl}}/>
+          {this.getSettingsButton()}
+          <BottomSheet/>
+        
+        </View>
       </View>
+
     )
   }
 }
@@ -40,9 +56,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white'
+    marginTop: Platform.OS === 'ios' ? getStatusBarHeight(true) : 0,
   },
-
+  background:{
+    flex: 1,
+    backgroundColor:'black'
+  },
   text: {
     fontSize: 14,
     color: 'white'
@@ -69,9 +88,14 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 24,
     zIndex: 1
+  },
+  settingsButton: {
+    width: 48,
+    height: 48,
+
   }
 });
 
-const mapStateToProps = (state) => ({ app: state.app });
+const mapStateToProps = (state) => ({ app: state.app, auth: state.auth });
 
 export default connect(mapStateToProps)(Profile);
