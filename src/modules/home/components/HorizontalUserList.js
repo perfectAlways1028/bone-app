@@ -14,12 +14,20 @@ import { connect } from 'react-redux';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import { colors } from '../../../styles';
 import { ImageView } from '../../../components';
+import { setStatic } from 'recompose';
 class HorizontalUserList extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state ={
+      type: props.type? props.type : 'home',
+      showType: props.showType? props.showType :'horizontal'
+    }
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ type: nextProps.type, showType: nextProps.showType})
+  }
   componentWillMount() {
     //TODO if recods count saved on server pull it and show in the list
 
@@ -37,16 +45,32 @@ class HorizontalUserList extends React.Component {
 
   getUserItem = (item) => {
       const {smallImageUrl} = item;
-      return <TouchableOpacity
-        style={{flex:1}}
-        onPress={()=>{
-          this.onUserPressed(item);
-        }}
-      >
-      <View style={{margin:16, width:72, height: 72,borderRadius:36, borderWidth: 1, borderColor:'#2b2b2b', justifyContent: 'center', alignItems:'center'}}>
-        <ImageView style={styles.profileImage} source= {{uri: item.smallImageUrl}}/>
-      </View>
-      </TouchableOpacity>
+      if(this.state.type == 'search') {
+        return <TouchableOpacity
+          onPress={()=>{
+            this.onUserPressed(item);
+          }}
+        >
+        <View style={{ justifyContent: 'center', alignItems:'center'}}>
+          <ImageView 
+            style={{margin:8, width:40, height: 40, borderRadius:20}} 
+            defaultImage={require('../../../../assets/images/boneprofile.png')} 
+            source= {{uri: item.smallImageUrl}}/>
+        </View>
+        </TouchableOpacity>
+      } else {
+        return <TouchableOpacity
+          style={{flex:1}}
+          onPress={()=>{
+            this.onUserPressed(item);
+          }}
+        >
+        <View style={{margin:16, width:72, height: 72,borderRadius:36, borderWidth: 1, borderColor:'#2b2b2b', justifyContent: 'center', alignItems:'center'}}>
+          <ImageView style={styles.profileImage} source= {{uri: item.smallImageUrl}}/>
+        </View>
+        </TouchableOpacity>
+      }
+
        
   }
 
@@ -58,15 +82,29 @@ class HorizontalUserList extends React.Component {
   renderHorizonalUsers = () => {
     
     const { users } = this.props;
-
-    return (<FlatList
-      data={users.newUsers} renderItem={this.renderItem}
-      ListFooterComponent={this.renderFooterComponent()}
-      refreshing={false}
-      keyExtractor={(item, index) => index.toString()}
-      onRefresh={this.onRefresh}
-      horizontal = {true}
-    />);
+    
+     
+    return (
+      this.state.showType == 'horizontal' ? <FlatList
+        data={users.newUsers} renderItem={this.renderItem}
+        ListFooterComponent={this.renderFooterComponent()}
+        refreshing={false}
+        keyExtractor={(item, index) => index.toString()}
+        onRefresh={this.onRefresh}
+        horizontal = {true}
+        key={'horizontal'}
+        />
+      :
+      <FlatList
+        data={users.newUsers} renderItem={this.renderItem}
+        ListFooterComponent={this.renderFooterComponent()}
+        refreshing={false}
+        keyExtractor={(item, index) => index.toString()}
+        onRefresh={this.onRefresh}
+        numColumns={6}
+        key={'grid'}
+      />
+    );
   }
 
   renderFooterComponent() {
@@ -91,7 +129,10 @@ class HorizontalUserList extends React.Component {
   render() {
     return (
 
-        <View style={styles.container}>
+        <View style={this.state.type == 'search'? 
+                        this.state.showType == 'grid' ? styles.gridContainer 
+                                                      : styles.searchContainer 
+                        : styles.container}>
           {this.renderHorizonalUsers()}
         </View>
         
@@ -101,7 +142,12 @@ class HorizontalUserList extends React.Component {
 }
 
 const styles = StyleSheet.create({
-
+  searchContainer: {
+    height: 60
+  },
+  gridContainer: {
+    height: 180
+  },
   container: {
     height: 108,
     borderBottomWidth : 0.5,

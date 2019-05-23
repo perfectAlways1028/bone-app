@@ -19,6 +19,11 @@ export function search(data) {
     
   }
 } 
+export function emptySearch() {
+  return {
+    type: ACTION_TYPES.EMPTY_SEARCH
+  }
+}
 
 export function  getNearByUsers(data) {
 

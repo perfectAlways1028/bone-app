@@ -13,17 +13,18 @@ import { connect } from 'react-redux';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import { calculatePortraitDimension } from '../../../helpers';
 import { colors } from '../../../styles';
-import { ImageView } from '../../../components';
+import { ImageView, CollapsibleView, Button } from '../../../components';
 import Autocomplete from 'react-native-autocomplete-input';
-import { search } from '../actions/UserActions';
+import HorizontalUserList from './HorizontalUserList';
+import { search, emptySearch } from '../actions/UserActions';
 
 const { width :deviceWidth, height: deviceHeight } = calculatePortraitDimension();
 
 class UserSearchView extends React.Component {
     constructor(props) {
         super(props);
-        this.state ={
-            query: ''
+        this.state = {
+            query : ''
         }
     }
     onSearch = (text, userId) => {
@@ -36,6 +37,8 @@ class UserSearchView extends React.Component {
 
             }
             this.props.dispatch(search(data));
+        }else {
+            this.props.dispatch(emptySearch());
         }
         
     }
@@ -44,8 +47,8 @@ class UserSearchView extends React.Component {
         return <TouchableOpacity onPress={() => {
             console.log('search item clinck', item);
         }}>
-        <View style={{flexDirection: 'row', height: 40, alignItems:'center'}}>
-            <ImageView style={styles.userImage} source={{uri: item.smallImageUrl}}/>
+        <View style={{flexDirection: 'row', height: 40, alignItems:'center', marginLeft:8}}>
+            <ImageView style={styles.userImage} source={{uri: item.smallImageUrl}} resizeMode='contain'/>
             <Text style={styles.username} > {item.username}</Text>
         </View>
       </TouchableOpacity>
@@ -57,8 +60,8 @@ class UserSearchView extends React.Component {
         const { query } = this.state;
         return <View style={{flexDirection:'column', alignItems:'center', backgroundColor: colors.red}}>
             <Text style={[styles.text, {padding: 16, }]}>{'SEARCH BY NAME'}</Text>
-            <View style={{marginLeft:16, marginRight:16, marginBottom:16, backgroundColor:'white', height: 40, alignSelf:'stretch',}}>
-                <Autocomplete style={styles.autocompleteContainer}
+            <View style={{marginLeft:16, marginRight:16, marginBottom:16, backgroundColor:'white', height: 40, alignSelf:'stretch' }}>
+                <Autocomplete containerStyle={styles.autocompleteContainer}
                     data={searchUsers}
                     autoCapitalize="none"
                     autoCorrect={false}
@@ -67,6 +70,7 @@ class UserSearchView extends React.Component {
                     onChangeText={text => {
                         if(user && user.id)
                             this.onSearch(text, user.id);
+                        
                     }}
                     renderItem={({ item, i }) => (
                         this.getSearchItemView(item, i)
@@ -76,11 +80,43 @@ class UserSearchView extends React.Component {
         </View>
     }
 
+    getBottomView = () =>  {
+        return <View style={{alignSelf: 'stretch', paddingHorizontal: 16}}>
+            <Text style={[styles.title]}>{"WHO'S ONLINE"}</Text>
+            <View style={{alignItems: 'center', alignSelf:'stretch',justifyContent:'center'}}>
+                <Button
+                    secondary
+                    style={{ alignSelf: 'stretch', marginBottom: 32, marginTop:16, marignLeft :0, marginRight:0 }}
+                    caption={'ONLINE NOW'}
+                    textColor={'white'}
+                    bgColor={colors.red}
+                    onPress={() => {
+                    }}
+                />
+            </View>
+
+          </View>
+      }
+    
     render() {
         return (
             <View style={styles.transparentOverlay}>
                 <View style={styles.container}>
                     {this.getSearchBox()}
+                    <CollapsibleView
+                        title={'NEW GUYS'}
+                        getComponent={(collapsed)=>{
+                      
+                                return <HorizontalUserList
+                                    type={'search'}
+                                    showType={collapsed? 'horizontal': 'grid'}
+                                />
+                       
+                            return null;
+                           
+                        }}
+                    />
+                    {this.getBottomView()}
                 </View>
             </View>
         );
@@ -92,42 +128,42 @@ const styles = StyleSheet.create({
         backgroundColor: colors.transparentBlack,
         left: 0,
         position: 'absolute',
-
         right: 0,
         top: 0,
         bottom: 0,
-        
+ 
     },
     container: {
-        height: deviceHeight/2,
         backgroundColor: 'white',
         flexDirection:'column'
     },
     text: {
-        fontSize: 14,
+        fontSize: 13,
         color: 'white'
     },
     autocompleteContainer: {
-        left: 0,
-        position: 'absolute',
-        right: 0,
-        top: 0,
-        height: 40,
-        zIndex: 1,
-        alignItems:'center'
+        flex: 1,
+        zIndex: 2
     },
     userImage: {
-        padding: 4,
+        padding: 8,
         width : 32,
         height: 32,
         borderRadius: 16,
         borderWidth: 1,
-        borderColor: 'white'
+        borderColor: colors.gray,
+        backgroundColor: colors.gray
+        
+    },
+    title: {
+        fontSize: 13,
+        color: colors.red
     },
     username: {
         marginLeft: 16,
         fontSize: 12,
-        color: 'black' 
+        color: 'black',
+        
     }
     
 

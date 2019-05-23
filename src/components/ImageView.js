@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { View } from 'react-native';
 import { colors } from '../styles';
 import { api } from '../config'
 import FastImage from 'react-native-fast-image';
@@ -7,7 +7,9 @@ import FastImage from 'react-native-fast-image';
 export default class ImageView extends React.Component {
     constructor(props) {
         super(props);
-        
+        this.state = {
+            loaded: false,
+        }
     }
     getFastImageResizeMode = (resizeMode) =>{
         switch(resizeMode) {
@@ -24,29 +26,39 @@ export default class ImageView extends React.Component {
         }
             
     }
+    onLoad(success){
+        console.log("onLoad", success)
+        this.setState({loaded: success})
+    }
     render() {
         const { source, defaultImage, fullUrl } = this.props;
-        var src = source;
-        if(source.uri == null || source.uri == '') {
-            if(defaultImage) {
-                src = defaultImage;
-            } else {
-                src = require('../../assets/images/defaultImage.png');
-            }
-
-        } else {
-            if(!fullUrl) {
-                src.uri = api.base + '/'+ src.uri;
-               
-            }
+        var placeholder = defaultImage ? defaultImage : require('../../assets/images/defaultImage.png');
+        var src = {...source};
+        if(!fullUrl && src.uri) {
+            src.uri = api.base + '/'+ source.uri;
         }
+        console.log(src);
         
         return (
-            <FastImage
-                style={this.props.style}
-                source={src}
-                resizeMode={this.getFastImageResizeMode(this.props.resizeMode)}
-            />
+            <View style={[this.props.style, {alignItems:'center', justifyContent:'center'}]}>
+                {
+                    !this.state.loaded &&
+                    <FastImage 
+                            source={placeholder}
+                            style={this.props.style}
+                    />
+                }
+                <FastImage 
+                    source={src}
+                    style={this.state.loaded? this.props.style: {width:0, height:0} }
+                    onLoad={()=> {
+                        this.onLoad(false);
+                    }}
+                    onError={()=>{
+                        this.onLoad(false);
+                    }}
+                />
+            </View>
         );
 
     }

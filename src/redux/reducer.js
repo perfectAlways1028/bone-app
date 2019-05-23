@@ -22,7 +22,7 @@ export default combineReducers({
   // ## Generator Reducers
   app: persistReducer(getNormalConfig('app', []), app),
   auth: persistReducer(authPersistConfig, auth),
-  users: persistReducer(usersPersistConfig, users),
+  users,
 });
 
 
