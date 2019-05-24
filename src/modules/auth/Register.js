@@ -47,6 +47,7 @@ class Register extends React.Component {
 
     if (!privacyCheck) {
       showToast('You must agree to the terms of use!')
+      return;
     }
 
     sha256Hash(password, ( hashedPassword)=>{

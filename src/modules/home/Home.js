@@ -5,12 +5,14 @@ import {
   Text,
   Platform,
   TouchableOpacity,
-  Image
+  Image,
+  InteractionManager
 } from 'react-native';
 
 
 import { connect } from 'react-redux';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
+import Permissions from 'react-native-permissions';
 import { getNearByUsers, getWatchList, getNewUsers, setFlag, changeLocation } from './actions/UserActions';
 import UsersGrid from './components/UsersGrid'
 import HorizontalUserList from './components/HorizontalUserList'
@@ -27,7 +29,7 @@ class Home extends React.Component {
 
   componentDidMount() {
     this.loadUsers();
-    this.watchLocation();
+    this.checkLocationPermission(this.props.dispatch);
   }
   
   loadUsers = () => {
@@ -61,6 +63,26 @@ class Home extends React.Component {
         maximumAge: 1000,
       }
     );
+  }
+
+  checkLocationPermission = (dispatch) => {
+    InteractionManager.runAfterInteractions(() => {
+      Permissions.checkMultiple(['location']).then((response) => {
+        if (response.location === 'authorized') {
+          this.watchLocation();
+        } else if (response.location === 'undetermined') {
+          this._requestLocationPermission(dispatch);
+        }
+      });
+    });
+  }
+
+  _requestLocationPermission = (dispatch) => {
+    Permissions.request('location', { type: 'always' }).then((response) => {
+      if (response.location === 'authorized') {
+        this.watchLocation();
+      }
+    });
   }
 
   updateLocation = () => {
