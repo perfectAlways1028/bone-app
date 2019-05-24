@@ -40,7 +40,9 @@ class HorizontalUserList extends React.Component {
 
 
   onRefresh = () => {
-
+    if(this.props.onRefresh) {
+      this.props.onRefresh();
+    }
   }
 
   getUserItem = (item) => {

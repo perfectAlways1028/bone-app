@@ -4,7 +4,8 @@ import {
   View,
   Text,
   Animated,
-  Image
+  Image,
+  TouchableOpacity
 } from 'react-native';
 
 
@@ -15,11 +16,10 @@ import { calculatePortraitDimension } from '../../../helpers';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import StarRating from 'react-native-star-rating';
 import { colors } from '../../../styles';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const { height : deviceHeight } = calculatePortraitDimension();
 
-class Profile extends React.Component {
+class BottomSheet extends React.Component {
 
     constructor(props) {
         super(props);
@@ -71,7 +71,7 @@ class Profile extends React.Component {
                         <TouchableOpacity>
                             <Image
                                 style={{width: 64 ,height: 64, padding: 8}}
-                                resizeMethod='contain'
+                                resizeMode='contain'
                                 source={require('../../../../assets/images/edit.png')}
                             />
                         </TouchableOpacity>
@@ -87,8 +87,7 @@ class Profile extends React.Component {
 
     const draggedValue = this._draggedValue.interpolate({
       inputRange: [bottom, top],
-      outputRange: [0, 1],
-      extrapolate: 'clamp'
+      outputRange: [0, 1]
     })
 
     const transform = [{scale: draggedValue}]
@@ -98,9 +97,11 @@ class Profile extends React.Component {
         <SlidingUpPanel
           showBackdrop={true}
           ref={c => (this._panel = c)}
-          snappingPoints={[0,deviceHeight- getStatusBarHeight()]}
+          snappingPoints={[120,deviceHeight- getStatusBarHeight()]}
           draggableRange={this.props.draggableRange}
-          animatedValue={this._draggedValue}>
+          animatedValue={this._draggedValue}
+          friction={0.1}
+          allowMomentum={true}>
           <View style={styles.panel}>
             <View style={styles.panelHeader}>
               {this.getPanelHeaderView('online', 'Ding', 4)}
@@ -184,4 +185,4 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({ app: state.app });
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps)(BottomSheet);

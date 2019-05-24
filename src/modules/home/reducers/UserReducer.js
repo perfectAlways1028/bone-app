@@ -55,6 +55,8 @@ export default (state = INITIAL_STATE, action) => {
 
     case ACTION_TYPES.EMPTY_SEARCH: 
       return {...state, searchUsers: []}
+
+  
     default:
       return state;
   }

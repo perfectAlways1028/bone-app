@@ -107,3 +107,21 @@ export function setFlag(name, value) {
   }
 
 }
+
+
+export function changeLocation(data) {
+  let params = {
+      id : data.id,
+      locationX : data.longitude, 
+      locationY : data.latitude,
+  }
+  console.log("change Location", params);
+  return {
+      type: ACTION_TYPES.CHANGE_LOCATION,
+      request: {
+        url: `${api.baseURL}/api/user/${params.id}/location`,
+        method: 'post',
+        body: JSON.stringify(params)
+      },
+    }
+}

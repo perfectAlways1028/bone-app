@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 
-export default function requestMiddleware() {
+export default function requestFormUrlEncodeMiddleware() {
   return (next) => (action) => {
     const { request, type, retryAction, ...rest } = action;
 
@@ -23,31 +23,35 @@ export default function requestMiddleware() {
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            'token': auth ? `${auth.token}` : '',
+            Authorization: auth ? `Bearer ${auth.accessToken}` : '',
           },
         };
+        if(request.body) {
+            var formBody = [];
+            for (var property in request.body) {
+              var encodedKey = encodeURIComponent(property);
+              var encodedValue = encodeURIComponent(details[property]);
+              formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+            request.body = formBody;
+        }
+
 
         return fetch(request.url, { ...defaults, ...request })
           .then((res) => {
-            console.log('Reponse', res);
             if (res.status === 204) {
               next({ ...rest, type: SUCCESS, isLoading: false });
             } else if (res.ok) {
-              return res.json().then((data) => {
-                if(data.success) {
-                  next({ ...rest, data, type: SUCCESS, isLoading: false })
-                }else {
-                  next({ ...rest, type: FAILURE, lastAction: action, isLoading: false, message: data.message });
-                }
-              });
+              return res.json().then((data) => next({ ...rest, data, type: SUCCESS, isLoading: false }));
             } else if (res.status === 401) {
+              console.log("unauthorized", type);
               next({ ...rest, type: FAILURE, lastAction: action, isLoading: false });
               next({ ...rest, type: UNAUTHORIZED, lastAction: action });
             } else if (res.status === 430) {
               next({ ...rest, type: FAILURE, lastAction: action, isLoading: false });
               next({ ...rest, type: TERMINATED, lastAction: action });
             } else {
-           
               next({ ...rest, type: FAILURE, lastAction: action, isLoading: false });
             }
           })

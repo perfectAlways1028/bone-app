@@ -101,6 +101,7 @@ export default createMaterialTopTabNavigator(
         );
       },
     }),
+    initialRouteName:'Home',
     tabBarPosition: 'bottom',
     animationEnabled: false,
     swipeEnabled: true,

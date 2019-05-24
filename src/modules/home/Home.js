@@ -11,7 +11,7 @@ import {
 
 import { connect } from 'react-redux';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
-import { getNearByUsers, getWatchList, getNewUsers, setFlag } from './actions/UserActions';
+import { getNearByUsers, getWatchList, getNewUsers, setFlag, changeLocation } from './actions/UserActions';
 import UsersGrid from './components/UsersGrid'
 import HorizontalUserList from './components/HorizontalUserList'
 import UserSearchView from './components/UserSearchView'
@@ -27,15 +27,64 @@ class Home extends React.Component {
 
   componentDidMount() {
     this.loadUsers();
+    this.watchLocation();
   }
   
   loadUsers = () => {
 
-    if(this.state.gridType == 'nearby') {
-      this.fetchNearByUsers();
-    }
+  
+    this.fetchNearByUsers();
+    
     this.fetchNewUsers();
 
+  }
+
+  watchLocation = () => {
+    const { auth, dispatch } = this.props;
+    if(!auth.user)
+    return;
+    navigator.geolocation.watchPosition(
+      (position) => {
+        const body = {
+          id: auth.user.id,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        };
+        dispatch(changeLocation(body));
+      },
+      (error) => {
+        // console.log(error);
+      },
+      {
+        enableHighAccuracy: Platform.OS != 'android',
+        timeout: 20000,
+        maximumAge: 1000,
+      }
+    );
+  }
+
+  updateLocation = () => {
+    const { auth, dispatch } = this.props;
+    if(!auth.user)
+    return;
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const body = {
+          id: auth.user.id,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        };
+        dispatch(changeLocation(body));
+      },
+      (error) => {
+        // console.log(error);
+      },
+      {
+        enableHighAccuracy: Platform.OS != 'android',
+        timeout: 20000,
+        maximumAge: 1000,
+      }
+    );
   }
   
   fetchNewUsers = () => {
@@ -104,8 +153,8 @@ class Home extends React.Component {
             {this.getTopToolBar(searchon, locationon, eyeon, filteron)}
             <View style={styles.content}>
 
-              <HorizontalUserList/>
-              <UsersGrid/>
+              <HorizontalUserList onRefresh={()=> {this.loadUsers()}}/>
+              <UsersGrid onRefresh={()=> {this.loadUsers()}}/>
               {
                 searchon &&
                 <UserSearchView/>

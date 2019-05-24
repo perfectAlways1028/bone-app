@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Platform, StyleSheet, TextInput, Image, Text} from 'react-native';
+import { View, Platform, StyleSheet, TextInput, Image, Text, TouchableOpacity} from 'react-native';
 
 import { fonts, colors } from '../styles';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class IconizedTextInput extends React.Component {
   focus = () => {

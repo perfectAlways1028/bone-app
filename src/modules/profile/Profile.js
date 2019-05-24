@@ -5,7 +5,8 @@ import {
   Text,
   Animated,
   Image,
-  Platform
+  Platform,
+  TouchableOpacity
 } from 'react-native';
 
 
@@ -15,7 +16,6 @@ import { calculatePortraitDimension } from '../../helpers';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import BottomSheet from './components/BottomSheet';
 import { BackgroundView } from '../../components';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const { height : deviceHeight } = calculatePortraitDimension();
 

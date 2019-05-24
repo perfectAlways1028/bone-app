@@ -66,6 +66,7 @@ class UserSearchView extends React.Component {
                     autoCapitalize="none"
                     autoCorrect={false}
                     defaultValue={query}
+                    hideResults= {true}
                     placeholder={'@username'}
                     onChangeText={text => {
                         if(user && user.id)

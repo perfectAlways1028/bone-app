@@ -36,7 +36,9 @@ class UsersGrid extends React.Component {
 
 
   onRefresh = () => {
-
+    if(this.props.onRefresh) {
+      this.props.onRefresh();
+    }
   }
 
   getOnlineStatus = (onlineStatus) => {
@@ -63,7 +65,7 @@ class UsersGrid extends React.Component {
         }}
       >
       <View style={styles.profileContainer}>
-        <ImageView style={styles.profileImage} source={{ uri: smallImageUrl }} resizeMethod='cover' />
+        <ImageView style={styles.profileImage} source={{ uri: smallImageUrl }} resizeMode='cover' />
         {this.getOnlineStatus(item.onlineStatus)}
         {this.getDistanceView(item.distance)}
       </View>

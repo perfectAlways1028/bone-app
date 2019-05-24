@@ -5,14 +5,14 @@ import {
   Platform,
   Image,
   Text,
-  ImageBackground
+  ImageBackground,
+  TouchableOpacity
 } from 'react-native';
 
 import { fonts, colors } from '../../styles';
 import { Button, BackgroundView, IconizedTextInput, LoadingOverlay } from '../../components'; 
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { calculatePortraitDimension, showToast, emailValidate, passwordValidate, sha256Hash } from '../../helpers'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { connect } from 'react-redux';
@@ -25,8 +25,8 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'dingtester@mail.com',
-      password: 'aaAA11!!',
+/*      email: 'dingtester@mail.com',
+      password: 'aa',*/
       seePassword: false
     }
   }
