@@ -8,6 +8,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 import SlidingUpPanel from 'rn-sliding-up-panel'
@@ -16,7 +17,7 @@ import { calculatePortraitDimension } from '../../../helpers';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import StarRating from 'react-native-star-rating';
 import { colors } from '../../../styles';
-
+import PhotosPanel from './PhotosPanel';
 const { height : deviceHeight } = calculatePortraitDimension();
 
 class BottomSheet extends React.Component {
@@ -30,6 +31,52 @@ class BottomSheet extends React.Component {
         top: deviceHeight  - getStatusBarHeight(),
         bottom: 120
         }
+    }
+
+    getPhotoSection = ( items ) => {
+      if(items.length == 0 ||  (items.length >0 && !(items[0].isAddButton))) {
+        items.unshift({isAddButton:true})
+      }
+
+      return <PhotosPanel
+        items={items}
+        onAddPress={(item)=>{
+          console.log(item);
+        }}
+        onImagePressed={(item)=>{
+          console.log(item);
+        }}
+      />
+    }
+
+    getStatusSection = (weight, height, bodyType, roleShort, status) => {
+      return <View style={{flexDirection:'row', alignItems:'center', margin: 16, height: 60, alignSelf:'stretch'}}>
+        <View style={{flex:1, flexDirection:'column', alignItems:'center'}}>
+          <View style={{flex:1, flexDirection:'row', alignItems:'center'}}>  
+            <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
+              <Text style={styles.text}>{weight}</Text>
+            </View>
+            <View style={{height: 20, width: 1, backgroundColor:colors.gray}}/>
+            <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
+              <Text style={styles.text}>{height}</Text>
+            </View>
+          </View> 
+          <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
+            <Text style={styles.text}>{bodyType}</Text>
+          </View>
+        </View>
+        <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
+          <View style={{width: 40, height: 40, borderRadius: 20, justifyContent:'center', alignItems:'center', backgroundColor:colors.red}}>
+            <Text style={styles.text}>{roleShort}</Text>
+          </View>
+        </View>
+        <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
+          <Text style={styles.text}>{status}</Text>
+        </View>
+        
+      </View>
+
+  
     }
 
      _draggedValue = new Animated.Value(120)
@@ -49,8 +96,7 @@ class BottomSheet extends React.Component {
                         <Text style={[styles.text, {marginLeft: 16}]}>{name}</Text>
                     </View>
                     <View style={{marginLeft: 32, marginBottom:16, marginTop:16}}>
-                        <StarRating
-                            
+                        <StarRating     
                             disabled={true}
                             maxStars={5}
                             emptyStar="ios-star-outline"
@@ -83,6 +129,7 @@ class BottomSheet extends React.Component {
     }
 
   render() {
+    const{ user } = this.props;
     const {top, bottom} = this.props.draggableRange
 
     const draggedValue = this._draggedValue.interpolate({
@@ -104,11 +151,15 @@ class BottomSheet extends React.Component {
           allowMomentum={true}>
           <View style={styles.panel}>
             <View style={styles.panelHeader}>
-              {this.getPanelHeaderView('online', 'Ding', 4)}
-              <Text style={{color: '#FFF'}}>Bottom Sheet Peek</Text>
+              {this.getPanelHeaderView(user.onlineStatus, user.username, user.rating)}
             </View>
             <View style={styles.container}>
-              <Text>Bottom Sheet Content</Text>
+              {this.getStatusSection(user.weight+'kg',
+                                     user.height+'cm', 
+                                     user.bodyType? user.bodyType.name : "", 
+                                     user.role? user.role.abbreviatedName: "", 
+                                     user.sexualStatus? user.sexualStatus.name: "")}
+              {this.getPhotoSection(user.userPhotos)}
             </View>
           </View>
 
@@ -117,11 +168,13 @@ class BottomSheet extends React.Component {
   }
 }
 
+BottomSheet.proptypes = { 
+  user: PropTypes.object.isRequired
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: 'black'
   },
 

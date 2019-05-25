@@ -1,4 +1,4 @@
-import { api } from '../../../config';
+import { api } from '../config';
 import * as ACTION_TYPES from './ActionTypes';
 import { AsyncStorage } from 'react-native';
 

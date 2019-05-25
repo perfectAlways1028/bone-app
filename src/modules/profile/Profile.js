@@ -42,7 +42,9 @@ class Profile extends React.Component {
         <View style={styles.container}>
           <BackgroundView source={{uri: user.bigImageUrl}}/>
           {this.getSettingsButton()}
-          <BottomSheet/>
+          <BottomSheet
+            user={user}
+          />
         
         </View>
       </View>

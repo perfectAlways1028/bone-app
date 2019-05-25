@@ -18,7 +18,7 @@ import { calculatePortraitDimension, showToast, emailValidate, passwordValidate,
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { connect } from 'react-redux';
 
-import { signup } from './actions/AuthActions';
+import { signup } from '../../actions/AuthActions';
 
 import CheckBox from 'react-native-check-box';
 

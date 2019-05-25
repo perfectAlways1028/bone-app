@@ -13,7 +13,7 @@ import {
 import { connect } from 'react-redux';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import Permissions from 'react-native-permissions';
-import { getNearByUsers, getWatchList, getNewUsers, setFlag, changeLocation } from './actions/UserActions';
+import { getNearByUsers, getWatchList, getNewUsers, setFlag, changeLocation } from '../../actions/UserActions';
 import UsersGrid from './components/UsersGrid'
 import HorizontalUserList from './components/HorizontalUserList'
 import UserSearchView from './components/UserSearchView'

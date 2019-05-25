@@ -16,7 +16,7 @@ import { colors } from '../../../styles';
 import { ImageView, CollapsibleView, Button } from '../../../components';
 import Autocomplete from 'react-native-autocomplete-input';
 import HorizontalUserList from './HorizontalUserList';
-import { search, emptySearch } from '../actions/UserActions';
+import { search, emptySearch } from '../../../actions/UserActions';
 
 const { width :deviceWidth, height: deviceHeight } = calculatePortraitDimension();
 
@@ -48,7 +48,9 @@ class UserSearchView extends React.Component {
             console.log('search item clinck', item);
         }}>
         <View style={{flexDirection: 'row', height: 40, alignItems:'center', marginLeft:8}}>
-            <ImageView style={styles.userImage} source={{uri: item.smallImageUrl}} resizeMode='contain'/>
+            <ImageView style={styles.userImage} 
+                shortUrl={item.smallImageUrl} 
+                resizeMode='contain'/>
             <Text style={styles.username} > {item.username}</Text>
         </View>
       </TouchableOpacity>

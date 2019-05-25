@@ -61,6 +61,7 @@
     "redux-persist": "^5.10.0",
     "redux-promise": "^0.6.0",
     "redux-thunk": "^2.3.0",
+    "rn-fetch-blob": "^0.10.15",
     "rn-sliding-up-panel": "^2.2.0",
     "victory-native": "^31.0.0"
   },

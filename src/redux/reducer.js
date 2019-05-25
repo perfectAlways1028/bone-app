@@ -3,8 +3,9 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 // ## Generator Reducer Imports
 import app from '../modules/AppState';
-import auth from '../modules/auth/reducers/AuthReducer';
-import users from '../modules/home/reducers/UserReducer';
+import auth from '../reducers/AuthReducer';
+import users from '../reducers/UserReducer';
+import gallery from '../reducers/GalleryReducer';
 
 const authPersistConfig = {
   key: 'auth',
@@ -23,6 +24,7 @@ export default combineReducers({
   app: persistReducer(getNormalConfig('app', []), app),
   auth: persistReducer(authPersistConfig, auth),
   users,
+  gallery
 });
 
 

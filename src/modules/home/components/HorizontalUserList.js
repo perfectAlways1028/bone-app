@@ -57,7 +57,7 @@ class HorizontalUserList extends React.Component {
           <ImageView 
             style={{margin:8, width:40, height: 40, borderRadius:20}} 
             defaultImage={require('../../../../assets/images/boneprofile.png')} 
-            source= {{uri: item.smallImageUrl}}/>
+            shortUrl={smallImageUrl}/>
         </View>
         </TouchableOpacity>
       } else {
@@ -68,7 +68,10 @@ class HorizontalUserList extends React.Component {
           }}
         >
         <View style={{margin:16, width:72, height: 72,borderRadius:36, borderWidth: 1, borderColor:'#2b2b2b', justifyContent: 'center', alignItems:'center'}}>
-          <ImageView style={styles.profileImage} source= {{uri: item.smallImageUrl}}/>
+          <ImageView 
+            style={styles.profileImage} 
+            defaultImage={require('../../../../assets/images/boneprofile.png')} 
+            shortUrl={smallImageUrl}/>
         </View>
         </TouchableOpacity>
       }

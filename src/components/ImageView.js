@@ -30,35 +30,67 @@ export default class ImageView extends React.Component {
         console.log("onLoad", success)
         this.setState({loaded: success})
     }
-    render() {
-        const { source, defaultImage, fullUrl } = this.props;
-        var placeholder = defaultImage ? defaultImage : require('../../assets/images/defaultImage.png');
-        var src = {...source};
-        if(!fullUrl && src.uri) {
-            src.uri = api.base + '/'+ source.uri;
-        }
-        console.log(src);
-        
-        return (
-            <View style={[this.props.style, {alignItems:'center', justifyContent:'center'}]}>
+
+    getRemoteImageWithPlaceholder = (props, placeholder, src) => {
+        return <View>
                 {
                     !this.state.loaded &&
                     <FastImage 
                             source={placeholder}
-                            style={this.props.style}
+                            style={props.style}
+                            
                     />
                 }
                 <FastImage 
                     source={src}
-                    style={this.state.loaded? this.props.style: {width:0, height:0} }
+                    style={this.state.loaded? props.style: {width:0, height:0} }
                     onLoad={()=> {
                         this.onLoad(false);
                     }}
                     onError={()=>{
                         this.onLoad(false);
                     }}
+                    resizeMode={this.getFastImageResizeMode(props.resizeMode)}
                 />
             </View>
+        
+    }
+
+    getImage = (props, src) =>{
+        return <FastImage 
+                source={src}
+                style={props.style}
+                resizeMode={this.getFastImageResizeMode(props.resizeMode)}
+            />
+
+    }
+    render() {
+        const { source, defaultImage, shortUrl } = this.props;
+ 
+        var src = {};
+        if(shortUrl) {
+            src.uri = api.base + '/'+ shortUrl;
+        } else {
+            src = source ? source : defaultImage;
+        }
+        var isRemote= false;
+       if(src.uri && src.uri.startsWith('http')) {
+           isRemote = true;
+       }
+        
+        console.log(src);
+        
+        return (
+            <View style={[this.props.style, {alignItems:'center', justifyContent:'center'}]}>
+                {
+                    (isRemote && defaultImage) ?
+                    this.getRemoteImageWithPlaceholder(this.props, defaultImage, src)
+                    :
+                    this.getImage(this.props, src)
+                }
+            </View>
+  
+            
         );
 
     }

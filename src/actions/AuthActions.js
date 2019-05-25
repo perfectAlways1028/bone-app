@@ -1,7 +1,7 @@
-import { api } from '../../../config';
+import { api } from '../config';
 import * as ACTION_TYPES from './ActionTypes';
 import { AsyncStorage } from 'react-native';
-import { showToast } from '../../../helpers';
+import { showToast } from '../helpers';
 
 export function login(credential) {
     return (dispatch, getState) => {

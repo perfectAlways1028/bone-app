@@ -65,7 +65,9 @@ class UsersGrid extends React.Component {
         }}
       >
       <View style={styles.profileContainer}>
-        <ImageView style={styles.profileImage} source={{ uri: smallImageUrl }} resizeMode='cover' />
+        <ImageView style={styles.profileImage} 
+          shortUrl ={ smallImageUrl } 
+          resizeMode='cover' />
         {this.getOnlineStatus(item.onlineStatus)}
         {this.getDistanceView(item.distance)}
       </View>

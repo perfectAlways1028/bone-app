@@ -17,7 +17,7 @@ import { calculatePortraitDimension, showToast, emailValidate, passwordValidate,
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { connect } from 'react-redux';
 
-import { login } from './actions/AuthActions';
+import { login } from '../../actions/AuthActions';
 
 const { width: deviceWidth, height: deviceHeight } = calculatePortraitDimension();
 
