@@ -26,9 +26,9 @@ export default (state = INITIAL_STATE, action) => {
 
     case ACTION_TYPES.DELETE_IMAGE_GALLERY:
         return { ...state, isLoading: true, success: false, error: null };
-    case ACTION_TYPES.DELETE_IMAGE_GALLERY_FAILURE:
-        return { ...state, isLoading: false, success: true, error: null, gallery: action.data.data.gallery };
     case ACTION_TYPES.DELETE_IMAGE_GALLERY_SUCCESS:
+        return { ...state, isLoading: false, success: true, error: null, gallery: action.data.data.gallery };
+    case ACTION_TYPES.DELETE_IMAGE_GALLERY_FAILURE:
         return { ...state, isLoading: false, error: 'An error occured', success: false };
     default:
       return state;

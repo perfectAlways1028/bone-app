@@ -29,7 +29,14 @@ const modalNavigator = createStackNavigator(
     
   },
   {
-    mode: 'modal'
+    mode: 'modal',
+    transparentCard: true,
+
+    transitionConfig : () => ({
+      containerStyle: {
+        backgroundColor: 'transparent',
+      }
+    }),
   },
 );
 

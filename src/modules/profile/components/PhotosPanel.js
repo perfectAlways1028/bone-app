@@ -19,12 +19,52 @@ const { height : deviceHeight } = calculatePortraitDimension();
 
 class PhotosPanel extends React.Component {
 
+    constructor(props) {
+      super(props);
+      this.state={
+        selectedItems : [],
+        items: props.items
+      }
+    }
+    componentWillReceiveProps(nextProps) {
+      this.setState({items: nextProps.items})
+    }
 
+    changeSelection(touchedItem) {
+      if(!this.checkSelected(touchedItem)) {
+        let items = this.state.selectedItems;
+        items.push(touchedItem);
+        this.setState({selectedItems: items})
+        if(this.props.onSelectionChanged) {
+            this.props.onSelectionChanged(items)
+        }
+      }else {
+          let newItems = [];
+          this.state.selectedItems.map(item =>{
+              if(item.id != touchedItem.id)
+              newItems.push(item);
+          })
+          this.setState({selectedItems: newItems})
+          if(this.props.onSelectionChanged) {
+              this.props.onSelectionChanged(newItems)
+          }
+      }
+    }
+    checkSelected = (touchedItem) => {
+      let selectedItems = this.state.selectedItems;
+      for(let i=0; i<selectedItems.length; i++) {
+       if(selectedItems[i].id == touchedItem.id)
+        return true;
+      }
+      return false;
+    }
 
     getImageItem = (item) => {
-        const {smallImageUrl} = item;
+        const { smallImageUrl, bigImageUrl } = item;
         let isPrivate = item.isPrivate;
         let isAddButton = item.isAddButton;
+        let touchedItem = item;
+        let isSelected = this.checkSelected(touchedItem);
           return <TouchableOpacity
             onPress={()=>{
               if(isAddButton) {
@@ -35,13 +75,16 @@ class PhotosPanel extends React.Component {
                 if(this.props.onImagePressed)
                   this.props.onImagePressed(item);
                 if(!this.props.selectable) {
-                  this.props.navigation.navigate("PhotoModal", {shortUrl: item.bigImageUrl})
+                  this.props.navigation.navigate("PhotoModal", {shortUrl: bigImageUrl})
+                }else {
+                  this.changeSelection(item)
                 }
               }
 
             }}
           >
           <View style={[styles.itemContainerStyle, { justifyContent: 'center', alignItems:'center'}, isPrivate && {backgroundColor:'white'}, this.props.itemContainerStyle]}>
+
             {
                 isAddButton ?
                     <ImageView 
@@ -52,12 +95,15 @@ class PhotosPanel extends React.Component {
                         style={styles.itemContainerStyle} 
                         source={require('../../../../assets/images/lock.png')}/>
                 : <ImageView
-                  style={{flex:1}}
-                  shortURl={smallImageUrl}
+                  style={[styles.itemContainerStyle, this.props.itemContainerStyle, {margin:0}]}
+                  shortUrl={smallImageUrl}
                   resizeMode='cover'
                 />
             }
-
+            {
+                this.props.selectable && isSelected && 
+                <View style={{backgroundColor:'rgba(255,0,0, 0.3)', position:'absolute', left:0, top:0, right:0, bottom: 0}}/>
+            }
           </View>
           </TouchableOpacity>
 
@@ -68,8 +114,7 @@ class PhotosPanel extends React.Component {
     }
     
     renderHorizonalUsers = () => {
-        const { items } = this.props;
-        console.log("items",items)
+        const { items } = this.state;
         return (
           this.props.showType == 'horizontal' ? 
             <FlatList
@@ -79,6 +124,7 @@ class PhotosPanel extends React.Component {
                 onRefresh={this.onRefresh}
                 horizontal = {true}
                 key={'horizontal'}
+                extraData={this.state} 
             />
             :
             <FlatList
@@ -88,6 +134,7 @@ class PhotosPanel extends React.Component {
               onRefresh={this.onRefresh}
               numColumns={3}
               key={'grid'}
+              extraData={this.state} 
             />
         );
       }

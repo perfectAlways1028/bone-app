@@ -13,7 +13,7 @@ import { colors } from '../../styles';
 import { calculatePortraitDimension } from '../../helpers';
 const { width : deviceWidth } = calculatePortraitDimension();
 import {addGallery} from '../../actions/GalleryActions';
-import {loadUserProfile} from '../../actions/AuthActions';
+
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 class UploadPhoto extends React.Component {
@@ -30,7 +30,7 @@ class UploadPhoto extends React.Component {
         const { user } = this.props.auth;
         if(this.props.gallery.success == false && nextProps.gallery.success) {
             //upload successed, reload user profile.
-            this.props.dispatch(loadUserProfile(user.id))
+            this.props.navigation.goBack();
         }
     }
     uploadImage(userId) {

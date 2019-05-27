@@ -13,20 +13,31 @@ import { connect } from 'react-redux';
 
 import { calculatePortraitDimension } from '../../helpers';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
-import { TopNavigatorView } from '../../components';
+import { TopNavigatorView, LoadingOverlay } from '../../components';
 import PhotosPanel from './components/PhotosPanel';
 import { colors } from '../../styles';
-import { deleteGallery, addGallery } from '../../actions/GalleryActions';
-const { height : deviceHeight, width: deviceWidth } = calculatePortraitDimension();
+import { deleteGallery } from '../../actions/GalleryActions';
 import ImagePicker from 'react-native-image-crop-picker';
+import { loadMyGallery } from '../../actions/AuthActions';
+
+const { height : deviceHeight, width: deviceWidth } = calculatePortraitDimension();
 
 class GalleryEdit extends React.Component {
     constructor(props) {
       super(props);
       this.state={
-        isEdit : false
+        isEdit : false,
+        selectedItems: []
       }
     }
+
+    componentWillReceiveProps(nextProps) {
+      const { user } = this.props.auth;
+      if(this.props.gallery.success == false && nextProps.gallery.success) {
+          //upload successed, reload user profile.
+          this.props.dispatch(loadMyGallery(user.id))
+      }
+    } 
     onPickFromGallery = () => {
       ImagePicker.openPicker({
         width: 1024,
@@ -46,7 +57,6 @@ class GalleryEdit extends React.Component {
       });
     }
     choosePrivate = (image) => {
-      console.log("choose private",image);
       this.props.navigation.navigate("UploadPhoto", {
         image: image
       })
@@ -56,7 +66,7 @@ class GalleryEdit extends React.Component {
 
       Alert.alert(
         'Upload photo',
-        'Whould you like to upload a photo from the camera or your gallyer?',
+        'Whould you like to upload a photo from the camera or your gallary?',
         [
           {text: 'Camera', onPress: () => {
             this.onPickFromCamera();
@@ -74,10 +84,17 @@ class GalleryEdit extends React.Component {
       );
     
     }
+    deleteImages() {
+      let items = this.state.selectedItems;
+      let photoIds = items.map((item) => {
+        return item.id;
+      })
+      this.props.dispatch(deleteGallery(this.props.auth.user.id, photoIds));
+    }
     getDeleteButton() {
       return <TouchableOpacity 
       onPress={()=>{
-
+        this.deleteImages();
       }}>
         <View style={{paddingRight: 16, height: 50, justifyContent:'center', alignItems:'center'}} >
            <Text style={{fontSize: 17, color: 'white', fontWeight: 'bold'}}>Delete</Text>
@@ -89,10 +106,10 @@ class GalleryEdit extends React.Component {
       return <TopNavigatorView
         title={'Gallery'}
         onBackPressed = {() => {
-
+          this.props.navigation.goBack();
         }}
 
-        rightComponent = {this.getDeleteButton()}
+        rightComponent = { this.state.isEdit && this.getDeleteButton()}
       />
     }
 
@@ -104,11 +121,11 @@ class GalleryEdit extends React.Component {
       return <PhotosPanel
         items={items}
         onAddPressed={(item)=>{
-          console.log(item);
+
           this.onImagePick()
         }}
         onImagePressed={(item)=>{
-          console.log(item);
+
         }}
         showType={'grid'}
       />
@@ -127,9 +144,13 @@ class GalleryEdit extends React.Component {
           }}
           itemContainerStyle={styles.itemContainerStyle}
           onImagePressed={(item)=>{
-            console.log(item);
+
           }}
+          selectable={this.state.isEdit}
           navigation={this.props.navigation}
+          onSelectionChanged={(items)=>{
+            this.setState({selectedItems: items})
+          }}
         />
       </View>
     }
@@ -148,12 +169,13 @@ class GalleryEdit extends React.Component {
     }
 
     render() {
-        const { user } = this.props.auth;
+        const { gallery } = this.props.auth;
         return (
             <View style={styles.background}>
+              <LoadingOverlay visible={this.props.gallery.isLoading}/>
               <View style={styles.container}>
                 { this.getTopNavigator() }
-                { this.getGallery(user.userPhotos)}
+                { this.getGallery(gallery)}
                 { this.getBottomButton()}
               </View>
             </View>
@@ -174,7 +196,6 @@ const styles = StyleSheet.create({
 
     itemContainerStyle: {
       width : deviceWidth / 3 - 16,
-      margin: 8,
       height : deviceWidth / 3 - 16,
       backgroundColor: colors.darkGray
     },
@@ -182,6 +203,6 @@ const styles = StyleSheet.create({
 
 });
 
-const mapStateToProps = (state) => ({ app: state.app, auth: state.auth });
+const mapStateToProps = (state) => ({ app: state.app, auth: state.auth, gallery: state.gallery });
 
 export default connect(mapStateToProps)(GalleryEdit);

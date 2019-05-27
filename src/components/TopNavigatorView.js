@@ -13,7 +13,11 @@ class TopNavigatorView extends Component {
                 <Text style={styles.title}>{title}</Text>
             </View>
             <View style={{flex: 1, justifyContent:'space-between', alignItems:'center', flexDirection:'row'}}>
-                <TouchableOpacity >
+                <TouchableOpacity 
+                    onPress={()=>{
+                        if(this.props.onBackPressed) this.props.onBackPressed();
+                    }}
+                    >
                     <View style={styles.backContainer}>
                       <Icon name={'angle-left'} color={'white'} size={30} />
                     </View>

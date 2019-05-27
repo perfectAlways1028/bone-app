@@ -36,7 +36,7 @@ class Profile extends React.Component {
   }
 
   render() {
-    const { user } = this.props.auth;
+    const { user, gallery } = this.props.auth;
     return (
       <View style={styles.background}>
         <View style={styles.container}>
@@ -44,6 +44,7 @@ class Profile extends React.Component {
           {this.getSettingsButton()}
           <BottomSheet
             user={user}
+            gallery={gallery}
             navigation={this.props.navigation}
           />
         

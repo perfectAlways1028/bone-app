@@ -45,7 +45,7 @@ export default class ImageView extends React.Component {
                     source={src}
                     style={this.state.loaded? props.style: {width:0, height:0} }
                     onLoad={()=> {
-                        this.onLoad(false);
+                        this.onLoad(true);
                     }}
                     onError={()=>{
                         this.onLoad(false);
@@ -77,8 +77,7 @@ export default class ImageView extends React.Component {
        if(src && src.uri  && src.uri.startsWith('http')) {
            isRemote = true;
        }
-        
-        console.log(src);
+    
         
         return (
             <View style={[this.props.style, {alignItems:'center', justifyContent:'center'}]}>

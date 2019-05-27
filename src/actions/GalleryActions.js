@@ -75,7 +75,7 @@ export function  deleteGallery(userId, photoIds) {
     return {
       type: ACTION_TYPES.DELETE_IMAGE_GALLERY,
       request: {
-        url: `${api.baseURL}/api/user/${viewerUserId}/gallery/delete`,
+        url: `${api.baseURL}/api/user/${userId}/gallery/delete`,
         method: 'post',
         body: JSON.stringify({photoId: photoIds})
       },

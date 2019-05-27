@@ -131,7 +131,7 @@ class BottomSheet extends React.Component {
     }
 
   render() {
-    const{ user } = this.props;
+    const{ user, gallery } = this.props;
     const {top, bottom} = this.props.draggableRange
 
     const draggedValue = this._draggedValue.interpolate({
@@ -161,7 +161,7 @@ class BottomSheet extends React.Component {
                                      user.bodyType? user.bodyType.name : "", 
                                      user.role? user.role.abbreviatedName: "", 
                                      user.sexualStatus? user.sexualStatus.name: "")}
-              {user.userPhotos && this.getPhotoSection(user.userPhotos)}
+              {gallery && this.getPhotoSection(gallery)}
             </View>
           </View>
 
@@ -172,6 +172,7 @@ class BottomSheet extends React.Component {
 
 BottomSheet.proptypes = { 
   user: PropTypes.object.isRequired,
+  gallery: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired
 };
 
