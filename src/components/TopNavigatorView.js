@@ -1,0 +1,65 @@
+import React, { Component } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+class TopNavigatorView extends Component {
+  render = () => {
+    const { title } = this.props;
+    return (
+        <View style={styles.container}>
+            <View style={styles.titleContainer}>
+                <Text style={styles.title}>{title}</Text>
+            </View>
+            <View style={{flex: 1, justifyContent:'space-between', alignItems:'center', flexDirection:'row'}}>
+                <TouchableOpacity >
+                    <View style={styles.backContainer}>
+                      <Icon name={'angle-left'} color={'white'} size={30} />
+                    </View>
+            
+                </TouchableOpacity>
+                { this.props.rightComponent || <View style={{width:50, height:50}}/> }
+            </View>
+        </View>
+    );
+  };
+}
+
+TopNavigatorView.proptypes = { 
+    title: PropTypes.string,
+    onBackPressed: PropTypes.func,
+    rightComponent: PropTypes.object 
+};
+
+const styles = StyleSheet.create({
+  container: {
+      height: 50,
+      alignSelf: 'stretch',
+      flexDirection: 'row',
+      alignItems:'center'
+  },
+  titleContainer: {
+      left: 0,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      position: 'absolute',
+      alignItems: 'center',
+      justifyContent: 'center'
+  },    
+  backContainer: {
+      width: 50,
+      height: 50,
+      justifyContent: 'center',
+      alignItems:'center'
+  },
+
+  title: {
+      fontSize: 17,
+      fontWeight:'bold',
+      color: 'white'
+  }
+});
+
+export default TopNavigatorView;

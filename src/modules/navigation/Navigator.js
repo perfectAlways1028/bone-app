@@ -2,14 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import AuthNavigator from './AuthNavigator';
-import MainNavigator from './MainNavigator';
+import ModalNavigator from './ModalNavigator';
 
 class NavigatorView extends React.Component {
 
   render () {
     const { auth } = this.props;
     if(auth.user && auth.token)
-      return <MainNavigator />
+      return <ModalNavigator />
     else
       return <AuthNavigator />
   } 

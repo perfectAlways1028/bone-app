@@ -1,6 +1,7 @@
 import { api } from '../config';
 import * as ACTION_TYPES from './ActionTypes';
 import { AsyncStorage } from 'react-native';
+import RNFetchBlob from 'rn-fetch-blob';
 
 export function  getGallery(viewerUserId, viewingUserId) {
 
@@ -12,7 +13,7 @@ export function  getGallery(viewerUserId, viewingUserId) {
     }
 }
 export function  addGallery(userId, media) {
-    const {type: TYPE, path: PATH, url: URL, isPrivate} = media;
+    const {uri: PATH , isPrivate, mime} = media;
     return (dispatch, getState) => {
 
         AsyncStorage.getItem('auth')
@@ -29,9 +30,9 @@ export function  addGallery(userId, media) {
                 },
                 {
                   name: 'galleryPhoto',
-                  filename: mediaFileName,
+                  filename: 'photo.jpg',
                   data: RNFetchBlob.wrap(PATH.replace('file://', '')),
-                  type: mediaFileType,
+                  type: mime,
                 },
               ];
             
@@ -47,16 +48,14 @@ export function  addGallery(userId, media) {
                 console.log('uploaded', LEVEL);
                 dispatch({
                   type: ACTION_TYPES.ADD_IMAGE_GALLERY_PROCESS,
-                  payload: LEVEL.toString(),
+                  data: LEVEL.toString(),
                 });
               })
               .then((res) => {
                 dispatch({
                   type: ACTION_TYPES.ADD_IMAGE_GALLERY_SUCCESS,
-                  payload: res.data,
+                  data: res,
                 });
-                dispatch(getFeeds());
-
               })
               .catch((err) => {
                 console.error(err);
@@ -66,6 +65,7 @@ export function  addGallery(userId, media) {
         })      
         .catch((err) => {
             console.log('UNAUTHORIZED', err.message);
+            dispatch({ type: ACTION_TYPES.ADD_IMAGE_GALLERY_FAILURE });
         });
     
     }

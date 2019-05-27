@@ -83,4 +83,22 @@ export function signup(credential) {
 
 export function _persistAuth(auth) {
     return AsyncStorage.setItem('auth', JSON.stringify(auth));
+}
+
+export function loadUserProfile(userId) {
+  return {
+    type: ACTION_TYPES.LOAD_PROFILE,
+    request: {
+      url: `${api.baseURL}/api/user/${userId}`,
+    },
   }
+}
+
+export function loadMyGallery(userId) {
+  return {
+    type: ACTION_TYPES.GET_MY_GALLERY,
+    request: {
+      url: `${api.baseURL}/api/user/${userId}/gallery/${userId}`,
+    },
+  }
+}

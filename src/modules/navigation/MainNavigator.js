@@ -9,6 +9,8 @@ import Register from '../auth/Register';
 
 import { colors, fonts } from '../../styles';
 import MainTabNavigator from './MainTabNavigator';
+import GalleryEdit from '../profile/GalleryEdit';
+import UploadPhoto from '../profile/UploadPhoto';
 
 const stackNavigator = createStackNavigator(
   {    
@@ -18,7 +20,18 @@ const stackNavigator = createStackNavigator(
         header: null,
       },
     },
-
+    GalleryEdit: {
+      screen: GalleryEdit,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    UploadPhoto: {
+      screen: UploadPhoto,
+      navigationOptions: {
+        title: 'Upload',
+      },
+    },
     Auth: {
       screen: Auth,
       navigationOptions: {

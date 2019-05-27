@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import Permissions from 'react-native-permissions';
 import { getNearByUsers, getWatchList, getNewUsers, setFlag, changeLocation } from '../../actions/UserActions';
+import { loadUserProfile } from '../../actions/AuthActions';
 import UsersGrid from './components/UsersGrid'
 import HorizontalUserList from './components/HorizontalUserList'
 import UserSearchView from './components/UserSearchView'
@@ -31,10 +32,19 @@ class Home extends React.Component {
     this.loadUsers();
     this.checkLocationPermission(this.props.dispatch);
   }
-  
-  loadUsers = () => {
 
+  loadProfile = () => {
+    const { auth, dispatch } = this.props;
+    const { onlineBit } = this.state;
+    if(!auth.user)
+    return;
   
+    dispatch(loadUserProfile(auth.user.id));
+  }
+
+  loadUsers = () => {
+    this.loadProfile();
+    
     this.fetchNearByUsers();
     
     this.fetchNewUsers();

@@ -16,7 +16,10 @@ import { ImageView } from '../../../components';
 import { calculatePortraitDimension } from '../../../helpers';
 const { height : deviceHeight } = calculatePortraitDimension();
 
+
 class PhotosPanel extends React.Component {
+
+
 
     getImageItem = (item) => {
         const {smallImageUrl} = item;
@@ -25,17 +28,20 @@ class PhotosPanel extends React.Component {
           return <TouchableOpacity
             onPress={()=>{
               if(isAddButton) {
-                if(this.props.onImagePressed)
-                  this.props.onImagePressed(item);
-                
-              }else {
                 if(this.props.onAddPressed)
                   this.props.onAddPressed()
+   
+              }else {
+                if(this.props.onImagePressed)
+                  this.props.onImagePressed(item);
+                if(!this.props.selectable) {
+                  this.props.navigation.navigate("PhotoModal", {shortUrl: item.bigImageUrl})
+                }
               }
 
             }}
           >
-          <View style={[styles.itemContainerStyle, { justifyContent: 'center', alignItems:'center'}, isPrivate && {backgroundColor:'white'}]}>
+          <View style={[styles.itemContainerStyle, { justifyContent: 'center', alignItems:'center'}, isPrivate && {backgroundColor:'white'}, this.props.itemContainerStyle]}>
             {
                 isAddButton ?
                     <ImageView 
@@ -65,12 +71,23 @@ class PhotosPanel extends React.Component {
         const { items } = this.props;
         console.log("items",items)
         return (
+          this.props.showType == 'horizontal' ? 
             <FlatList
                 data={items} renderItem={this.renderItem}
                 refreshing={false}
                 keyExtractor={(item, index) => index.toString()}
                 onRefresh={this.onRefresh}
                 horizontal = {true}
+                key={'horizontal'}
+            />
+            :
+            <FlatList
+              data={items} renderItem={this.renderItem}
+              refreshing={false}
+              keyExtractor={(item, index) => index.toString()}
+              onRefresh={this.onRefresh}
+              numColumns={3}
+              key={'grid'}
             />
         );
       }
@@ -84,19 +101,19 @@ class PhotosPanel extends React.Component {
 
 PhotosPanel.proptypes = { 
     itemContainerStyle: PropTypes.object,
-    containerStyle: PropTypes.object,
-    items: PropTypes.object,
+    navigation: PropTypes.object.isRequired,
+    items: PropTypes.object.isRequired,
     onAddPressed: PropTypes.func,
-    onImagePressed: PropTypes.func
+    onImagePressed: PropTypes.func,
+    selectable: PropTypes.bool,
+    onSelectionChanged: PropTypes.func,
+    horizontal: PropTypes.bool,
+    showType: PropTypes.string,
+    
+
 };
 
 const styles = StyleSheet.create({
-    container: {
-      alignSelf:'stretch',
-      backgroundColor: 'black',
-      height: 96,
-    },
-
     itemContainerStyle: {
       width : 80,
       margin: 8,

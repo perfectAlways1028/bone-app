@@ -74,7 +74,7 @@ export default class ImageView extends React.Component {
             src = source ? source : defaultImage;
         }
         var isRemote= false;
-       if(src.uri && src.uri.startsWith('http')) {
+       if(src && src.uri  && src.uri.startsWith('http')) {
            isRemote = true;
        }
         

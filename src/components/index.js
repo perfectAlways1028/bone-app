@@ -10,6 +10,7 @@ import IconizedTextInput from './IconizedTextInput';
 import LoadingOverlay from './LoadingOverlay';
 import ImageView from './ImageView';
 import CollapsibleView from './CollapsibleView';
+import TopNavigatorView from './TopNavigatorView';
 
 export {
   // ## Generator Components Exports
@@ -23,5 +24,6 @@ export {
   IconizedTextInput,
   LoadingOverlay,
   ImageView,
-  CollapsibleView
+  CollapsibleView,
+  TopNavigatorView
 };

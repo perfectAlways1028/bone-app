@@ -38,7 +38,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string>You need to allow location permission to show your nearest friends. </string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Lato-Bold.ttf</string>
@@ -97,5 +97,13 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>You needs to access photo library to upload his profile image.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>You needs to access camera take his photo for profile image.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>You need to allow location permission to show your nearest friends. </string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>You need to allow location permission to show your nearest friends. </string>
 </dict>
 </plist>

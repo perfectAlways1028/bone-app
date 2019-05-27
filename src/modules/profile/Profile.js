@@ -44,6 +44,7 @@ class Profile extends React.Component {
           {this.getSettingsButton()}
           <BottomSheet
             user={user}
+            navigation={this.props.navigation}
           />
         
         </View>

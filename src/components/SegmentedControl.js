@@ -12,6 +12,8 @@ import {
   Platform,
 } from 'react-native';
 
+import { colors, fonts } from '../styles';
+
 const RNSSegmentedControl = props => {
   const segments = props.values.map((value, index) => (
     <Segment
@@ -19,23 +21,31 @@ const RNSSegmentedControl = props => {
       key={value}
       value={value}
       isSelected={index === props.selectedIndex}
-      selectionColor={props.selectionColor}
+      selectionColor={props.selectionColor? props.selectionColor : colors.backgroundBlue}
       onPress={() => props.onChange(index)}
+      index={index}
+      count={props.values.length}
     />
   ));
   return <View style={[styles.container, props.style]}>{segments}</View>;
 };
 
-function Segment({ isSelected, onPress, selectionColor, value, type }) {
+function Segment({ isSelected, onPress, selectionColor, value, type, index, count}) {
+  let position = 'middle';
+  if(index == 0)
+    position = 'start';
+  else if(index == count-1)
+    position =  'end';
+
   let selectedButtonStyle;
   if (isSelected) {
-    selectedButtonStyle = { borderColor: selectionColor };
+    selectedButtonStyle = { backgroundColor: colors.red };
   }
   let deselectedLabelStyle;
   if (!isSelected && Platform.OS === 'android') {
     deselectedLabelStyle = styles.deselectedLabel;
   }
-  const title = value && value.toUpperCase();
+  const title = value;
 
   const accessibilityTraits = ['button'];
   if (isSelected) {
@@ -49,8 +59,9 @@ function Segment({ isSelected, onPress, selectionColor, value, type }) {
       onPress={onPress}
       style={[
         styles.button,
-        type === 'default' && styles.default,
-        type === 'underline' && styles.underline,
+        position === 'start' && styles.start,
+        position === 'end' && styles.end,
+        position === 'middle' && styles.middle,
         selectedButtonStyle,
       ]}
     >
@@ -59,7 +70,7 @@ function Segment({ isSelected, onPress, selectionColor, value, type }) {
   );
 }
 
-const HEIGHT = 32;
+const HEIGHT = 40;
 
 const styles = StyleSheet.create({
   container: {
@@ -74,10 +85,31 @@ const styles = StyleSheet.create({
     }),
   },
   button: {
-    borderColor: 'transparent',
+    borderColor: colors.red,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'transparent',
+    backgroundColor: '#2c3e50',
+  },
+  start: {
+    flex:1,
+    height: HEIGHT,
+    borderBottomLeftRadius: 8,
+    borderTopLeftRadius: 8,
+    borderWidth: 1,
+  },
+  middle: {
+    flex:1,
+    height: HEIGHT,
+    borderWidth: 1,
+    borderLeftWidth: 0
+  },
+  end: {
+    flex:1,
+    height: HEIGHT,
+    borderWidth: 1,
+    borderLeftWidth: 0,
+    borderBottomRightRadius: 8,
+    borderTopRightRadius: 8,
   },
   default: {
     ...Platform.select({
@@ -103,12 +135,11 @@ const styles = StyleSheet.create({
   },
   label: {
     letterSpacing: 1,
-    fontSize: 12,
-    color: 'white',
-    opacity: 0.82,
+    fontSize: 16,
+    color: colors.white,
   },
   deselectedLabel: {
-    color: 'rgba(255, 255, 255, 0.7)',
+    color: colors.red,
   },
 });
 

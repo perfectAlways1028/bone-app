@@ -40,12 +40,14 @@ class BottomSheet extends React.Component {
 
       return <PhotosPanel
         items={items}
-        onAddPress={(item)=>{
-          console.log(item);
+        onAddPressed={()=>{
+          this.props.navigation.navigate("GalleryEdit");
         }}
         onImagePressed={(item)=>{
           console.log(item);
         }}
+        showType={'horizontal'}
+        navigation={this.props.navigation}
       />
     }
 
@@ -159,7 +161,7 @@ class BottomSheet extends React.Component {
                                      user.bodyType? user.bodyType.name : "", 
                                      user.role? user.role.abbreviatedName: "", 
                                      user.sexualStatus? user.sexualStatus.name: "")}
-              {this.getPhotoSection(user.userPhotos)}
+              {user.userPhotos && this.getPhotoSection(user.userPhotos)}
             </View>
           </View>
 
@@ -169,7 +171,8 @@ class BottomSheet extends React.Component {
 }
 
 BottomSheet.proptypes = { 
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({
