@@ -25,8 +25,7 @@ export function  addGallery(userId, media) {
             const body = [
                 {
                   name: 'isPrivate',
-                  data:  isPrivate,
-                  type: 'application/json',
+                  data:  isPrivate? 'true': 'false',
                 },
                 {
                   name: 'galleryPhoto',

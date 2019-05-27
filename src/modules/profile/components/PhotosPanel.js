@@ -83,7 +83,9 @@ class PhotosPanel extends React.Component {
 
             }}
           >
-          <View style={[styles.itemContainerStyle, { justifyContent: 'center', alignItems:'center'}, isPrivate && {backgroundColor:'white'}, this.props.itemContainerStyle]}>
+          <View style={[styles.itemContainerStyle, 
+                      { justifyContent: 'center', alignItems:'center'}, 
+                      this.props.itemContainerStyle,  isPrivate ? {backgroundColor:'white'}: null]}>
 
             {
                 isAddButton ?
@@ -92,7 +94,7 @@ class PhotosPanel extends React.Component {
                         source={require('../../../../assets/images/plus_pic.png')}/>
                 : 
                 isPrivate ? <ImageView 
-                        style={styles.itemContainerStyle} 
+                        style={styles.iconStyle} 
                         source={require('../../../../assets/images/lock.png')}/>
                 : <ImageView
                   style={[styles.itemContainerStyle, this.props.itemContainerStyle, {margin:0}]}
@@ -101,7 +103,7 @@ class PhotosPanel extends React.Component {
                 />
             }
             {
-                this.props.selectable && isSelected && 
+                (this.props.selectable && isSelected) && 
                 <View style={{backgroundColor:'rgba(255,0,0, 0.3)', position:'absolute', left:0, top:0, right:0, bottom: 0}}/>
             }
           </View>
