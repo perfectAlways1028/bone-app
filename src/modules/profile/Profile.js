@@ -29,7 +29,7 @@ class Profile extends React.Component {
     return <View style={{ position:'absolute', top: 16, right: 16, alignItems: 'center', justifyContent:'center'}}>
       <TouchableOpacity>
         <Image style={{width: 48, height: 48}} source={require('../../../assets/images/settings.png')}>
-
+          
         </Image>
       </TouchableOpacity>
     </View>

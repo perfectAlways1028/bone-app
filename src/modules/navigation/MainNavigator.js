@@ -11,6 +11,8 @@ import { colors, fonts } from '../../styles';
 import MainTabNavigator from './MainTabNavigator';
 import GalleryEdit from '../profile/GalleryEdit';
 import UploadPhoto from '../profile/UploadPhoto';
+import ProfileEdit from '../profile/ProfileEdit';
+import TextInputView from '../profile/components/TextInputView';
 
 const stackNavigator = createStackNavigator(
   {    
@@ -19,6 +21,19 @@ const stackNavigator = createStackNavigator(
       navigationOptions: {
         header: null,
       },
+    },
+    TextInputView: {
+      screen: TextInputView,
+      navigationOptions: ({navigation}) => ({
+        title: navigation.state.params.title || "Display"
+      })
+    },
+    ProfileEdit: {
+      screen: ProfileEdit,
+      navigationOptions: {
+        title: 'Edit Profile',
+        header: null,
+      }
     },
     GalleryEdit: {
       screen: GalleryEdit,

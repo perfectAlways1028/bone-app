@@ -35,7 +35,7 @@ class IconizedTextInput extends React.Component {
                       placeholderTextColor={props.placeholderTextColor || colors.transparentWhite}
                       underlineColorAndroid={colors.transparentWhite}
                       {...props}
-                      style={[this.props.bordered? styles.bordered: null ,  styles.default,this.props.bold? styles.bold: null, {flex: 1}]}
+                      style={[this.props.bordered? styles.bordered: null ,  styles.default,this.props.bold? styles.bold: null, {flex: 1}, this.props.textStyle]}
                   />
                 </View>
 
@@ -72,7 +72,8 @@ IconizedTextInput.proptypes = {
     description: PropTypes.string,
     icon: PropTypes.object,
     phoneNumberPrefix: PropTypes.string,
-    containerStyle: PropTypes.object
+    containerStyle: PropTypes.object,
+    textStyle : PropTypes.object
 };
 const HEIGHT = 40;
 

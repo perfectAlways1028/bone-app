@@ -116,7 +116,11 @@ class BottomSheet extends React.Component {
                 <View style={{flexDirection:'row', width: 91, height:90, alignItems:'center'}}>
                     <View style={{width: 1, height: 48, backgroundColor: colors.darkGray}}/>
                     <View style={{flex: 1, justifyContent:'center', alignItems:'center'}}>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={()=>{
+                            this.onProfileEdit();
+                          }}
+                          >
                             <Image
                                 style={{width: 64 ,height: 64, padding: 8}}
                                 resizeMode='contain'
@@ -129,7 +133,10 @@ class BottomSheet extends React.Component {
             </View>
         </View>
     }
-
+   onProfileEdit= () => {
+    const{ user } = this.props;
+    this.props.navigation.navigate("ProfileEdit", {user: user});
+   }
   render() {
     const{ user, gallery } = this.props;
     const {top, bottom} = this.props.draggableRange

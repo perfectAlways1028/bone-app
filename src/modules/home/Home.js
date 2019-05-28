@@ -15,6 +15,7 @@ import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper
 import Permissions from 'react-native-permissions';
 import { getNearByUsers, getWatchList, getNewUsers, setFlag, changeLocation } from '../../actions/UserActions';
 import { loadUserProfile, loadMyGallery } from '../../actions/AuthActions';
+import { getModifiables } from '../../actions/AppActions';
 import UsersGrid from './components/UsersGrid'
 import HorizontalUserList from './components/HorizontalUserList'
 import UserSearchView from './components/UserSearchView'
@@ -41,6 +42,7 @@ class Home extends React.Component {
   
     dispatch(loadUserProfile(auth.user.id));
     dispatch(loadMyGallery(auth.user.id));
+    dispatch(getModifiables(auth.user.id));
   }
 
   loadUsers = () => {

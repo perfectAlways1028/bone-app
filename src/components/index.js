@@ -11,6 +11,8 @@ import LoadingOverlay from './LoadingOverlay';
 import ImageView from './ImageView';
 import CollapsibleView from './CollapsibleView';
 import TopNavigatorView from './TopNavigatorView';
+import PhotoPickerView from './PhotoPickerView';
+import StyledButton from './StyledButton';
 
 export {
   // ## Generator Components Exports
@@ -25,5 +27,7 @@ export {
   LoadingOverlay,
   ImageView,
   CollapsibleView,
-  TopNavigatorView
+  TopNavigatorView,
+  PhotoPickerView,
+  StyledButton
 };
