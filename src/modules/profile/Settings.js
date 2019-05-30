@@ -25,7 +25,7 @@ import {unitSystems} from '../../config';
 
 
 import PhotosPanel from './components/PhotosPanel';
-import { uploadProfileImage, updateProfile ,updateSettings } from '../../actions/AuthActions'
+import { uploadProfileImage, updateProfile ,updateSettings , logout } from '../../actions/AuthActions'
 import * as ACTION_TYPES from '../../actions/ActionTypes'
 import { colors } from '../../styles';
 
@@ -256,14 +256,16 @@ class Settings extends React.Component {
                     title={'Change Email'}
                     rightIconImage={require('../../../assets/images/forward.png')}
                     onItemPress={()=>{
-                      this.props.navigation.navigate("ChangeEmail", { value: this.state.email})
+                      this.props.navigation.navigate("ChangeEmail", { value: this.state.email, returnData: (value) => {
+                        this.setState({email: value});
+                      }})
                     }}
                   />
                   <ListItem
                     title={'Change Password'}
                     rightIconImage={require('../../../assets/images/forward.png')}
                     onItemPress={()=>{
-
+                      this.props.navigation.navigate("ChangePassword", { value: ''})
                     }}
                   />
 
@@ -354,7 +356,7 @@ class Settings extends React.Component {
                     title={'Log Out'}
                     itemContainerStyle={{ justifyContent:'center', alignItems:'center'}}
                     onItemPress={()=>{
-
+                      this.props.dispatch(logout())
                     }}
                   />
 

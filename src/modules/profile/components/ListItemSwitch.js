@@ -73,6 +73,7 @@ ListItemSwitch.proptypes = {
   rightIconImageOff: PropTypes.object,
   rightIconOnShortUrl: PropTypes.string,
   rightIconOffShortUrl: PropTypes.string,
+  hightlight: PropTypes.bool,
   textOn: PropTypes.string,
   textOff: PropTypes.string,
   colorOn: PropTypes.string,

@@ -59,7 +59,7 @@ class UsersGrid extends React.Component {
   getUserItem = (item) => {
       const {smallImageUrl} = item;
       return <TouchableOpacity
-        style={{flex:1}}
+        style={styles.profileContainer}
         onPress={()=>{
           this.onUserPressed(item);
         }}
@@ -67,6 +67,7 @@ class UsersGrid extends React.Component {
       <View style={styles.profileContainer}>
         <ImageView style={styles.profileImage} 
           shortUrl ={ smallImageUrl } 
+          defaultImage= {require('../../../../assets/images/defaultImage.png')}
           resizeMode='cover' />
         {this.getOnlineStatus(item.onlineStatus)}
         {this.getDistanceView(item.distance)}
@@ -175,8 +176,8 @@ const styles = StyleSheet.create({
   },
   profileImage: {
     backgroundColor: 'black',
-    height: deviceWidth /3 -4,
-    width: deviceWidth /3 -4
+    height: deviceWidth /3-1 ,
+    width: deviceWidth /3-1 
   },
   profileContainer: {
     height: deviceWidth /3 ,

@@ -153,6 +153,10 @@ class Home extends React.Component {
     dispatch(getNearByUsers(data));
   }
 
+  onFilterPress = ()=>{
+    this.props.navigation.navigate("UserFilter");
+  }
+
   getTopToolBar = (searchon, locationon, eyeon, filteron ) => {
     return <View style={styles.topToolbarContainer}>
       <View style={{width:40, height:40}}>
@@ -169,7 +173,11 @@ class Home extends React.Component {
           <TouchableOpacity style={{ alignItems:'center', justifyContent: 'center', width: 40, height:40}}>
             <Image style={styles.icon} source={eyeon ? require('../../../assets/images/eyeon.png') : require('../../../assets/images/eyeoff.png')}/>
           </TouchableOpacity>
-          <TouchableOpacity style={{ alignItems:'center', justifyContent: 'center', width: 40, height:40}}>
+          <TouchableOpacity 
+            style={{ alignItems:'center', justifyContent: 'center', width: 40, height:40}}
+            onPress={()=>{
+              this.onFilterPress();
+            }}>
             <Image style={styles.icon} source={filteron ? require('../../../assets/images/filteron.png') : require('../../../assets/images/filteroff.png')}/>
           </TouchableOpacity>
       </View>

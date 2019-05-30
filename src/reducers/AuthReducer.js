@@ -59,13 +59,25 @@ export default (state = INITIAL_STATE, action) => {
     case ACTION_TYPES.UPDATE_EMAIL:
       return { ...state, isLoading: true, success: false, error: null, currentAction: action.type };
     case ACTION_TYPES.UPDATE_EMAIL_SUCCESS:
-      let user = state.user;
-      user.email = action.email;
-      return { ...state, isLoading: false, success: true, error: null, currentAction: action.type,  user: user};
+      let euser = state.user;
+      euser.email = action.email;
+      return { ...state, isLoading: false, success: true, error: null, currentAction: action.type,  user: euser};
     case ACTION_TYPES.UPDATE_EMAIL_FAILURE:
-      return { ...state, isLoading: false, error: 'Email is already exist!', success: false, currentAction: action.type }
+      return { ...state, isLoading: false, error: 'The email is already exist!', success: false, currentAction: action.type }
+    
+    case ACTION_TYPES.UPDATE_PASSWORD:
+        return { ...state, isLoading: true, success: false, error: null, currentAction: action.type };
+    case ACTION_TYPES.UPDATE_PASSWORD_SUCCESS:
+        return { ...state, isLoading: false, success: true, error: null, currentAction: action.type};
+    case ACTION_TYPES.UPDATE_PASSWORD_FAILURE:
+      return { ...state, isLoading: false, error: 'The password is invalid!', success: false, currentAction: action.type }
+  
+    
     case ACTION_TYPES.UPDATE_SETTINGS:
       return { ...state, settings: action.settings, currentAction: action.type}
+
+    case ACTION_TYPES.LOGOUT:
+      return INITIAL_STATE;
     default:
       return state;
   }

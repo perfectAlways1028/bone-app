@@ -62,12 +62,11 @@ class HorizontalUserList extends React.Component {
         </TouchableOpacity>
       } else {
         return <TouchableOpacity
-          style={{flex:1}}
           onPress={()=>{
             this.onUserPressed(item);
           }}
         >
-        <View style={{margin:16, width:72, height: 72,borderRadius:36, borderWidth: 1, borderColor:'#2b2b2b', justifyContent: 'center', alignItems:'center'}}>
+        <View style={{margin:4, marginTop: 16, marginBottom: 16, width:72, height: 72,borderRadius:36, justifyContent: 'center', alignItems:'center'}}>
           <ImageView 
             style={styles.profileImage} 
             defaultImage={require('../../../../assets/images/boneprofile.png')} 

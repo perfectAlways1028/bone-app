@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import { calculatePortraitDimension } from '../../helpers';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import BottomSheet from './components/BottomSheet';
-import { BackgroundView } from '../../components';
+import { ImageView } from '../../components';
 
 const { height : deviceHeight } = calculatePortraitDimension();
 
@@ -45,7 +45,15 @@ class Profile extends React.Component {
     return (
       <View style={styles.background}>
         <View style={styles.container}>
-          <BackgroundView source={{uri: user.bigImageUrl}}/>
+          <TouchableOpacity 
+          activeOpacity={1}
+          style={{position:'absolute', left:0, right:0, top:0, bottom:0}} 
+          onPress = {()=>{
+            this.props.navigation.navigate("PhotoModal", {shortUrl: user.bigImageUrl})
+          }}>
+          <ImageView shortUrl= {user.bigImageUrl} style={{position:'absolute', left:0, right:0, top:0, bottom:0}} resizeMode={'cover'}/>  
+          </TouchableOpacity>
+          
           {this.getSettingsButton()}
           <BottomSheet
             user={user}

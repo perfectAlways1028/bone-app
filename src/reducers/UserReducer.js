@@ -11,6 +11,7 @@ const INITIAL_STATE = {
   locationon: false,
   eyeon: false,
   filteron: false,
+  filters: {}
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -56,7 +57,13 @@ export default (state = INITIAL_STATE, action) => {
     case ACTION_TYPES.EMPTY_SEARCH: 
       return {...state, searchUsers: []}
 
-  
+    case ACTION_TYPES.ENABLE_FILTER:
+      return {...state, filteron: action.filteron}
+    case ACTION_TYPES.UPDATE_FILTER:
+      let filter = { ...state.filters, ...action.filters  }
+      return {...state, filters: filter}
+    case ACTION_TYPES.RESET_FILTER:
+      return {...state, filters: {}}
     default:
       return state;
   }

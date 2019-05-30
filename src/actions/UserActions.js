@@ -2,6 +2,26 @@ import { api } from '../config';
 import * as ACTION_TYPES from './ActionTypes';
 import { AsyncStorage } from 'react-native';
 
+export function updateFilter(filters) {
+  return {
+    type: ACTION_TYPES.UPDATE_FILTER,
+    filters: filters
+  }
+}
+
+export function resetFilter(){
+  return {
+    type: ACTION_TYPES.RESET_FILTER,
+  }
+}
+
+export function enableFilter(enabled) {
+  return {
+    type: ACTION_TYPES.ENABLE_FILTER,
+    filteron: enabled
+  }
+}
+
 export function search(data) {
 
   let params = {

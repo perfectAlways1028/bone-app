@@ -16,6 +16,8 @@ import TextInputView from '../profile/components/TextInputView';
 import MultipleItemPickerView from '../profile/components/MultipleItemPickerView';
 import Settings from '../profile/Settings';
 import ChangeEmail from '../profile/ChangeEmail';
+import ChangePassword from '../profile/ChangePassword';
+import UserFilter from '../home/UserFilter';
 
 const stackNavigator = createStackNavigator(
   {    
@@ -25,10 +27,22 @@ const stackNavigator = createStackNavigator(
         header: null,
       },
     },
+    UserFilter: {
+      screen: UserFilter,
+      navigationOptions: {
+        header: null
+      }
+    },
     ChangeEmail: {
       screen: ChangeEmail,
       navigationOptions: {
         title: 'Change Email',
+      },
+    },
+    ChangePassword: {
+      screen: ChangePassword,
+      navigationOptions: {
+        title: 'Change Password',
       },
     },
     MultipleItemPickerView: {

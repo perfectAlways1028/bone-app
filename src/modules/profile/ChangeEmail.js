@@ -32,6 +32,8 @@ class ChangeEmail extends React.Component {
       showAlert("Whoops", nextProps.auth.error);
     } 
     if(this.props.auth.success != nextProps.auth.success && nextProps.auth.success) {
+      if( this.props.navigation.state.params.returnData)
+        this.props.navigation.state.params.returnData(this.state.value);
         this.props.navigation.goBack();
     } 
 

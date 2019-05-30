@@ -152,6 +152,12 @@ export function updateSettings(settings) {
   }
 }
 
+export function logout(){
+  return {
+    type: ACTION_TYPES.LOGOUT,
+  }
+}
+
 export function uploadProfileImage(userId, media) {
   const {uri: PATH , mime} = media;
   return (dispatch, getState) => {
