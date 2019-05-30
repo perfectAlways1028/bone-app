@@ -90,6 +90,7 @@ class Login extends React.Component {
               autoCorrect={false}
               containerStyle={{marginTop: 0}}
               returnKeyType='next'
+              keyboardType='email-address'
               
             />
             <IconizedTextInput

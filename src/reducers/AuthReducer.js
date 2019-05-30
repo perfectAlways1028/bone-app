@@ -6,43 +6,66 @@ const INITIAL_STATE = {
   error: null,
   user: null,
   token: null,
-  gallery: []
+  gallery: [],
+  settings: {},
+  currentAction: null
 };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case ACTION_TYPES.LOGIN:
-      return { ...state, isLoading: true, success: false, error: null };
+      return { ...state, isLoading: true, success: false, error: null, currentAction: action.type };
     case ACTION_TYPES.LOGIN_SUCCESS:
-      return { ...state, isLoading: false, success: true, error: null, user: action.auth.user, token: action.auth.token };
+      return { ...state, isLoading: false, success: true, error: null, user: action.auth.user, token: action.auth.token, currentAction: action.type };
     case ACTION_TYPES.LOGIN_FAILURE:
-      return { ...state, isLoading: false, error: 'An error occured', success: false };
+      return { ...state, isLoading: false, error: 'An error occured', success: false, currentAction: action.type };
     case ACTION_TYPES.SIGNUP:
-      return { ...state, isLoading: true, success: false, error: null };
+      return { ...state, isLoading: true, success: false, error: null, currentAction: action.type };
     case ACTION_TYPES.SIGNUP_SUCCESS:
-      return { ...state, isLoading: false, success: true, error: null, user: action.auth.user, token: action.auth.token };
+      return { ...state, isLoading: false, success: true, error: null, user: action.auth.user, token: action.auth.token, currentAction: action.type };
     case ACTION_TYPES.SIGNUP_FAILURE:
-        return { ...state, isLoading: false, error: 'An error occured', success: false };
+        return { ...state, isLoading: false, error: 'An error occured', success: false, currentAction: action.type };
     case ACTION_TYPES.LOAD_PROFILE:
-      return { ...state, isLoading: true, success: false, error: null };
+      return { ...state, isLoading: true, success: false, error: null, currentAction: action.type };
     case ACTION_TYPES.LOAD_PROFILE_SUCCESS:
-      return { ...state, isLoading: false, success: true, error: null, user: action.data.data.user };
+      return { ...state, isLoading: false, success: true, error: null, user: action.data.data.user, currentAction: action.type };
     case ACTION_TYPES.LOAD_PROFILE_FAILURE:
-        return { ...state, isLoading: false, error: 'An error occured', success: false };
+        return { ...state, isLoading: false, error: 'An error occured', success: false, currentAction: action.type };
 
     case ACTION_TYPES.GET_MY_GALLERY:
-      return { ...state, isLoading: true, success: false, error: null };
+      return { ...state, isLoading: true, success: false, error: null, currentAction: action.type };
     case ACTION_TYPES.GET_MY_GALLERY_SUCCESS:
-      return { ...state, isLoading: false, success: true, error: null, gallery: action.data.data.gallery };
+      return { ...state, isLoading: false, success: true, error: null, gallery: action.data.data.gallery, currentAction: action.type };
     case ACTION_TYPES.GET_MY_GALLERY_FAILURE:
-        return { ...state, isLoading: false, error: 'An error occured', success: false };
+        return { ...state, isLoading: false, error: 'An error occured', success: false, currentAction: action.type };
 
     case ACTION_TYPES.UPDATE_PROFILE_IMAGE:
-        return { ...state, isLoading: true, success: false, error: null };
+        return { ...state, isLoading: true, success: false, error: null, currentAction: action.type };
     case ACTION_TYPES.UPDATE_PROFILE_IMAGE_SUCCESS:
-      return { ...state, isLoading: false, success: true, error: null, gallery: action.data.gallery};
+      let user = state.user;
+      user.smallImageUrl = action.data.data.profilePicture.smallImageUrl;
+      user.bigImageUrl = action.data.data.profilePicture.bigImageUrl;
+      return { ...state, isLoading: false, success: true, error: null, user: user, currentAction: action.type };
     case ACTION_TYPES.UPDATE_PROFILE_IMAGE_FAILURE:
-        return { ...state, isLoading: false, error: 'An error occured', success: false };
+        return { ...state, isLoading: false, error: 'An error occured', success: false, currentAction: action.type };
+
+    case ACTION_TYPES.UPDATE_PROFILE:
+      return { ...state, isLoading: true, success: false, error: null, currentAction: action.type };
+    case ACTION_TYPES.UPDATE_PROFILE_SUCCESS:
+      return { ...state, isLoading: false, success: true, error: null, user: action.data.data.user, currentAction: action.type };
+    case ACTION_TYPES.UPDATE_PROFILE_FAILURE:
+        return { ...state, isLoading: false, error: action.message, success: false, currentAction: action.type };
+
+    case ACTION_TYPES.UPDATE_EMAIL:
+      return { ...state, isLoading: true, success: false, error: null, currentAction: action.type };
+    case ACTION_TYPES.UPDATE_EMAIL_SUCCESS:
+      let user = state.user;
+      user.email = action.email;
+      return { ...state, isLoading: false, success: true, error: null, currentAction: action.type,  user: user};
+    case ACTION_TYPES.UPDATE_EMAIL_FAILURE:
+      return { ...state, isLoading: false, error: 'Email is already exist!', success: false, currentAction: action.type }
+    case ACTION_TYPES.UPDATE_SETTINGS:
+      return { ...state, settings: action.settings, currentAction: action.type}
     default:
       return state;
   }

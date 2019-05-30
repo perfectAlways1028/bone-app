@@ -3,12 +3,15 @@ import { View } from 'react-native';
 import { colors } from '../styles';
 import { api } from '../config'
 import FastImage from 'react-native-fast-image';
+import { PolyfillXMLHttpRequest } from 'rn-fetch-blob';
+import SvgUri from 'react-native-svg-uri';
 
 export default class ImageView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             loaded: false,
+            imageType: 'png'
         }
     }
     getFastImageResizeMode = (resizeMode) =>{
@@ -20,7 +23,7 @@ export default class ImageView extends React.Component {
             case 'stretch':
                 return FastImage.resizeMode.stretch;
             case 'center':
-                return FastImage.resizeMode.contain;
+                return FastImage.resizeMode.center;
             default:
                 return FastImage.resizeMode.contain;
         }
@@ -38,12 +41,11 @@ export default class ImageView extends React.Component {
                     <FastImage 
                             source={placeholder}
                             style={props.style}
-                            
                     />
                 }
                 <FastImage 
                     source={src}
-                    style={this.state.loaded? props.style: {width:0, height:0} }
+                    style={this.state.loaded? props.style: {width:0, height:0}}
                     onLoad={()=> {
                         this.onLoad(true);
                     }}
@@ -51,17 +53,32 @@ export default class ImageView extends React.Component {
                         this.onLoad(false);
                     }}
                     resizeMode={this.getFastImageResizeMode(props.resizeMode)}
+                    resizeMethod={'stretch'}
+                    
                 />
             </View>
         
     }
 
     getImage = (props, src) =>{
-        return <FastImage 
+        if(src && src.uri && src.uri.endsWith('.svg')) {
+            return <SvgUri
+                style={props.style}
+                source={src}
+                width={props.width}
+                height={props.height}
+                />
+        
+
+         
+        } else {
+            return <FastImage 
                 source={src}
                 style={props.style}
                 resizeMode={this.getFastImageResizeMode(props.resizeMode)}
             />
+        }
+
 
     }
     render() {

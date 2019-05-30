@@ -56,7 +56,8 @@ const styles = StyleSheet.create({
     itemContainerStyle: {
         height: 48,
         backgroundColor: colors.black,
-        paddingHorizontal: 16,
+        marginLeft: 16,
+        marginRight: 16,
         alignSelf: 'stretch',
         flexDirection: 'row',
         alignItems: 'center',

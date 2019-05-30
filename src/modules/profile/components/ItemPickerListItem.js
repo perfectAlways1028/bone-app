@@ -71,7 +71,7 @@ class ItemPickerListItem extends Component {
 }
 
 ItemPickerListItem.propTypes = {
-  value: PropTypes.number,
+  value: PropTypes.string,
   items: PropTypes.array,
   title: PropTypes.string,
   onPickItem: PropTypes.func

@@ -58,12 +58,13 @@ export default class PhotoPickerView extends Component {
   }
 
   render = () => {
-    const { addPhotoLabel } = this.props;
+    const { imageUrl } = this.props;
+    console.log("photopickerview", imageUrl);
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
               <ImageView style={styles.image} 
-                         resizeMode='contain' 
+                         resizeMode='center' 
                          shortUrl={this.props.imageUrl}
                          defaultImage={require('../../assets/images/defaultImage.png')}
                          />
@@ -99,11 +100,8 @@ const styles = StyleSheet.create({
     justifyContent:'center'
   },
   image: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0
+    width:200,
+    height:200
   },
   cameraBtn: {
     position: 'absolute',

@@ -12,7 +12,7 @@ import {
 
 import { connect } from 'react-redux';
 
-import { calculatePortraitDimension } from '../../helpers';
+import { calculatePortraitDimension, showAlert } from '../../helpers';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import { TopNavigatorView, LoadingOverlay, PhotoPickerView } from '../../components';
 import ListItem from './components/ListItem';
@@ -20,8 +20,10 @@ import SectionTitleItem from './components/SectionTitleItem';
 import ListItemSwitch from './components/ListItemSwitch';
 import NumberPickerListItem from './components/NumberPickerListItem';
 import ItemPickerListItem from './components/ItemPickerListItem';
+import DatePickerListItem from './components/DatePickerListItem';
 
-import { uploadProfileImage } from '../../actions/AuthActions'
+import PhotosPanel from './components/PhotosPanel';
+import { uploadProfileImage, updateProfile } from '../../actions/AuthActions'
 import { colors } from '../../styles';
 
 
@@ -37,13 +39,47 @@ class ProfileEdit extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-      
+      if(this.props.auth.error != nextProps.auth.error && nextProps.auth.error) {
+        showAlert("Whoops", nextProps.auth.error);
+      } 
     } 
 
     onSave = () => {
-
+      const { user, gallery } = this.props.auth;
+      const { username, age, about, height, weight, role, bodyType,
+        sexualStatus, place, hivStatus, lastTestDate } = this.state;
+      let body = {
+        username,
+        age, 
+        about, 
+        height,
+        weight,
+        role,
+        bodyTypeId: bodyType.id,
+        sexualStatusId: sexualStatus.id,
+        place,
+        hivStatusId: hivStatus.id,
+        lastTestDate
+      }
+      this.props.dispatch(updateProfile(user.id, body)) 
     }
+    getPhotoSection = ( items ) => {
+      if(items.length == 0 ||  (items.length >0 && !(items[0].isAddButton))) {
+        items.unshift({isAddButton:true})
+      }
 
+      return <PhotosPanel
+        items={items}
+        onAddPressed={()=>{
+          this.props.navigation.navigate("GalleryEdit");
+        }}
+        onImagePressed={(item)=>{
+          console.log(item);
+        }}
+        showType={'horizontal'}
+        navigation={this.props.navigation}
+      />
+    }
     getSaveButton = () => {
       return <TouchableOpacity 
       onPress={()=>{
@@ -71,17 +107,20 @@ class ProfileEdit extends React.Component {
       this.props.dispatch(uploadProfileImage(userId, image));
     } 
     render() {
-        const { user } = this.props.auth;
-        const { username, age, about, height, weight, role } = this.state;
+        const { user, gallery } = this.props.auth;
+
+        const { username, age, about, height, weight, role, bodyType,
+          sexualStatus, place, hivStatus, lastTestDate } = this.state;
         const { modifiables } = this.props.app;
         return (
             <View style={styles.background}>
               <LoadingOverlay visible={this.props.auth.isLoading}/>
               <View style={styles.container}>
               {this.getTopNavigator()}
-              <ScrollView contentContainerStyle={{flex:1}}>
+              <ScrollView>
+                <View style={styles.contentContainer}>
                   <PhotoPickerView
-                    imageUrl= {user.bigImageUrl}
+                    imageUrl= {user.smallImageUrl}
                     updateImage={(image)=>{this.onUpdateImage(user.id,image)}}
                   />
                   <SectionTitleItem
@@ -145,7 +184,7 @@ class ProfileEdit extends React.Component {
                     min={40}
                     value={weight}
                     onPickNumber={(value)=>{
-                      this.setState({height: value})
+                      this.setState({weight: value})
                     }}
                   />
                   <ItemPickerListItem
@@ -156,8 +195,83 @@ class ProfileEdit extends React.Component {
                       this.setState({role: item})
                     }}
                   />
- 
-             
+                  <ItemPickerListItem
+                    title={'Body Type'}
+                    value={bodyType.name}
+                    items={modifiables.bodyTypes}
+                    onPickItem={(item)=> {
+                      this.setState({bodyType: item})
+                    }}
+                  />
+
+                  {gallery && this.getPhotoSection(gallery)}
+                  <View style={styles.spliter}/>
+                  <SectionTitleItem
+                    itemContainerStyle={{marignTop:32}}
+                    title={'SEXUAL TASTE'}
+                  />
+                  
+                  <ItemPickerListItem
+                    title={'Status'}
+                    value={sexualStatus.name}
+                    items={modifiables.sexualStatuses}
+                    onPickItem={(item)=> {
+                      this.setState({sexualStatus: item})
+                    }}
+                  />
+
+                  <ListItemSwitch
+                    title={'Place'}
+                    rightIconImageOn={require('../../../assets/images/boneoncb.png')}
+                    rightIconImageOff={require('../../../assets/images/boneoffcb.png')}
+                    value={place}
+                    onChangeState={(value)=>{
+                      this.setState({place: value})
+                    }}
+                  />
+                  <ListItem
+                    title={'Tribes'}
+                    rightIconImage={require('../../../assets/images/forward.png')}
+                    onItemPress={()=>{
+                      this.props.navigation.navigate("MultipleItemPickerView", { title: 'Tribes', items: modifiables.tribes, inputType:'textinput', returnData: (value) => {
+                        this.setState({tribe: value});
+                      }})
+                    }}
+                  />
+                  <ListItem
+                    title={'Looking For'}
+                    rightIconImage={require('../../../assets/images/forward.png')}
+                    onItemPress={()=>{
+                      this.props.navigation.navigate("MultipleItemPickerView", { title: 'Looking For', items: modifiables.lookingFors, inputType:'textinput', returnData: (value) => {
+                        this.setState({lookingFor: value});
+                      }})
+                    }}
+                  />
+
+                  <SectionTitleItem
+                    itemContainerStyle={{marignTop:32}}
+                    title={'SEXUAL HEALTH'}
+                  />
+                  <ItemPickerListItem
+                    title={'HIV Status'}
+                    value={hivStatus.name}
+                    items={modifiables.hivStatus}
+                    onPickItem={(item)=> {
+                      this.setState({hivStatus: item})
+                    }}
+                  />
+                <DatePickerListItem
+                    title={'Last Tested Date'}
+                    value={lastTestDate}
+                    maxYear={new Date().getFullYear()}
+                    minYear={new Date().getFullYear()-3 }
+                    onPickDate={(date)=> {
+                      console.log("datepicker", date);
+                      this.setState({lastTestDate: date})
+                    }}
+                  />
+
+                </View>
               </ScrollView>
               </View>
             </View>
@@ -170,11 +284,20 @@ const styles = StyleSheet.create({
         flex:1,
         backgroundColor: 'black'
     },
+    contentContainer: {
+      flex: 1
+    },  
     container: {
         flex: 1,
         marginBottom: getBottomSpace(),
         marginTop: Platform.OS === 'ios' ? getStatusBarHeight(true) : 0,
     },
+    spliter: {
+      alignSelf:'stretch',
+      height: 0.5,
+      backgroundColor: colors.darkGray,
+
+    }
 
 });
 

@@ -103,6 +103,7 @@ class Register extends React.Component {
               onChangeText={text => {
                 this.setState({ email : text})
               }}
+              keyboardType='email-address'
               value={email}
               autoCapitalize="none"
               autoCorrect={false}

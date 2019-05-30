@@ -13,6 +13,9 @@ import GalleryEdit from '../profile/GalleryEdit';
 import UploadPhoto from '../profile/UploadPhoto';
 import ProfileEdit from '../profile/ProfileEdit';
 import TextInputView from '../profile/components/TextInputView';
+import MultipleItemPickerView from '../profile/components/MultipleItemPickerView';
+import Settings from '../profile/Settings';
+import ChangeEmail from '../profile/ChangeEmail';
 
 const stackNavigator = createStackNavigator(
   {    
@@ -21,6 +24,18 @@ const stackNavigator = createStackNavigator(
       navigationOptions: {
         header: null,
       },
+    },
+    ChangeEmail: {
+      screen: ChangeEmail,
+      navigationOptions: {
+        title: 'Change Email',
+      },
+    },
+    MultipleItemPickerView: {
+      screen: MultipleItemPickerView,
+      navigationOptions: ({navigation}) => ({
+        title: navigation.state.params.title || "Display"
+      })
     },
     TextInputView: {
       screen: TextInputView,
@@ -46,6 +61,12 @@ const stackNavigator = createStackNavigator(
       navigationOptions: {
         title: 'Upload',
       },
+    },
+    Settings: {
+      screen: Settings,
+      navigationOptions: {
+        title: 'Settings'
+      }
     },
     Auth: {
       screen: Auth,

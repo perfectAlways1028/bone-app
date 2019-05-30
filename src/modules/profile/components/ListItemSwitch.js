@@ -9,12 +9,13 @@ import {
 import PropTypes from 'prop-types';
 import { colors } from '../../../styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ImageView } from '../../../components';
 
 export default class ListItemSwitch extends React.Component {
     constructor(props) {
         super(props);
         this.state={
-            value: false
+            value: props.value
         }
     }
     componentWillReceiveProps(nextProps){
@@ -27,7 +28,7 @@ export default class ListItemSwitch extends React.Component {
             this.props.onChangeState(!this.state.value)
     }   
     render () {
-        const { title, rightIconImageOn, rightIconImageOff, textOn, textOff, colorOn, colorOff } = this.props; 
+        const { hideText, title, rightIconImageOn, rightIconImageOff, textOn, textOff, colorOn, colorOff,rightIconOnShortUrl, rightIconOffShortUrl } = this.props; 
         return (
             <TouchableOpacity
                 onPress={()=>{
@@ -38,7 +39,8 @@ export default class ListItemSwitch extends React.Component {
                     <Text style={styles.title}>{title}</Text>
                     <View style={{flexDirection: 'row', alignItems:'center', justifyContent:'flex-end'}}>
                  
-                        {
+                        {   
+                            !hideText &&
                             <Text style={ [this.state.value? styles.textOn : styles.textOff, 
                                             {marginRight: 16, color: this.state.value ? 
                                                 (colorOn || colors.red) 
@@ -47,8 +49,14 @@ export default class ListItemSwitch extends React.Component {
                                 {this.state.value? (textOn || 'ON') : (textOff || 'OFF') }
                             </Text>
                         }
+                        
                         {
-                            <Image source={ this.state.value ? rightIconImageOn : rightIconImageOff}  style={{width: 24, height:24}}/>
+                            (rightIconImageOn && rightIconImageOff) &&
+                            <Image source={ this.state.value ? rightIconImageOn : rightIconImageOff}  style={[{height:24, width: 24}, this.props.imageStyle]}/>
+                        }
+                        {
+                            (rightIconOnShortUrl && rightIconOffShortUrl) &&
+                            <ImageView svg height={20} shortUrl={ this.state.value ? rightIconOnShortUrl : rightIconOffShortUrl}  style={[{height:20, marginRight: 0, justifyContent:'flex-end'}, this.props.imageStyle]}/>
                         }
                     </View>
                 </View>
@@ -61,12 +69,15 @@ export default class ListItemSwitch extends React.Component {
 ListItemSwitch.proptypes = { 
   title: PropTypes.object.isRequired,
   text: PropTypes.string,
-  rightIconImageOn: PropTypes.object.isRequired,
-  rightIconImageOff: PropTypes.object.isRequired,
+  rightIconImageOn: PropTypes.object,
+  rightIconImageOff: PropTypes.object,
+  rightIconOnShortUrl: PropTypes.string,
+  rightIconOffShortUrl: PropTypes.string,
   textOn: PropTypes.string,
   textOff: PropTypes.string,
   colorOn: PropTypes.string,
   colorOff: PropTypes.string,
+  hideText: PropTypes.bool,
   onChangeState: PropTypes.func,
   value: PropTypes.bool
 

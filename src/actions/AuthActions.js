@@ -2,6 +2,7 @@ import { api } from '../config';
 import * as ACTION_TYPES from './ActionTypes';
 import { AsyncStorage } from 'react-native';
 import { showToast } from '../helpers';
+import RNFetchBlob from 'rn-fetch-blob';
 
 export function login(credential) {
     return (dispatch, getState) => {
@@ -89,7 +90,7 @@ export function loadUserProfile(userId) {
   return {
     type: ACTION_TYPES.LOAD_PROFILE,
     request: {
-      url: `${api.baseURL}/api/user/${userId}`,
+      url: `${api.baseURL}/api/user/${userId}/profile/${userId}`,
     },
   }
 }
@@ -100,6 +101,54 @@ export function loadMyGallery(userId) {
     request: {
       url: `${api.baseURL}/api/user/${userId}/gallery/${userId}`,
     },
+  }
+}
+
+export function updateProfile(userId, body) {
+  return {
+    type: ACTION_TYPES.UPDATE_PROFILE,
+    request: {
+      url: `${api.baseURL}/api/user/${userId}/edit`,
+      method: 'post',
+      body: JSON.stringify(body)
+    }
+  }
+}
+
+export function updateEmail(userId, email) {
+  let body = {
+    newEmail: email
+  }
+  return {
+    type: ACTION_TYPES.UPDATE_EMAIL,
+    request: {
+      url: `${api.baseURL}/api/user/${userId}/edit/email`,
+      method: 'post',
+      body: JSON.stringify(body)
+    },
+    email
+  }
+}
+
+export function updatePassword(userId, password) {
+  let body = {
+    newPassword: password
+  }
+  return {
+    type: ACTION_TYPES.UPDATE_PASSWORD,
+    request: {
+      url: `${api.baseURL}/api/user/${userId}/edit/password`,
+      method: 'post',
+      body: JSON.stringify(body)
+    },
+    password
+  }
+}
+
+export function updateSettings(settings) {
+  return { 
+    type: ACTION_TYPES.UPDATE_SETTINGS,
+    settings: settings
   }
 }
 
@@ -138,9 +187,10 @@ export function uploadProfileImage(userId, media) {
               });
             })
             .then((res) => {
+              let data = JSON.parse(res.data);
               dispatch({
                 type: ACTION_TYPES.UPDATE_PROFILE_IMAGE_SUCCESS,
-                data: res,
+                data: data,
               });
             })
             .catch((err) => {
