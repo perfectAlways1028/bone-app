@@ -245,7 +245,7 @@ class Home extends React.Component {
             <View style={styles.content}>
 
               <HorizontalUserList onRefresh={()=> {this.loadUsers()}}/>
-              <UsersGrid onRefresh={()=> {this.loadUsers()}}/>
+              <UsersGrid onRefresh={()=> {this.loadUsers()}} navigation={this.props.navigation}/>
               {
                 searchon &&
                 <UserSearchView/>

@@ -5,6 +5,7 @@ import storage from 'redux-persist/lib/storage';
 import app from '../reducers/AppReducer';
 import auth from '../reducers/AuthReducer';
 import users from '../reducers/UserReducer';
+import publicUser from '../reducers/PublicUserReducer';
 import gallery from '../reducers/GalleryReducer';
 
 const authPersistConfig = {
@@ -24,6 +25,7 @@ export default combineReducers({
   app: persistReducer(getNormalConfig('app', []), app),
   auth: persistReducer(authPersistConfig, auth),
   users,
+  publicUser,
   gallery
 });
 

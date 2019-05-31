@@ -18,6 +18,7 @@ import Settings from '../profile/Settings';
 import ChangeEmail from '../profile/ChangeEmail';
 import ChangePassword from '../profile/ChangePassword';
 import UserFilter from '../home/UserFilter';
+import PublicProfile from '../profile/PublicProfile';
 
 const stackNavigator = createStackNavigator(
   {    
@@ -62,6 +63,12 @@ const stackNavigator = createStackNavigator(
       navigationOptions: {
         title: 'Edit Profile',
         header: null,
+      }
+    },
+    PublicProfile: {
+      screen: PublicProfile,
+      navigationOptions: {
+        header: null
       }
     },
     GalleryEdit: {

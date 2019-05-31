@@ -33,8 +33,9 @@ class BottomSheet extends React.Component {
         }
     }
 
-    getPhotoSection = ( items ) => {
-      if(items.length == 0 ||  (items.length >0 && !(items[0].isAddButton))) {
+    getPhotoSection = ( items, isPublic ) => {
+      
+      if(!isPublic && items.length == 0 ||  (items.length >0 && !(items[0].isAddButton))) {
         items.unshift({isAddButton:true})
       }
 
@@ -83,9 +84,19 @@ class BottomSheet extends React.Component {
 
      _draggedValue = new Animated.Value(120)
     getOnlineStyle = (onlineStatus) => {
-        return styles.online;
+        switch(onlineStatus){
+          case 0:
+            return styles.offline;
+          case 1:
+            return styles.online;
+          case 2:
+            return styles.away;
+
+          default: 
+            return styles.online;
+        }
     }
-    getPanelHeaderView = (onlineStatus, name, rating) => {
+    getPanelHeaderView = ( onlineStatus, name, rating, isPublic, isBoning) => {
         return <View style={styles.panelHeader}>
             <View style={styles.panelHeaderHandleContainer}>
                 <View style={styles.panelHeaderHandle}/>
@@ -116,6 +127,22 @@ class BottomSheet extends React.Component {
                 <View style={{flexDirection:'row', width: 91, height:90, alignItems:'center'}}>
                     <View style={{width: 1, height: 48, backgroundColor: colors.darkGray}}/>
                     <View style={{flex: 1, justifyContent:'center', alignItems:'center'}}>
+                      {
+                        isPublic ?
+                        <TouchableOpacity
+                          onPress={()=>{
+                            if(this.props.onBonePress) {
+                              this.props.onBonePress(isBoning)
+                            }
+                          }}
+                          >
+                            <Image
+                                style={{width: 64 ,height: 64, padding: 8}}
+                                resizeMode='contain'
+                                source={isBoning? require('../../../../assets/images/boneprofileon.png'): require('../../../../assets/images/boneprofile.png')}
+                            />
+                        </TouchableOpacity>
+                        :
                         <TouchableOpacity
                           onPress={()=>{
                             this.onProfileEdit();
@@ -127,6 +154,8 @@ class BottomSheet extends React.Component {
                                 source={require('../../../../assets/images/edit.png')}
                             />
                         </TouchableOpacity>
+                      }
+
                     </View>
                 </View>
                 
@@ -138,7 +167,7 @@ class BottomSheet extends React.Component {
     this.props.navigation.navigate("ProfileEdit", {user: user});
    }
   render() {
-    const{ user, gallery } = this.props;
+    const{ user, gallery, isPublic } = this.props;
     const {top, bottom} = this.props.draggableRange
 
     const draggedValue = this._draggedValue.interpolate({
@@ -147,7 +176,7 @@ class BottomSheet extends React.Component {
     })
 
     const transform = [{scale: draggedValue}]
-
+    let isBoning = user.userToUser? user.userToUser.isBoning: false
 
     return (
         <SlidingUpPanel
@@ -160,7 +189,7 @@ class BottomSheet extends React.Component {
           allowMomentum={true}>
           <View style={styles.panel}>
             <View style={styles.panelHeader}>
-              {this.getPanelHeaderView(user.onlineStatus, user.username, user.rating)}
+              {this.getPanelHeaderView(user.onlineStatus, user.username, user.rating, isPublic, isBoning)}
             </View>
             <View style={styles.container}>
               {this.getStatusSection(user.weight+'kg',
@@ -168,7 +197,7 @@ class BottomSheet extends React.Component {
                                      user.bodyType? user.bodyType.name : "", 
                                      user.role? user.role.abbreviatedName: "", 
                                      user.sexualStatus? user.sexualStatus.name: "")}
-              {gallery && this.getPhotoSection(gallery)}
+              {gallery && this.getPhotoSection(gallery, isPublic)}
             </View>
           </View>
 

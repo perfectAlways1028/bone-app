@@ -8,7 +8,7 @@ class TopNavigatorView extends Component {
   render = () => {
     const { title } = this.props;
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, this.props.containerStyle]}>
             <View style={styles.titleContainer}>
                 <Text style={styles.title}>{title}</Text>
             </View>
@@ -33,7 +33,8 @@ class TopNavigatorView extends Component {
 TopNavigatorView.proptypes = { 
     title: PropTypes.string,
     onBackPressed: PropTypes.func,
-    rightComponent: PropTypes.object 
+    rightComponent: PropTypes.object,
+    containerStyle: PropTypes.object
 };
 
 const styles = StyleSheet.create({

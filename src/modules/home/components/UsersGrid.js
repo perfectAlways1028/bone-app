@@ -32,6 +32,7 @@ class UsersGrid extends React.Component {
 
   onUserPressed = (item) => {
     console.log("user pressed", item);
+    this.props.navigation.navigate("PublicProfile", {userId: item.id});
   }
 
 
