@@ -58,9 +58,12 @@ export default (state = INITIAL_STATE, action) => {
 
     case ACTION_TYPES.EMPTY_SEARCH: 
       return {...state, searchUsers: []}
-
     case ACTION_TYPES.ENABLE_FILTER:
-      return {...state, filteron: action.filteron}
+        return {...state, eyeon: false, filteron: action.filteron, locationon: false, refreshUsers: true}
+    case ACTION_TYPES.ENABLE_EYE:
+        return {...state, eyeon: action.eyeon, filteron: false, locationon: false, refreshUsers: true}
+    case ACTION_TYPES.ENABLE_LOCATION:
+      return {...state, locationon: action.locationon, eyeon: false, filteron: false}
     case ACTION_TYPES.UPDATE_FILTER:
       let filter = { ...state.filters, ...action.filters  }
       return {...state, filters: filter}

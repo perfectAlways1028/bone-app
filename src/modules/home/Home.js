@@ -13,7 +13,7 @@ import {
 import { connect } from 'react-redux';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import Permissions from 'react-native-permissions';
-import { getNearByUsers, getWatchList, getNewUsers, setFlag, changeLocation, refreshUsers, getFilterUsers } from '../../actions/UserActions';
+import { getNearByUsers, getWatchList, getNewUsers, setFlag, changeLocation, refreshUsers, getFilterUsers, enableEye, enableOnline } from '../../actions/UserActions';
 import { loadUserProfile, loadMyGallery } from '../../actions/AuthActions';
 import { getModifiables } from '../../actions/AppActions';
 import UsersGrid from './components/UsersGrid'
@@ -29,10 +29,10 @@ class Home extends React.Component {
     }
   }
 
-  onRefreshUsers() {
+  onRefreshUsers(users) {
     console.log("Refresh Users");
     const {user} = this.props.auth;
-    const {filteron, filters, online} = this.props.users;
+    const {filteron, eyeon, locationon, filters, online} = users;
     if(filteron) {
       let data = {
         id: user.id,
@@ -41,11 +41,23 @@ class Home extends React.Component {
         online: online
       }
       this.props.dispatch(getFilterUsers(data, filters))
+    } else if(eyeon) {
+      let data = {
+        id: user.id,
+        limit : 40, 
+        offset : 0,
+        online: online
+      }
+      this.props.dispatch(getWatchList(data));
+    }else if(locationon) {
+
+    } else {
+      this.fetchNearByUsers(online);
     }
   }
   componentWillReceiveProps(nextProps) {
     if(this.props.users.refreshUsers == false && nextProps.users.refreshUsers == true) {
-      this.onRefreshUsers();
+      this.onRefreshUsers(nextProps.users);
       this.props.dispatch(refreshUsers(false));
     }
   }
@@ -69,7 +81,7 @@ class Home extends React.Component {
   loadUsers = () => {
     this.loadProfile();
     
-    this.fetchNearByUsers();
+    this.fetchNearByUsers(false);
     
     this.fetchNewUsers();
 
@@ -158,9 +170,9 @@ class Home extends React.Component {
     dispatch(getNewUsers(data));
   }
 
-  fetchNearByUsers = () => {
+  fetchNearByUsers = (online) => {
     const { auth, dispatch } = this.props;
-    const { onlineBit } = this.state;
+
     if(!auth.user)
     return;
     console.log("currentUser",auth.user);
@@ -168,7 +180,7 @@ class Home extends React.Component {
       id: auth.user.id,
       limit : 60, 
       offset : 0,
-      online: onlineBit
+      online: online? 1: 0
     }
     console.log("fetchNearByUsers", data);
     dispatch(getNearByUsers(data));
@@ -176,6 +188,9 @@ class Home extends React.Component {
 
   onFilterPress = ()=>{
     this.props.navigation.navigate("UserFilter");
+  }
+  onEyePress = (eyeon)=> {
+    this.props.dispatch(enableEye(!eyeon))
   }
 
   getTopToolBar = (searchon, locationon, eyeon, filteron, online ) => {
@@ -191,7 +206,11 @@ class Home extends React.Component {
           <TouchableOpacity style={{ alignItems:'center', justifyContent: 'center', width: 40, height:40}}>
             <Image style={styles.icon} source={locationon ? require('../../../assets/images/locationon.png') : require('../../../assets/images/locationoff.png')}/>
           </TouchableOpacity>
-          <TouchableOpacity style={{ alignItems:'center', justifyContent: 'center', width: 40, height:40}}>
+          <TouchableOpacity 
+            style={{ alignItems:'center', justifyContent: 'center', width: 40, height:40}}
+            onPress={()=>{
+              this.onEyePress(eyeon);
+            }}>
             <Image style={styles.icon} source={eyeon ? require('../../../assets/images/eyeon.png') : require('../../../assets/images/eyeoff.png')}/>
           </TouchableOpacity>
           <TouchableOpacity 
@@ -206,8 +225,11 @@ class Home extends React.Component {
   }
 
   onSearchPress = () =>{
-    const { searchon } = this.props.users;
-    this.props.dispatch(setFlag("searchon", !searchon));
+    const { searchon, online } = this.props.users;
+    if(searchon == false && online == false)
+      this.props.dispatch(setFlag("searchon", true));
+    else 
+      this.props.dispatch(enableOnline(false))
   }
   render() {
     const { searchon, locationon, eyeon, filteron, online } = this.props.users;

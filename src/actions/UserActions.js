@@ -36,6 +36,21 @@ export function enableOnline(enabled){
   }
 }
 
+export function enableEye(enabled) {
+  return{
+    type: ACTION_TYPES.ENABLE_EYE,
+    eyeon: enabled
+  }
+}
+
+
+export function enableLocation(enabled) {
+  return{
+    type: ACTION_TYPES.ENABLE_LOCATION,
+    locationon: enabled
+  }
+}
+
 export function search(data) {
 
   let params = {
