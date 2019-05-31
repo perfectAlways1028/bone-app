@@ -18,7 +18,7 @@ class MultipleItemPickerView extends React.Component {
     this.state = {
         items : props.navigation.getParam('items'),
         title: props.navigation.getParam('title'),
-        selectedItems: []
+        selectedItems: props.navigation.getParam('selectedItems') ? props.navigation.getParam('selectedItems') : []
     }
   }
 
@@ -42,6 +42,13 @@ class MultipleItemPickerView extends React.Component {
 
     }
   }
+  checkSelected(item){
+    for(let i=0; i<this.state.selectedItems.length; i++){
+      if(this.state.selectedItems[i].id == item.id)
+      return true;
+    }
+    return false;
+  }
 
   renderItem = ({ item }) => {
     if(item.imageOn && item.imageOff) {
@@ -49,6 +56,7 @@ class MultipleItemPickerView extends React.Component {
             title={item.name}
             rightIconOnShortUrl={item.imageOn}
             rightIconOffShortUrl={item.imageOff}
+            value={this.checkSelected(item)}
             hideText
             onChangeState={(value)=>{
                 this.selectItem(value, item);
@@ -59,6 +67,7 @@ class MultipleItemPickerView extends React.Component {
             title={item.name}
             rightIconImageOn={require('../../../../assets/images/boneoncb.png')}
             rightIconImageOff={require('../../../../assets/images/boneoffcb.png')}
+            value={this.checkSelected(item)}
             hideText
             onChangeState={(value)=>{
                 this.selectItem(value, item);

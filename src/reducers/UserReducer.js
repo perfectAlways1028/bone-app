@@ -10,7 +10,9 @@ const INITIAL_STATE = {
   searchon: false,
   locationon: false,
   eyeon: false,
+  online: false,
   filteron: false,
+  refreshUsers: false,
   filters: {}
 };
 
@@ -64,6 +66,10 @@ export default (state = INITIAL_STATE, action) => {
       return {...state, filters: filter}
     case ACTION_TYPES.RESET_FILTER:
       return {...state, filters: {}}
+    case ACTION_TYPES.ENABLE_ONLINE:
+      return {...state, online: action.online, searchon: false, refreshUsers: true}
+    case ACTION_TYPES.REFRESH_USERS:
+      return {...state, refreshUsers: action.refreshUsers }
     default:
       return state;
   }

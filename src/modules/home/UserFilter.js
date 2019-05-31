@@ -23,7 +23,7 @@ import {unitSystems} from '../../config';
 
 
 import { uploadProfileImage, updateProfile ,updateSettings , logout } from '../../actions/AuthActions'
-import { enableFilter, updateFilter, resetFilter } from '../../actions/UserActions'
+import { enableFilter, updateFilter, resetFilter, refreshUsers } from '../../actions/UserActions'
 import * as ACTION_TYPES from '../../actions/ActionTypes'
 import { colors } from '../../styles';
 
@@ -52,10 +52,12 @@ class UserFilter extends React.Component {
         </View>
       </TouchableOpacity>
     }
+
     getTopNavigator = () => {
       return <TopNavigatorView
         title={'Filter'}
         onBackPressed = {() => {
+          this.props.dispatch(refreshUsers(true))
           this.props.navigation.goBack();
         }}
         rightComponent={this.getResetButton()}
@@ -142,7 +144,8 @@ class UserFilter extends React.Component {
                     value={filters.role? filters.role.name: null}
                     onPickItem={(item)=> {
                         let filter = {
-                            role : item
+                            role : item,
+                            roleId: item.id
                         }
                         this.props.dispatch(updateFilter(filter));
                     }}
@@ -153,7 +156,8 @@ class UserFilter extends React.Component {
                     value={filters.bodyType? filters.bodyType.name: null}
                     onPickItem={(item)=> {
                         let filter = {
-                            bodyType : item
+                            bodyType : item,
+                            bodyTypeId: item.id
                         }
                         this.props.dispatch(updateFilter(filter));
                     }}
@@ -164,7 +168,8 @@ class UserFilter extends React.Component {
                     value={filters.sexualStatus ? filters.sexualStatus.name : null}
                     onPickItem={(item)=> {
                         let filter = {
-                            sexualStatus : item
+                            sexualStatus : item,
+                            statusId: item.id
                         }
                         this.props.dispatch(updateFilter(filter));
                     }}
@@ -176,7 +181,8 @@ class UserFilter extends React.Component {
                     value={filters.hivStatus ? filters.hivStatus.name : null}
                     onPickItem={(item)=> {
                         let filter = {
-                            hivStatus : item
+                            hivStatus : item,
+                            hivStatusId: item.id
                         }
                         this.props.dispatch(updateFilter(filter));
                     }}
@@ -185,9 +191,12 @@ class UserFilter extends React.Component {
                     title={'Tribes'}
                     rightIconImage={require('../../../assets/images/forward.png')}
                     onItemPress={()=>{
+                        console.log("original tribes",filters.tribes);
                       this.props.navigation.navigate("MultipleItemPickerView", { title: 'Tribes', items: modifiables.tribes, selectedItems: filters.tribes, inputType:'textinput', returnData: (value) => {
+                        console.log("tribes",value);
                         let filter = {
-                            tribes : value
+                            tribes : value,
+                            tribeIds : value.map((tribe) => tribe.id)
                         }
                         this.props.dispatch(updateFilter(filter));
                       }})
@@ -199,7 +208,8 @@ class UserFilter extends React.Component {
                     onItemPress={()=>{
                       this.props.navigation.navigate("MultipleItemPickerView", { title: 'Looking For', items: modifiables.lookingFors, selectedItems: filters.lookingFors, inputType:'textinput', returnData: (value) => {
                         let filter = {
-                            lookingFors : value
+                            lookingFors : value,
+                            lookingForIds: value.map((lookingFor) => lookingFor.id)
                         }
                         this.props.dispatch(updateFilter(filter));
                       }})

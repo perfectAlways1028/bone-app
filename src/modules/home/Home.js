@@ -13,7 +13,7 @@ import {
 import { connect } from 'react-redux';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import Permissions from 'react-native-permissions';
-import { getNearByUsers, getWatchList, getNewUsers, setFlag, changeLocation } from '../../actions/UserActions';
+import { getNearByUsers, getWatchList, getNewUsers, setFlag, changeLocation, refreshUsers, getFilterUsers } from '../../actions/UserActions';
 import { loadUserProfile, loadMyGallery } from '../../actions/AuthActions';
 import { getModifiables } from '../../actions/AppActions';
 import UsersGrid from './components/UsersGrid'
@@ -26,6 +26,27 @@ class Home extends React.Component {
     this.state ={
       onlineBit: 0,
       gridType: 'nearby' // nearby, watchlist, filter
+    }
+  }
+
+  onRefreshUsers() {
+    console.log("Refresh Users");
+    const {user} = this.props.auth;
+    const {filteron, filters, online} = this.props.users;
+    if(filteron) {
+      let data = {
+        id: user.id,
+        limit : 40, 
+        offset : 0,
+        online: online
+      }
+      this.props.dispatch(getFilterUsers(data, filters))
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    if(this.props.users.refreshUsers == false && nextProps.users.refreshUsers == true) {
+      this.onRefreshUsers();
+      this.props.dispatch(refreshUsers(false));
     }
   }
 
@@ -157,13 +178,13 @@ class Home extends React.Component {
     this.props.navigation.navigate("UserFilter");
   }
 
-  getTopToolBar = (searchon, locationon, eyeon, filteron ) => {
+  getTopToolBar = (searchon, locationon, eyeon, filteron, online ) => {
     return <View style={styles.topToolbarContainer}>
       <View style={{width:40, height:40}}>
         <TouchableOpacity style={{flex: 1, alignItems:'center', justifyContent: 'center'}}
           onPress={this.onSearchPress}
         >
-          <Image style={styles.icon} source={searchon ? require('../../../assets/images/searchon.png') : require('../../../assets/images/searchoff.png')}/>
+          <Image style={styles.icon} source={(searchon || online) ? require('../../../assets/images/searchon.png') : require('../../../assets/images/searchoff.png')}/>
         </TouchableOpacity>
       </View>
       <View style={{width:40, flexDirection: 'row', alignItems:'center', justifyContent:'flex-end'}}>
@@ -189,11 +210,11 @@ class Home extends React.Component {
     this.props.dispatch(setFlag("searchon", !searchon));
   }
   render() {
-    const { searchon, locationon, eyeon, filteron } = this.props.users;
+    const { searchon, locationon, eyeon, filteron, online } = this.props.users;
     return (
       <View style={styles.background}>
           <View style={styles.container}>
-            {this.getTopToolBar(searchon, locationon, eyeon, filteron)}
+            {this.getTopToolBar(searchon, locationon, eyeon, filteron, online)}
             <View style={styles.content}>
 
               <HorizontalUserList onRefresh={()=> {this.loadUsers()}}/>

@@ -2,6 +2,13 @@ import { api } from '../config';
 import * as ACTION_TYPES from './ActionTypes';
 import { AsyncStorage } from 'react-native';
 
+export function refreshUsers(flag) {
+  return {
+    type: ACTION_TYPES.REFRESH_USERS,
+    refreshUsers: flag
+  }
+}
+
 export function updateFilter(filters) {
   return {
     type: ACTION_TYPES.UPDATE_FILTER,
@@ -19,6 +26,13 @@ export function enableFilter(enabled) {
   return {
     type: ACTION_TYPES.ENABLE_FILTER,
     filteron: enabled
+  }
+}
+
+export function enableOnline(enabled){
+  return{
+    type: ACTION_TYPES.ENABLE_ONLINE,
+    online: enabled
   }
 }
 

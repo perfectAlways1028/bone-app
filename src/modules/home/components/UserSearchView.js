@@ -16,7 +16,7 @@ import { colors } from '../../../styles';
 import { ImageView, CollapsibleView, Button } from '../../../components';
 import Autocomplete from 'react-native-autocomplete-input';
 import HorizontalUserList from './HorizontalUserList';
-import { search, emptySearch } from '../../../actions/UserActions';
+import { search, emptySearch, enableOnline } from '../../../actions/UserActions';
 
 const { width :deviceWidth, height: deviceHeight } = calculatePortraitDimension();
 
@@ -94,6 +94,7 @@ class UserSearchView extends React.Component {
                     textColor={'white'}
                     bgColor={colors.red}
                     onPress={() => {
+                        this.props.dispatch(enableOnline(true))
                     }}
                 />
             </View>
