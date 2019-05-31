@@ -60,7 +60,7 @@ class UserSearchView extends React.Component {
         const { searchUsers } = this.props.users;
         const { user } = this.props.auth;
         const { query } = this.state;
-        return <View style={{flexDirection:'column', alignItems:'center', backgroundColor: colors.red}}>
+        return <View style={{flexDirection:'column', alignItems:'center', backgroundColor: colors.red, zIndex: 100}}>
             <Text style={[styles.text, {padding: 16, }]}>{'SEARCH BY NAME'}</Text>
             <View style={{marginLeft:16, marginRight:16, marginBottom:16, backgroundColor:'white', height: 40, alignSelf:'stretch' }}>
                 <Autocomplete containerStyle={styles.autocompleteContainer}
@@ -68,13 +68,13 @@ class UserSearchView extends React.Component {
                     autoCapitalize="none"
                     autoCorrect={false}
                     defaultValue={query}
-                    hideResults= {true}
                     placeholder={'@username'}
                     onChangeText={text => {
                         if(user && user.id)
                             this.onSearch(text, user.id);
                         
                     }}
+                    listStyle={{maxHeight: deviceHeight/3*2}}
                     renderItem={({ item, i }) => (
                         this.getSearchItemView(item, i)
                     )}
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     },
     autocompleteContainer: {
         flex: 1,
- 
+        
     },
     userImage: {
         padding: 8,

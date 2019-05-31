@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import Permissions from 'react-native-permissions';
 import { getNearByUsers, getWatchList, getNewUsers, setFlag, changeLocation, refreshUsers, getFilterUsers, enableEye, enableOnline } from '../../actions/UserActions';
-import { loadUserProfile, loadMyGallery } from '../../actions/AuthActions';
+import { loadUserProfile, loadMyGallery, saveCurrentLocation } from '../../actions/AuthActions';
 import { getModifiables } from '../../actions/AppActions';
 import UsersGrid from './components/UsersGrid'
 import HorizontalUserList from './components/HorizontalUserList'
@@ -132,17 +132,22 @@ class Home extends React.Component {
   }
 
   updateLocation = () => {
-    const { auth, dispatch } = this.props;
+    const { auth, dispatch, users } = this.props;
     if(!auth.user)
     return;
     navigator.geolocation.getCurrentPosition(
       (position) => {
+        
         const body = {
           id: auth.user.id,
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
         };
-        dispatch(changeLocation(body));
+        dispatch(saveCurrentLocation(body))
+        if(!users.locationon) {
+          dispatch(changeLocation(body));
+        }
+
       },
       (error) => {
         // console.log(error);

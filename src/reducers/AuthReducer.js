@@ -8,7 +8,8 @@ const INITIAL_STATE = {
   token: null,
   gallery: [],
   settings: {},
-  currentAction: null
+  currentAction: null,
+  currentLocation: {}
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -76,6 +77,8 @@ export default (state = INITIAL_STATE, action) => {
     case ACTION_TYPES.UPDATE_SETTINGS:
       return { ...state, settings: action.settings, currentAction: action.type}
 
+    case ACTION_TYPES.SAVE_CURRENT_LOCATION:
+      return {...state, currentLocation: action.location}
     case ACTION_TYPES.LOGOUT:
       return INITIAL_STATE;
     default:

@@ -99,3 +99,6 @@ export const ENABLE_EYE = "ENABLE_EYE";
 export const UPDATE_FILTER = "UPDATE_FILTER";
 export const RESET_FILTER = "RESET_FILTER";
 export const ENABLE_ONLINE= "ENABLE_ONLINE";
+
+//location
+export const SAVE_CURRENT_LOCATION = "SAVE_CURRENT_LOCATION"

@@ -152,6 +152,13 @@ export function updateSettings(settings) {
   }
 }
 
+export function saveCurrentLocation(location) {
+  return {
+    type: ACTION_TYPES.SAVE_CURRENT_LOCATION,
+    location
+  }
+}
+
 export function logout(){
   return {
     type: ACTION_TYPES.LOGOUT,
