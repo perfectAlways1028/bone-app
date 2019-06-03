@@ -9,7 +9,7 @@ class BackgroundView extends Component {
         <ImageView
           style={styles.background}
           source={this.props.source}
-          defaultImage={require('../../assets/images/bone_profile_default.jpg')}
+          defaultImage={require('../../assets/images/splash.png')}
           resizeMode='cover'
         />
 

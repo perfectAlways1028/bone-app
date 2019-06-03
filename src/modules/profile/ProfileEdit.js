@@ -93,7 +93,7 @@ class ProfileEdit extends React.Component {
     }
     getTopNavigator = () => {
       return <TopNavigatorView
-        title={'Profile Edit'}
+        title={'Edit Profile'}
         onBackPressed = {() => {
           this.props.navigation.goBack();
         }}
@@ -124,7 +124,7 @@ class ProfileEdit extends React.Component {
                     updateImage={(image)=>{this.onUpdateImage(user.id,image)}}
                   />
                   <SectionTitleItem
-                    itemContainerStyle={{marignTop:32}}
+                    itemContainerStyle={{marginTop:32}}
                     title={'INFO'}
                   />
                   <ListItem
@@ -148,7 +148,7 @@ class ProfileEdit extends React.Component {
                   />
 
                   <SectionTitleItem
-                    itemContainerStyle={{marignTop:32}}
+                    itemContainerStyle={{marginTop:32}}
                     title={'STATS'}
                   />
                   <NumberPickerListItem
@@ -203,6 +203,10 @@ class ProfileEdit extends React.Component {
                       this.setState({bodyType: item})
                     }}
                   />
+                  <SectionTitleItem
+                    itemContainerStyle={{marginTop:32}}
+                    title={'PROFILE GALLERY'}
+                  />
 
                   {gallery && this.getPhotoSection(gallery)}
                   <View style={styles.spliter}/>
@@ -249,7 +253,7 @@ class ProfileEdit extends React.Component {
                   />
 
                   <SectionTitleItem
-                    itemContainerStyle={{marignTop:32}}
+                    itemContainerStyle={{marginTop:32}}
                     title={'SEXUAL HEALTH'}
                   />
                   <ItemPickerListItem

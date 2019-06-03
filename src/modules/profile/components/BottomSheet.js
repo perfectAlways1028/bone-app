@@ -18,6 +18,7 @@ import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper
 import StarRating from 'react-native-star-rating';
 import { colors } from '../../../styles';
 import PhotosPanel from './PhotosPanel';
+import { BlurView } from '@react-native-community/blur'
 const { height : deviceHeight } = calculatePortraitDimension();
 
 class BottomSheet extends React.Component {
@@ -28,8 +29,8 @@ class BottomSheet extends React.Component {
 
     static defaultProps = {
         draggableRange: {
-        top: deviceHeight  - getStatusBarHeight(),
-        bottom: 120
+        top: deviceHeight  - getStatusBarHeight() +60,
+        bottom: 160
         }
     }
 
@@ -82,7 +83,7 @@ class BottomSheet extends React.Component {
   
     }
 
-     _draggedValue = new Animated.Value(120)
+     _draggedValue = new Animated.Value(160)
     getOnlineStyle = (onlineStatus) => {
         switch(onlineStatus){
           case 0:
@@ -96,7 +97,7 @@ class BottomSheet extends React.Component {
             return styles.online;
         }
     }
-    getPanelHeaderView = ( onlineStatus, name, rating, isPublic, isBoning) => {
+    getPanelHeaderView = ( onlineStatus, name, age, rating, isPublic, isBoning) => {
         return <View style={styles.panelHeader}>
             <View style={styles.panelHeaderHandleContainer}>
                 <View style={styles.panelHeaderHandle}/>
@@ -104,11 +105,15 @@ class BottomSheet extends React.Component {
 
             <View style={{flex: 1, backgroundColor:'black', flexDirection: 'row', alignItems:'flex-start'}}>
                 <View style={{flex: 1, flexDirection:'column', alignItems:'flex-start', justifyContent:'space-between'}}>
-                    <View style={{flexDirection:'row', alignItems:'center', marginTop: 8}}>
-                        <View style={[styles.statusMark, this.getOnlineStyle(onlineStatus), {marginLeft:8}]}/>
-                        <Text style={[styles.text, {marginLeft: 16}]}>{name}</Text>
+                    <View style={{flexDirection:'row', alignItems:'center', marginTop: 16}}>
+                        <View style={[styles.statusMark, this.getOnlineStyle(onlineStatus), {marginLeft:16}]}/>
+                        <Text style={[styles.name, {marginLeft: 16}]}>{name + ', '+ age}</Text>
                     </View>
-                    <View style={{marginLeft: 32, marginBottom:16, marginTop:16}}>
+                    {/**
+                    <Text style={[styles.host, {marginLeft: 42, marginTop:4}]}>{'CAN HOST'}</Text>
+                     */}
+                    
+                    <View style={{marginLeft: 36, marginBottom:6}}>
                         <StarRating     
                             disabled={true}
                             maxStars={5}
@@ -116,15 +121,15 @@ class BottomSheet extends React.Component {
                             fullStar="ios-star"
                             halfStar="ios-star-half"
                             iconSet="Ionicons"
-                            fullStarColor="red"
-                            starPadding={4}
+                            fullStarColor={colors.red}
+                            starStyle={{padding:4}}
                             rating={rating}
-                            starSize={16}
+                            starSize={20}
                         />
                     </View>
                 </View>
 
-                <View style={{flexDirection:'row', width: 91, height:90, alignItems:'center'}}>
+                <View style={{flexDirection:'row', width: 100, height:100, alignItems:'center'}}>
                     <View style={{width: 1, height: 48, backgroundColor: colors.darkGray}}/>
                     <View style={{flex: 1, justifyContent:'center', alignItems:'center'}}>
                       {
@@ -182,18 +187,24 @@ class BottomSheet extends React.Component {
         <SlidingUpPanel
           showBackdrop={true}
           ref={c => (this._panel = c)}
-          snappingPoints={[120,deviceHeight- getStatusBarHeight()]}
+          snappingPoints={[160,deviceHeight- getStatusBarHeight()]}
           draggableRange={this.props.draggableRange}
           animatedValue={this._draggedValue}
           friction={0.1}
           allowMomentum={true}>
           <View style={styles.panel}>
+
             <View style={styles.panelHeader}>
-              {this.getPanelHeaderView(user.onlineStatus, user.username, user.rating, isPublic, isBoning)}
+              {this.getPanelHeaderView(user.onlineStatus, user.username, user.age, user.rating, isPublic, isBoning)}
             </View>
             <View style={styles.container}>
-              {this.getStatusSection(user.weight+'kg',
-                                     user.height+'cm', 
+              <BlurView
+                style={styles.absolute}
+                blurType="dark"
+                blurAmount={10}
+              />
+              {this.getStatusSection(user.weight+' kg',
+                                     user.height+' cm', 
                                      user.bodyType? user.bodyType.name : "", 
                                      user.role? user.role.abbreviatedName: "", 
                                      user.sexualStatus? user.sexualStatus.name: "")}
@@ -215,7 +226,14 @@ BottomSheet.proptypes = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black'
+    backgroundColor: 'transparent',
+  },
+  absolute: {
+    position: 'absolute',
+    left: 0,
+    top: 0, 
+    right: 0,
+    bottom: 0
   },
 
   text: {
@@ -223,23 +241,33 @@ const styles = StyleSheet.create({
     color: 'white'
   },
 
+  host: {
+    fontSize: 17,
+    color: colors.red,
+    fontWeight: 'bold'
+  },
+  name: {
+    fontSize: 22,
+    color: 'white',
+    fontWeight: 'bold'
+  },
+
   panel: {
-    flex: 1,
+    flex:1,
     backgroundColor: 'transparent',
     position: 'relative'
   },
   panelHeader: {
-    height: 120,
-    alignSelf:'stretch'
+    height: 160,
+    alignSelf:'stretch',
   },
   panelHeaderHandleContainer: {
-    shadowOffset:{  height: -2,  },
-    shadowColor: 'black',
-    shadowOpacity: 0.1,
+
     alignItems: 'center',
     justifyContent: 'center',
-    height: 16,
-    alignSelf:'stretch'
+    height: 30,
+    alignSelf:'stretch',
+    marginBottom: 30
   },
   panelHeaderHandle: {
     height: 8,
@@ -267,10 +295,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#f7931e'
   },
   statusMark: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: 10,
+    height: 10,
+    borderRadius: 6,
   },
+  blurViewContainer: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+},
   starStyle: {
 
   }

@@ -126,6 +126,7 @@ const stackNavigator = createStackNavigator(
       headerTitleStyle: {
         color: colors.white,
         fontFamily: fonts.primaryRegular,
+        fontSize: 24
       },
       headerTintColor: '#222222',
       headerLeft: props => (

@@ -27,7 +27,7 @@ SectionTitleItem.proptypes = {
 const styles = StyleSheet.create({
     itemContainerStyle: {
         height: 32,
-        backgroundColor: colors.black,
+        backgroundColor: 'black',
         marginRight: 16,
         marginLeft: 16,
         alignSelf: 'stretch',

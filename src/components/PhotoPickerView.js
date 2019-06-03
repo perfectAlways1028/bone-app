@@ -68,7 +68,9 @@ export default class PhotoPickerView extends Component {
                          shortUrl={this.props.imageUrl}
                          defaultImage={require('../../assets/images/defaultImage.png')}
                          />
-              <TouchableOpacity
+
+            </View>
+            <TouchableOpacity
                   style={styles.cameraBtn}
                   onPress={() => {
                     this.onPhotoPick();
@@ -78,7 +80,6 @@ export default class PhotoPickerView extends Component {
                         source={require('../../assets/images/camera.png')} 
                         resizeMode={'contain'} />
               </TouchableOpacity>
-            </View>
             
         </View>
 
@@ -91,7 +92,8 @@ const styles = StyleSheet.create({
     alignSelf:'stretch',
     height: 200,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: '#19181a'
   },
   imageContainer: {
     width: 200,
@@ -107,8 +109,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 40,
     height: 40,
-    right: 8,
-    bottom: 8,
+    right: 16,
+    bottom: 16,
     justifyContent:'center',
     alignItems:'center'
   }

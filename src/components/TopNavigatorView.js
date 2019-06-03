@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { colors } from '../styles'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 class TopNavigatorView extends Component {
@@ -61,9 +62,9 @@ const styles = StyleSheet.create({
   },
 
   title: {
-      fontSize: 17,
+      fontSize: 24,
       fontWeight:'bold',
-      color: 'white'
+      color: colors.white
   }
 });
 

@@ -55,7 +55,7 @@ ListItem.proptypes = {
 const styles = StyleSheet.create({
     itemContainerStyle: {
         height: 48,
-        backgroundColor: colors.black,
+        backgroundColor: 'black',
         marginLeft: 16,
         marginRight: 16,
         alignSelf: 'stretch',
@@ -66,11 +66,11 @@ const styles = StyleSheet.create({
         borderBottomColor: colors.darkGray
     },
     title: {
-        fontSize: 14,
+        fontSize: 17,
         color: 'white'
     },
     text: {
-        fontSize: 14,
+        fontSize: 17,
         color: colors.red
     }
 });

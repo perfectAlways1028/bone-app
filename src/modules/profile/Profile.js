@@ -27,13 +27,13 @@ class Profile extends React.Component {
 
   getSettingsButton = () => {
     const { settings , user} = this.props.auth;
-    return <View style={{ position:'absolute', top: 16, right: 16, alignItems: 'center', justifyContent:'center'}}>
+    return <View style={{ position:'absolute', top: 24, right: 24, alignItems: 'center', justifyContent:'center'}}>
       <TouchableOpacity
         onPress={()=>{
           this.props.navigation.navigate('Settings', {settings, user});
         }}
       >
-        <Image style={{width: 48, height: 48}} source={require('../../../assets/images/settings.png')}>
+        <Image style={{width: 40, height: 40 }} source={require('../../../assets/images/settings.png')}>
           
         </Image>
       </TouchableOpacity>

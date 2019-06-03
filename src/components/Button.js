@@ -36,7 +36,7 @@ export default function RNSButton(props) {
         borderColor: colors.secondary,
       },
       props.bgColor && {
-        borderColor: props.bgColor,
+        backgroundColor: props.bgColor,
       },
       props.rounded && styles.rounded,
     ];
@@ -50,9 +50,6 @@ export default function RNSButton(props) {
       },
       props.secondary && {
         color: colors.secondary,
-      },
-      props.bgColor && {
-        color: props.bgColor,
       },
       props.textColor && {
         color: props.textColor,
@@ -139,7 +136,7 @@ export default function RNSButton(props) {
   );
 }
 
-const HEIGHT = 40;
+const HEIGHT = 48;
 const HEIGHT_SMALL = 30;
 const HEIGHT_LARGE = 50;
 
@@ -166,12 +163,10 @@ const styles = StyleSheet.create({
   },
   border: {
     borderWidth: 1,
-    borderColor: 'white',
-    borderRadius: 5,
+    borderColor: '#f7f7f7',
   },
   primaryButton: {
     backgroundColor: 'transparent',
-    borderRadius: 5,
   },
   rounded: {
     borderRadius: HEIGHT_LARGE / 2,
@@ -182,11 +177,11 @@ const styles = StyleSheet.create({
   },
   caption: {
     letterSpacing: 1,
-    fontSize: 15,
+    fontSize: 17,
     fontFamily: fonts.primaryBold,
   },
   captionSmall: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '500',
   },
   captionWithIcon: {
@@ -196,7 +191,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   secondaryCaption: {
-    color: 'white',
+    color: '#f7f7f7',
     backgroundColor: 'transparent',
   },
   action: {

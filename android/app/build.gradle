@@ -103,7 +103,9 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        vectorDrawables.useSupportLibrary true
+        vectorDrawables.useSupportLibrary true,
+        renderscriptTargetApi 23
+        renderscriptSupportModeEnabled true
     }
     splits {
         abi {
@@ -147,6 +149,7 @@ android {
 }
 
 dependencies {
+    implementation project(':@react-native-community_blur')
     implementation project(':react-native-picker')
     implementation project(':react-native-image-crop-picker')
     implementation project(':react-native-image-picker')

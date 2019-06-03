@@ -37,8 +37,6 @@ class Settings extends React.Component {
       super(props);
       let settings = props.navigation.getParam('settings');
       let user = props.navigation.getParam('user');
-      console.log("settings", settings);
-      console.log("user", user);
       this.state = {
         ...user,
         ...settings  
@@ -103,11 +101,11 @@ class Settings extends React.Component {
                       borderBottomWidth: 0.5, 
                       justifyContent:'center',alignItems:'center' }}>
               <ImageView 
-                style={{width: 150, height: 150, borderRadius: 75}}
+                style={{width: 120, height: 120, borderRadius: 60, borderWidth:3, borderColor: colors.white}}
                 shortUrl={imageUrl}
                 defaultImage={require('../../../assets/images/defaultImage.png')}
               />
-              <Text style={{color:'white', fontSize: 17, fontWeight: 'bold', marginTop:16}}> {name} </Text>
+              <Text style={{color:colors.white, fontSize: 22, fontWeight: 'bold', marginTop:16}}> {name} </Text>
         </View>
     }
 
@@ -164,7 +162,7 @@ class Settings extends React.Component {
                 <View style={styles.contentContainer}>
                   {this.getProfileHeader(user.smallImageUrl, user.username)}
                   <SectionTitleItem
-                    itemContainerStyle={{marignTop:32}}
+                    itemContainerStyle={{marginTop:32}}
                     title={'PRIVACY'}
                   />
                   <ListItemSwitch
@@ -203,7 +201,7 @@ class Settings extends React.Component {
                     }}
                   />
                   <SectionTitleItem
-                    itemContainerStyle={{marignTop:32}}
+                    itemContainerStyle={{marginTop:32}}
                     title={'CHAT'}
                   />
                   <ListItemSwitch
@@ -248,7 +246,7 @@ class Settings extends React.Component {
                   />
 
                   <SectionTitleItem
-                    itemContainerStyle={{marignTop:32}}
+                    itemContainerStyle={{marginTop:32}}
                     title={'ACCOUNT'}
                   />
                   
@@ -270,7 +268,7 @@ class Settings extends React.Component {
                   />
 
                   <SectionTitleItem
-                    itemContainerStyle={{marignTop:32}}
+                    itemContainerStyle={{marginTop:32}}
                     title={'ABOUT'}
                   />
                   <ListItem
@@ -304,7 +302,7 @@ class Settings extends React.Component {
                     }}
                   />
                   <SectionTitleItem
-                    itemContainerStyle={{marignTop:32}}
+                    itemContainerStyle={{marginTop:32}}
                     title={'BLOCKING'}
                   />
                   <ListItem
@@ -323,7 +321,7 @@ class Settings extends React.Component {
                   />
 
                   <SectionTitleItem
-                    itemContainerStyle={{marignTop:32}}
+                    itemContainerStyle={{marginTop:32}}
                     title={'COMMENT'}
                   />
                   <ListItemSwitch
@@ -335,7 +333,7 @@ class Settings extends React.Component {
                   />
 
                   <SectionTitleItem
-                    itemContainerStyle={{marignTop:32}}
+                    itemContainerStyle={{marginTop:32}}
                     title={'RESET'}
                   />
                   <ListItem

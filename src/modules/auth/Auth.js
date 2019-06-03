@@ -22,19 +22,22 @@ export default class Auth extends React.Component {
         
         <View style={styles.container}>
             <Button
-                secondary
+                primary
                 bordered
                 style={{ alignSelf: 'stretch', marginBottom: 16 }}
+                caption={'Login'}
+                bgColor={colors.black}
+                onPress={() => {this.props.navigation.navigate('Login')}}
+            />
+            <Button
+                secondary
+                bordered
+                bgColor={colors.black}
+                style={{ alignSelf: 'stretch', marginBottom: 32 }}
                 caption={'Sign up'}
                 onPress={() => {{this.props.navigation.navigate('Register')}}}
             />
-            <Button
-                primary
-                bordered
-                style={{ alignSelf: 'stretch', marginBottom: 32 }}
-                caption={'Login'}
-                onPress={() => {this.props.navigation.navigate('Login')}}
-            />
+
         </View>
       </View>
     );

@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   default: {
     height: HEIGHT,
     color: colors.white,
-    fontSize: 14,
+    fontSize: 17,
     fontFamily: fonts.primaryRegular,
     ...Platform.select({
       android: {

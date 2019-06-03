@@ -894,6 +894,13 @@
     universal-user-agent "^2.0.0"
     url-template "^2.0.8"
 
+"@react-native-community/blur@^3.3.1":
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@react-native-community/blur/-/blur-3.3.1.tgz#bc9ecd6d85d89739d8180138716535ac7cfa4680"
+  integrity sha512-UfH2ut/l4GpZHeq/TGx3BrmyXSCSBBwBCVx1DhPodP3k959zJ2ajgXa3PiU/qjutftTUw6KH9Frsh2U0ax9dMQ==
+  dependencies:
+    prop-types "^15.5.10"
+
 "@react-navigation/core@~3.4.1":
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-3.4.1.tgz#8c7e0e53cfb8ccaf87afb76a2733f5e5fde20cd8"
@@ -8024,10 +8031,9 @@ rn-fetch-blob@^0.10.15:
     base-64 "0.1.0"
     glob "7.0.6"
 
-rn-sliding-up-panel@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/rn-sliding-up-panel/-/rn-sliding-up-panel-2.2.0.tgz#e724041c39297d174f46248762c0ad58bd0738d5"
-  integrity sha512-X+40KmlS3WQx0MCYn8tHupPmoUeOCkrjbBJNsli4ax4co+5Lm784ADErVwqnKW1ehbIFU9mB9mI6TakNpn9Hzg==
+rn-sliding-up-panel@ding1028/rn-sliding-up-panel:
+  version "2.2.3"
+  resolved "https://codeload.github.com/ding1028/rn-sliding-up-panel/tar.gz/bc2183bf8344b6411537a1408f4978e700341f1f"
   dependencies:
     clamp "^1.0.1"
     prop-types "^15.7.2"

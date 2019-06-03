@@ -76,17 +76,21 @@ class Register extends React.Component {
   }
 
   getHeaderView() {
-      return <View style={{flexDirection:'column'}}>
-        <ImageBackground style={{height: deviceWidth*4/6, width: deviceWidth}} resizeMode='contain' source={require('../../../assets/images/bonestock.jpg')} >
-          {this.getBackButton()}
-        </ImageBackground>
-        <View style={{ justifyContent: 'center', alignItems: 'center', height: 72, alignSelf:'stretch'}}>
-            <View style={{flexDirection:'row'}}>
-              <Text style={{fontSize: 28, color:'white' }}>{"Let's"}</Text>
-              <Text style={{fontSize: 28, fontWeight:'bold', color:'white'}}> {"BONE"}</Text>
-            </View>
-        </View>
+    return <View style={{flexDirection:'column'}}>
+      <ImageBackground 
+        style={{height: deviceWidth*4/6, width: deviceWidth}} 
+        resizeMode='contain' source={require('../../../assets/images/bonestock.jpg')} 
+        >
+        <View style={{'position':'absolute', left:0, top:0, right:0, bottom: 0, backgroundColor:'rgba(75,75,75, 0.6)' }}/>
+        {this.getBackButton()}
+      </ImageBackground>
+      <View style={{ justifyContent: 'center', alignItems: 'center', height: 120, alignSelf:'stretch'}}>
+          <View style={{flexDirection:'row'}}>
+            <Text style={{fontSize: 32, color:'rgba(255,255,255,0.6)', marginTop:3 }}>{"Let's"}</Text>
+            <Text style={{fontSize: 36, fontWeight:'bold', color:'white'}}> {"BONE"}</Text>
+          </View>
       </View>
+    </View>
   }
 
   getMiddleView() {
@@ -132,7 +136,7 @@ class Register extends React.Component {
               textContentType='password'
               autoCapitalize="none"
               autoCorrect={false}
-              containerStyle={{marginTop: 8}}
+              containerStyle={{marginTop: 16}}
               returnKeyType='next'
             />
 
@@ -140,7 +144,7 @@ class Register extends React.Component {
   }
 
   getBottomView = () =>  {
-    return <View style={{alignItems:'center', margin:16, height: 64, alignSelf:'stretch'}}>
+    return <View style={{alignItems:'center', margin:16, marginBottom: 64, height: 64, alignSelf:'stretch'}}>
         <Button
             primary
             bordered
@@ -164,7 +168,7 @@ class Register extends React.Component {
           onPress={()=>{
             this.gotoPrivacyPolicyPage()
           }}>
-         <Text style={{color: 'red'}}>{"You agreed to bone's terms of use"}</Text>
+         <Text style={{color: colors.red}}>{"You agreed to bone's terms of use"}</Text>
         </TouchableOpacity>
         </View>
       </View>

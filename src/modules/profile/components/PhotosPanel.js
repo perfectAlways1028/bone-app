@@ -127,6 +127,7 @@ class PhotosPanel extends React.Component {
                 horizontal = {true}
                 key={'horizontal'}
                 extraData={this.state} 
+                style={{backgroundColor:'black'}}
             />
             :
             <FlatList
@@ -137,6 +138,7 @@ class PhotosPanel extends React.Component {
               numColumns={3}
               key={'grid'}
               extraData={this.state} 
+              style={{backgroundColor:'black'}}
             />
         );
       }

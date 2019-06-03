@@ -58,13 +58,17 @@ class Login extends React.Component {
 
   getHeaderView() {
       return <View style={{flexDirection:'column'}}>
-        <ImageBackground style={{height: deviceWidth*4/6, width: deviceWidth}} resizeMode='contain' source={require('../../../assets/images/bonestock.jpg')} >
+        <ImageBackground 
+          style={{height: deviceWidth*4/6, width: deviceWidth}} 
+          resizeMode='contain' source={require('../../../assets/images/bonestock.jpg')} 
+          >
+          <View style={{'position':'absolute', left:0, top:0, right:0, bottom: 0, backgroundColor:'rgba(75,75,75, 0.6)' }}/>
           {this.getBackButton()}
         </ImageBackground>
-        <View style={{ justifyContent: 'center', alignItems: 'center', height: 72, alignSelf:'stretch'}}>
+        <View style={{ justifyContent: 'center', alignItems: 'center', height: 120, alignSelf:'stretch'}}>
             <View style={{flexDirection:'row'}}>
-              <Text style={{fontSize: 28, color:'white' }}>{"Let's"}</Text>
-              <Text style={{fontSize: 28, fontWeight:'bold', color:'white'}}> {"BONE"}</Text>
+              <Text style={{fontSize: 32, color:'rgba(255,255,255,0.6)', marginTop:3 }}>{"Let's"}</Text>
+              <Text style={{fontSize: 36, fontWeight:'bold', color:'white'}}> {"BONE"}</Text>
             </View>
         </View>
       </View>
@@ -114,18 +118,21 @@ class Login extends React.Component {
               textContentType='password'
               autoCapitalize="none"
               autoCorrect={false}
-              containerStyle={{marginTop: 8}}
+              containerStyle={{marginTop: 16}}
               returnKeyType='next'
             />
+            <TouchableOpacity style={{alignSelf:'stretch', alignItems:'center', flexDirection:'row', justifyContent:'flex-end'}}>
+              <Text style={styles.forgot}>Forgot Password?</Text>
+            </TouchableOpacity>
       </View>
   }
 
   getBottomView = () =>  {
-    return <View style={{height: 64, alignItems: 'center', alignSelf: 'stretch', paddingHorizontal: 30}}>
+    return <View style={{height: 64, marginBottom:48, alignItems: 'center', alignSelf: 'stretch', paddingHorizontal: 30}}>
         <Button
             primary
-            style={{ alignSelf: 'stretch', marginBottom: 32, marignLeft :0, marginRight:0 }}
-            caption={'Login'}
+            style={{ alignSelf: 'stretch', marignLeft :0, marginRight:0 }}
+            caption={'LOGIN'}
             onPress={() => {
               this.loginAction();
             }}
@@ -184,10 +191,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'black'
   },
-  
   text: {
     fontSize: 14,
     color: 'white'
+  },
+  forgot: {
+    fontSize : 14,
+    color: colors.red,
+    marginTop: 8,
+    fontWeight: "400"
   }
 });
 
