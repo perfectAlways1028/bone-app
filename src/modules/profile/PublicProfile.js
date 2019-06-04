@@ -17,7 +17,7 @@ import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper
 import BottomSheet from './components/BottomSheet';
 import { ImageView, TopNavigatorView } from '../../components';
 import { loadUserProfile, blockUser,unblockUser,boneUser,unboneUser, watchUser,unwatchUser } from '../../actions/PublicUserActions'; 
-
+import BlockUserModal from './components/BlockUserModal';
 const { height : deviceHeight } = calculatePortraitDimension();
 
 class PublicProfile extends React.Component {
@@ -27,10 +27,11 @@ class PublicProfile extends React.Component {
     this.state={
         userId: this.props.navigation.getParam('userId'),
         user: {},
-        gallery: []
+        gallery: [],
+        isBlockUserVisible: false,
+
     }
 
-    
   }
   componentDidMount() {
     this.props.dispatch(loadUserProfile(this.props.auth.user.id, this.state.userId))
@@ -42,11 +43,9 @@ class PublicProfile extends React.Component {
         this.props.dispatch(watchUser(this.props.auth.user.id, this.state.userId))
   }
   onBlockPress = (isBlocking) => {
-    if(isBlocking) {
-        this.props.dispatch(blockUser(this.props.auth.user.id, this.state.userId)) 
-    }
-    else {
+    if(!isBlocking) {
         //show block dialog
+        this.setState({isBlockUserVisible: true})
     }
   }
   onBonePress = (isBoning) => {
@@ -139,6 +138,18 @@ class PublicProfile extends React.Component {
         onBonePress={(isBoning) => {
             this.onBonePress(isBoning)
         }}
+        />
+        <BlockUserModal
+          onBlock={()=>{
+            this.setState({isBlockUserVisible: false})
+            this.props.navigation.goBack();
+            this.props.dispatch(blockUser(this.props.auth.user.id, this.state.userId)) 
+          }}
+          onCancel={()=>{
+            this.setState({isBlockUserVisible: false})
+          }}
+          isVisible={this.state.isBlockUserVisible}
+          user={user}
         />
 
   

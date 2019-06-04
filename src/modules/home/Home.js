@@ -15,6 +15,7 @@ import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper
 import Permissions from 'react-native-permissions';
 import { getNearByUsers, getWatchList, getNewUsers, getTopUsers, setFlag, changeLocation, refreshUsers, getFilterUsers, enableEye, enableOnline } from '../../actions/UserActions';
 import { loadUserProfile, loadMyGallery, saveCurrentLocation } from '../../actions/AuthActions';
+import * as ACTION_TYPES from '../../actions/ActionTypes';
 import { getModifiables } from '../../actions/AppActions';
 import UsersGrid from './components/UsersGrid'
 import HorizontalUserList from './components/HorizontalUserList'
@@ -60,6 +61,12 @@ class Home extends React.Component {
       this.onRefreshUsers(nextProps.users);
       this.props.dispatch(refreshUsers(false));
     }
+    if(this.props.publicUser.success == false && 
+        nextProps.publicUser.success == true && 
+        nextProps.publicUser.currentAction == ACTION_TYPES.BLOCK_USER_SUCCESS) {
+        this.props.dispatch(refreshUsers(true));
+    }
+
   }
 
   componentDidMount() {
@@ -308,6 +315,6 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = (state) => ({ app: state.app, auth: state.auth, users: state.users });
+const mapStateToProps = (state) => ({ app: state.app, auth: state.auth, users: state.users, publicUser: state.publicUser });
 
 export default connect(mapStateToProps)(Home);
