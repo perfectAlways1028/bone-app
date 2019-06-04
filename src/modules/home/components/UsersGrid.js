@@ -77,7 +77,7 @@ class UsersGrid extends React.Component {
           <View style={{width: 24, height: 24, backgroundColor:'white', borderRadius:12, 
             position:'absolute', right:8, bottom: 8, alignItems:'center', justifyContent: 'center'}}>
             <Text style={{color: colors.red, fontWeight: 'bold'}}>
-            {'item.role.abbreviatedName'}
+            {item.role.abbreviatedName}
             </Text>
           </View>
         }

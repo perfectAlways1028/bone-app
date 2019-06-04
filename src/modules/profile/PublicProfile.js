@@ -112,9 +112,10 @@ class PublicProfile extends React.Component {
       rightComponent={this.getRightComponent(isBlocking, isWatching)}
     />
   }
-  getContent = (user, gallery) =>{
-      let isBlocking = user.userToUser ? user.userToUser.isBlocking : false;
-      let isWatching = user.userToUser ? user.userToUser.isWatching : false;
+  getContent = (user, userToUser, gallery) =>{
+     console.log(user);
+      let isBlocking = userToUser ? userToUser.isBlocking : false;
+      let isWatching = userToUser ? userToUser.isWatching : false;
 
     return <View style={styles.container}>
 
@@ -157,12 +158,12 @@ class PublicProfile extends React.Component {
   }
 
   render() {
-    const { user } = this.props.publicUser;
+    const { user, userToUser } = this.props.publicUser;
     return (
       <View style={styles.background}>
         {
             user &&
-            this.getContent(user, user.userPhotos)        
+            this.getContent(user, userToUser, user.userPhotos)        
         }   
 
       </View>

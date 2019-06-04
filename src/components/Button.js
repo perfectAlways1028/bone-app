@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 30,
+    paddingHorizontal: 4,
   },
   buttonSmall: {
     paddingHorizontal: 20,

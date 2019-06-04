@@ -128,12 +128,12 @@ class UserFilter extends React.Component {
                     title={'HEIGHT'}
                     fromValue={filters.minHeight}
                     toValue={filters.maxHeight}
-                    min={18}
-                    max={120}
+                    min={100}
+                    max={250}
                     onChangeState={(min, max)=>{
                         let filter = {
-                            minAge : min,
-                            maxAge: max
+                            minHeight : min,
+                            maxHeight: max
                         }
                         this.props.dispatch(updateFilter(filter));
                     }}

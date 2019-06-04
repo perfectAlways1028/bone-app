@@ -100,7 +100,8 @@ class BottomSheet extends React.Component {
  
     getPhotoSection = ( items, isPublic ) => {
       
-      if(!isPublic && items.length == 0 ||  (items.length >0 && !(items[0].isAddButton))) {
+      if(!isPublic && ( items.length == 0 ||  (items.length >0 && !(items[0].isAddButton)))) {
+        
         items.unshift({isAddButton:true})
       }
 
