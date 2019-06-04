@@ -12,16 +12,13 @@ import {
 
 import { connect } from 'react-redux';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
-import { colors } from '../../../styles';
-import { ImageView } from '../../../components';
-
-class HorizontalUserList extends React.Component {
+import { colors } from '../../styles';
+import {loadBlockUsers} from '../../actions/AuthActions';
+class BlockingList extends React.Component {
 
   constructor(props) {
     super(props);
     this.state ={
-      type: props.type? props.type : 'home',
-      showType: props.showType? props.showType :'horizontal'
     }
   }
 
@@ -30,13 +27,12 @@ class HorizontalUserList extends React.Component {
   }
   componentWillMount() {
     //TODO if recods count saved on server pull it and show in the list
-
+    this.props.dispatch(loadBlockUsers(this.props.auth.user.id));
   }
 
 
-  onUserPressed = (item) => {
-    console.log("user pressed", item);
-    this.props.navigation.navigate("PublicProfile", {userId: item.id});
+  onUnBlock = (item) => {
+    console.log("unblock user pressed", item);
   }
 
 
@@ -47,35 +43,9 @@ class HorizontalUserList extends React.Component {
   }
 
   getUserItem = (item) => {
-      const {smallImageUrl} = item;
-      if(this.state.type == 'search') {
-        return <TouchableOpacity
-          onPress={()=>{
-            this.onUserPressed(item);
-          }}
-        >
-        <View style={{ justifyContent: 'center', alignItems:'center'}}>
-          <ImageView 
-            style={{margin:8, width:40, height: 40, borderRadius:20}} 
-            defaultImage={require('../../../../assets/images/boneprofile.png')} 
-            shortUrl={smallImageUrl}/>
-        </View>
-        </TouchableOpacity>
-      } else {
-        return <TouchableOpacity
-          onPress={()=>{
-            this.onUserPressed(item);
-          }}
-        >
-        <View style={{margin:4, marginTop: 8, marginBottom: 8, width:80, height: 80, borderRadius:40, justifyContent: 'center', alignItems:'center'}}>
-          <ImageView 
-            style={styles.profileImage} 
-            defaultImage={require('../../../../assets/images/boneprofile.png')} 
-            shortUrl={smallImageUrl}/>
-        </View>
-        </TouchableOpacity>
-      }
+    return <View style={styles.itemContainer}>
 
+    </View>
        
   }
 
@@ -83,31 +53,15 @@ class HorizontalUserList extends React.Component {
     return this.getUserItem(item);
   }
 
-
-  renderHorizonalUsers = () => {
-    
-    const { users } = this.props;
-    
-     
+  renderUsers = () => {
+    const { auth } = this.props;
     return (
-      this.state.showType == 'horizontal' ? <FlatList
-        data={users.topUsers} renderItem={this.renderItem}
-        ListFooterComponent={this.renderFooterComponent()}
-        refreshing={false}
-        keyExtractor={(item, index) => index.toString()}
-        onRefresh={this.onRefresh}
-        horizontal = {true}
-        key={'horizontal'}
-        />
-      :
       <FlatList
-        data={users.newUsers} renderItem={this.renderItem}
+        data={auth.blocklist} renderItem={this.renderItem}
         ListFooterComponent={this.renderFooterComponent()}
         refreshing={false}
         keyExtractor={(item, index) => index.toString()}
-        onRefresh={this.onRefresh}
-        numColumns={6}
-        key={'grid'}
+        onRefresh={this.onRefresh} 
       />
     );
   }
@@ -138,7 +92,7 @@ class HorizontalUserList extends React.Component {
                         this.state.showType == 'grid' ? styles.gridContainer 
                                                       : styles.searchContainer 
                         : styles.container}>
-          {this.renderHorizonalUsers()}
+          {this.renderUsers()}
         </View>
         
     );
@@ -147,28 +101,22 @@ class HorizontalUserList extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  searchContainer: {
-    height: 60
-  },
-  gridContainer: {
-    height: 180
-  },
   container: {
-    height: 108,
-    borderBottomWidth : 0.5,
-    borderBottomColor: 'grey'
+   flex: 1,
+   backgroundColor:'black'
   },
   footer: {
     justifyContent: 'center',
     alignItems: 'center'
   },
-  row:
+  itemContainer:
   {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    alignSelf:'stretch',
+    height: 108,
     marginStart: 16,
     marginEnd: 16,
+    borderBottomWidth: 0.5,
+    borderBottomColor: 'white'
   },
   separator: {
     
@@ -211,6 +159,6 @@ const styles = StyleSheet.create({
 
 
 
-const mapStateToProps = (state) => ({ app: state.app, auth: state.auth, users: state.users });
+const mapStateToProps = (state) => ({ app: state.app, auth: state.auth });
 
-export default connect(mapStateToProps)(HorizontalUserList);
+export default connect(mapStateToProps)(BlockingList);

@@ -309,6 +309,7 @@ class Settings extends React.Component {
                     title={'Block List'}
                     rightIconImage={require('../../../assets/images/forward.png')}
                     onItemPress={()=>{
+                      this.props.navigation.navigate("BlockingList");
                     }}
                   />
 

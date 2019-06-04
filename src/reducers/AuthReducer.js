@@ -9,7 +9,8 @@ const INITIAL_STATE = {
   gallery: [],
   settings: {},
   currentAction: null,
-  currentLocation: {}
+  currentLocation: {},
+  blocklist: []
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -32,6 +33,14 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, isLoading: false, success: true, error: null, user: action.data.data.user, currentAction: action.type };
     case ACTION_TYPES.LOAD_PROFILE_FAILURE:
         return { ...state, isLoading: false, error: 'An error occured', success: false, currentAction: action.type };
+
+    case ACTION_TYPES.LOAD_MY_BLOCK:
+      return { ...state, isLoading: true, success: false, error: null, currentAction: action.type };
+    case ACTION_TYPES.LOAD_MY_BLOCK_SUCCESS:
+      return { ...state, isLoading: false, success: true, error: null, blocklist: action.data.data.blocklist, currentAction: action.type };
+    case ACTION_TYPES.LOAD_MY_BLOCK_FAILURE:
+        return { ...state, isLoading: false, error: 'An error occured', success: false, currentAction: action.type };
+      
 
     case ACTION_TYPES.GET_MY_GALLERY:
       return { ...state, isLoading: true, success: false, error: null, currentAction: action.type };

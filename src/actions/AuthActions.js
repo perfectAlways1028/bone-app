@@ -104,6 +104,15 @@ export function loadMyGallery(userId) {
   }
 }
 
+export function loadBlockUsers(userId) { 
+  return {
+    type: ACTION_TYPES.LOAD_MY_BLOCK,
+    request: {
+      url: `${api.baseURL}/api/interaction/${userId}/blocked`,
+    }
+  }
+}
+
 export function updateProfile(userId, body) {
   return {
     type: ACTION_TYPES.UPDATE_PROFILE,
@@ -219,3 +228,4 @@ export function uploadProfileImage(userId, media) {
   
   }
 }
+

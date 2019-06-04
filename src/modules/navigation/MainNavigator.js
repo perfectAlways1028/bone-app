@@ -19,6 +19,7 @@ import ChangeEmail from '../profile/ChangeEmail';
 import ChangePassword from '../profile/ChangePassword';
 import UserFilter from '../home/UserFilter';
 import PublicProfile from '../profile/PublicProfile';
+import BlockingList from '../profile/BlockingList';
 
 const stackNavigator = createStackNavigator(
   {    
@@ -26,6 +27,12 @@ const stackNavigator = createStackNavigator(
       screen: MainTabNavigator,
       navigationOptions: {
         header: null,
+      },
+    },
+    BlockingList: {
+      screen: BlockingList,
+      navigationOptions: {
+        title: 'Blocking List',
       },
     },
     UserFilter: {
