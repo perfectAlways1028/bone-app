@@ -38,9 +38,9 @@ class NumberPickerListItem extends Component {
               this.props.onPickNumber(data);
             }
         },
-        pickerConfirmBtnText: 'Confirm',
-        pickerCancelBtnText: 'Cancel',
-        pickerTitleText: 'Please Select'
+        pickerConfirmBtnText: 'Done',
+        pickerCancelBtnText: '',
+        pickerTitleText: ''
     });
     Picker.show();
   }

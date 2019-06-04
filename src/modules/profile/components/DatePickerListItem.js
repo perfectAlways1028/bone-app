@@ -79,9 +79,9 @@ class DatePickerListItem extends Component {
               this.props.onPickDate(dateString);
             }
         },
-        pickerConfirmBtnText: 'Confirm',
-        pickerCancelBtnText: 'Cancel',
-        pickerTitleText: 'Please Select'
+        pickerConfirmBtnText: 'Done',
+        pickerCancelBtnText: '',
+        pickerTitleText: ''
     });
     Picker.show();
   }

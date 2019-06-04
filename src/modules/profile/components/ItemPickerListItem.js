@@ -49,9 +49,9 @@ class ItemPickerListItem extends Component {
               this.props.onPickItem(item);
             }
         },
-        pickerConfirmBtnText: 'Confirm',
-        pickerCancelBtnText: 'Cancel',
-        pickerTitleText: 'Please Select'
+        pickerConfirmBtnText: 'Done',
+        pickerCancelBtnText: '',
+        pickerTitleText: ''
     });
     Picker.show();
   }

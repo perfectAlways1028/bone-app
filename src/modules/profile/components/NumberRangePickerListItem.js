@@ -43,9 +43,9 @@ class NumberRangePickerListItem extends Component {
               this.props.onPickRange(data[0], data[1]);
             }
         },
-        pickerConfirmBtnText: 'Confirm',
-        pickerCancelBtnText: 'Cancel',
-        pickerTitleText: 'Please Select'
+        pickerConfirmBtnText: 'Done',
+        pickerCancelBtnText: '',
+        pickerTitleText: ''
     });
     Picker.show();
   }

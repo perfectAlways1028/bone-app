@@ -72,6 +72,16 @@ class UsersGrid extends React.Component {
           resizeMode='cover' />
         {this.getOnlineStatus(item.onlineStatus)}
         {this.getDistanceView(item.distance)}
+        {
+          item.role && item.role.abbreviatedName != "" &&
+          <View style={{width: 24, height: 24, backgroundColor:'white', borderRadius:12, 
+            position:'absolute', right:8, bottom: 8, alignItems:'center', justifyContent: 'center'}}>
+            <Text style={{color: colors.red, fontWeight: 'bold'}}>
+            {'item.role.abbreviatedName'}
+            </Text>
+          </View>
+        }
+
       </View>
       </TouchableOpacity>
        
@@ -144,7 +154,6 @@ const styles = StyleSheet.create({
     marginEnd: 16,
   },
   separator: {
-    
     height: 0.5,
     marginLeft: 64,
     backgroundColor: colors.lightGray2
@@ -185,8 +194,7 @@ const styles = StyleSheet.create({
     width: deviceWidth /3 ,
     flexDirection: 'column',  
     borderWidth: 0.5, 
-    borderColor:'#2b2b2b',
-    
+    borderColor:'white',
   },
   statusMark: {
     position: 'absolute',

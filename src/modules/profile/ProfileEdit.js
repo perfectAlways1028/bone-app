@@ -21,9 +21,10 @@ import ListItemSwitch from './components/ListItemSwitch';
 import NumberPickerListItem from './components/NumberPickerListItem';
 import ItemPickerListItem from './components/ItemPickerListItem';
 import DatePickerListItem from './components/DatePickerListItem';
+import * as ACTION_TYPES from '../../actions/ActionTypes';
 
 import PhotosPanel from './components/PhotosPanel';
-import { uploadProfileImage, updateProfile } from '../../actions/AuthActions'
+import { uploadProfileImage, updateProfile, loadUserProfile } from '../../actions/AuthActions'
 import { colors } from '../../styles';
 
 
@@ -42,24 +43,33 @@ class ProfileEdit extends React.Component {
       if(this.props.auth.error != nextProps.auth.error && nextProps.auth.error) {
         showAlert("Whoops", nextProps.auth.error);
       } 
+      if(this.props.auth.success == false 
+          && nextProps.auth.success == true 
+          && nextProps.auth.currentAction == ACTION_TYPES.UPDATE_PASSWORD ) {
+        this.props.dispatch(loadUserProfile())
+      }
     } 
 
     onSave = () => {
       const { user, gallery } = this.props.auth;
       const { username, age, about, height, weight, role, bodyType,
-        sexualStatus, place, hivStatus, lastTestDate } = this.state;
+        sexualStatus, place, hivStatus, lastTestDate, tribes, lookingFors } = this.state;
+      let tribeIds = tribes ? tribes.map(item=> item.id): [];
+      let lookingForIds = lookingFors ? lookingFors.map(item=>item.id): [];
       let body = {
         username,
         age, 
         about, 
         height,
         weight,
-        role,
+        roleId: role.id,
         bodyTypeId: bodyType.id,
         sexualStatusId: sexualStatus.id,
         place,
         hivStatusId: hivStatus.id,
-        lastTestDate
+        lastTestDate,
+        tribeIds,
+        lookingForIds
       }
       this.props.dispatch(updateProfile(user.id, body)) 
     }
@@ -80,6 +90,7 @@ class ProfileEdit extends React.Component {
         navigation={this.props.navigation}
       />
     }
+    
     getSaveButton = () => {
       return <TouchableOpacity 
       onPress={()=>{
@@ -110,7 +121,7 @@ class ProfileEdit extends React.Component {
         const { user, gallery } = this.props.auth;
 
         const { username, age, about, height, weight, role, bodyType,
-          sexualStatus, place, hivStatus, lastTestDate } = this.state;
+          sexualStatus, place, hivStatus, lastTestDate, tribes, lookingFors } = this.state;
         const { modifiables } = this.props.app;
         return (
             <View style={styles.background}>
@@ -237,18 +248,26 @@ class ProfileEdit extends React.Component {
                     title={'Tribes'}
                     rightIconImage={require('../../../assets/images/forward.png')}
                     onItemPress={()=>{
-                      this.props.navigation.navigate("MultipleItemPickerView", { title: 'Tribes', items: modifiables.tribes, inputType:'textinput', returnData: (value) => {
-                        this.setState({tribe: value});
-                      }})
+                      this.props.navigation.navigate("MultipleItemPickerView", 
+                        { title: 'Tribes', 
+                          items: modifiables.tribes, 
+                          selectedItems: tribes, inputType:'textinput', 
+                          returnData: (value) => {
+                            this.setState({tribes: value});
+                          }})
                     }}
                   />
                   <ListItem
                     title={'Looking For'}
                     rightIconImage={require('../../../assets/images/forward.png')}
                     onItemPress={()=>{
-                      this.props.navigation.navigate("MultipleItemPickerView", { title: 'Looking For', items: modifiables.lookingFors, inputType:'textinput', returnData: (value) => {
-                        this.setState({lookingFor: value});
-                      }})
+                      this.props.navigation.navigate("MultipleItemPickerView", 
+                        { title: 'Looking For', 
+                          items: modifiables.lookingFors, 
+                          selectedItems: lookingFors, inputType:'textinput', 
+                          returnData: (value) => {
+                          this.setState({lookingFors: value});
+                        }})
                     }}
                   />
 

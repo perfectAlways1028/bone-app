@@ -27,6 +27,7 @@ class MultipleItemPickerView extends React.Component {
     if(isSelected){
         selectedItems.push(item);
         this.setState({selectedItems});
+        console.log("selectedItem", selectedItems);
         if( this.props.navigation.state.params.returnData)
             this.props.navigation.state.params.returnData(selectedItems);
     }else {
@@ -38,7 +39,8 @@ class MultipleItemPickerView extends React.Component {
         }
         this.setState({selectedItems: newItems});
         if( this.props.navigation.state.params.returnData)
-            this.props.navigation.state.params.returnData(selectedItems);
+            this.props.navigation.state.params.returnData(newItems);
+            console.log("selectedItem", newItems);
 
     }
   }

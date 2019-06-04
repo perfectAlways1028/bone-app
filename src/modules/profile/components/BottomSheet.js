@@ -34,6 +34,70 @@ class BottomSheet extends React.Component {
         }
     }
 
+    getRatingSection = ( rating ) => {
+      return <View style={{backgroundColor: colors.black, 
+        flexDirection: 'row', height: 50, 
+        alignItems:'center', justifyContent:'center', marginTop: 16}}>
+          <StarRating     
+            disabled={true}
+            maxStars={5}
+            emptyStar="ios-star-outline"
+            fullStar="ios-star"
+            halfStar="ios-star-half"
+            iconSet="Ionicons"
+            fullStarColor={colors.red}
+            starStyle={{padding:8}}
+            rating={rating}
+            starSize={30}
+        />
+      </View>
+
+    }
+
+    getHivStatusSection = ( hivStatus, date) => {
+      return <View style={{backgroundColor: colors.red, 
+                           flexDirection: 'row', height: 50, 
+                           alignItems:'center', marginTop: 16}}>
+          <View style={{flex:3, justifyContent:'center', alignItems:'center', padding: 8}}>
+            <Text style={styles.text} numberOfLines={1}>{'HIV STATUS : ' + hivStatus.toUpperCase()}</Text>
+          </View>
+          <View style={{height: 30, backgroundColor:'white', width:0.5}}/>
+          <View style={{flex:2, justifyContent:'center', alignItems:'center', padding: 8}}>
+            <Text style={styles.text}>{date.toUpperCase()}</Text>
+          </View>
+
+      </View>
+    }
+
+    getAboutSection = ( about ) => {
+      return <View style={{maxHeight: 150, paddingRight: 16, paddingLeft: 16, 
+                           alignSelf:'stretch'}}>
+          <Text style={{fontSize: 14, color: 'white'}}>
+              {`"${about}"`}
+          </Text>                         
+      </View>
+    }
+
+    getTribesSection = ( tribes ) => {
+      let index = 0 ;
+      let tribesText = tribes.map(tribe => {
+        index++;
+        if(index < tribes.length) {
+          return tribe.name + ", ";
+        }else {
+          return tribe.name
+        }
+      
+      })
+      return <View style={{alignItems:'center', justifyContent:'center', padding: 16}}>
+        <Text style={[styles.text, {lineHeight: 30, textAlign: 'center'}]}>
+          {tribesText}
+        </Text>
+      </View>
+
+
+    } 
+ 
     getPhotoSection = ( items, isPublic ) => {
       
       if(!isPublic && items.length == 0 ||  (items.length >0 && !(items[0].isAddButton))) {
@@ -209,6 +273,14 @@ class BottomSheet extends React.Component {
                                      user.role? user.role.abbreviatedName: "", 
                                      user.sexualStatus? user.sexualStatus.name: "")}
               {gallery && this.getPhotoSection(gallery, isPublic)}
+              {this.getTribesSection(user.tribes)}
+              {
+                user.about != '' &&
+                this.getAboutSection(user.about)
+              }
+              {this.getHivStatusSection(user.hivStatus? user.hivStatus.name : "NONE",  user.lastTestDate || "")}
+
+              {isPublic && this.getRatingSection(user.rating)}
             </View>
           </View>
 
@@ -307,10 +379,7 @@ const styles = StyleSheet.create({
     right: 0,
     alignItems: 'center',
     justifyContent: 'center',
-},
-  starStyle: {
-
-  }
+  },
 });
 
 const mapStateToProps = (state) => ({ app: state.app });

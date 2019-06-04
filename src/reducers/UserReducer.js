@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   success: false,
   error: null,
   newUsers: [],
+  topUsers: [],
   users: [],
   searchUsers: [],
   searchon: false,
@@ -30,6 +31,13 @@ export default (state = INITIAL_STATE, action) => {
     case ACTION_TYPES.GET_NEW_USERS_SUCCESS:
       return { ...state, isLoading: false, success: true, error: null, newUsers: action.data.data.users };
     case ACTION_TYPES.GET_NEW_USERS_FAILURE:
+        return { ...state, isLoading: false, error: 'An error occured', success: false};
+
+    case ACTION_TYPES.GET_TOP_USERS:
+      return { ...state, isLoading: true, success: false, error: null };
+    case ACTION_TYPES.GET_TOP_USERS_SUCCESS:
+      return { ...state, isLoading: false, success: true, error: null, topUsers: action.data.data.users };
+    case ACTION_TYPES.GET_TOP_USERS_FAILURE:
         return { ...state, isLoading: false, error: 'An error occured', success: false};
 
     case ACTION_TYPES.GET_WATCHLIST_USERS:

@@ -46,6 +46,7 @@ class UserSearchView extends React.Component {
     getSearchItemView = (item, i) => {
         return <TouchableOpacity onPress={() => {
             console.log('search item clinck', item);
+            this.props.navigation.navigate("PublicProfile", {userId: item.id});
         }}>
         <View style={{flexDirection: 'row', height: 40, alignItems:'center', marginLeft:8}}>
             <ImageView style={styles.userImage} 

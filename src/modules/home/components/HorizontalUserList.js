@@ -36,6 +36,7 @@ class HorizontalUserList extends React.Component {
 
   onUserPressed = (item) => {
     console.log("user pressed", item);
+    this.props.navigation.navigate("PublicProfile", {userId: item.id});
   }
 
 
@@ -66,7 +67,7 @@ class HorizontalUserList extends React.Component {
             this.onUserPressed(item);
           }}
         >
-        <View style={{margin:4, marginTop: 16, marginBottom: 16, width:72, height: 72,borderRadius:36, justifyContent: 'center', alignItems:'center'}}>
+        <View style={{margin:4, marginTop: 8, marginBottom: 8, width:80, height: 80, borderRadius:40, justifyContent: 'center', alignItems:'center'}}>
           <ImageView 
             style={styles.profileImage} 
             defaultImage={require('../../../../assets/images/boneprofile.png')} 
@@ -90,7 +91,7 @@ class HorizontalUserList extends React.Component {
      
     return (
       this.state.showType == 'horizontal' ? <FlatList
-        data={users.newUsers} renderItem={this.renderItem}
+        data={users.topUsers} renderItem={this.renderItem}
         ListFooterComponent={this.renderFooterComponent()}
         refreshing={false}
         keyExtractor={(item, index) => index.toString()}

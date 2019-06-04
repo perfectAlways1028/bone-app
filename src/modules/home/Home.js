@@ -13,7 +13,7 @@ import {
 import { connect } from 'react-redux';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import Permissions from 'react-native-permissions';
-import { getNearByUsers, getWatchList, getNewUsers, setFlag, changeLocation, refreshUsers, getFilterUsers, enableEye, enableOnline } from '../../actions/UserActions';
+import { getNearByUsers, getWatchList, getNewUsers, getTopUsers, setFlag, changeLocation, refreshUsers, getFilterUsers, enableEye, enableOnline } from '../../actions/UserActions';
 import { loadUserProfile, loadMyGallery, saveCurrentLocation } from '../../actions/AuthActions';
 import { getModifiables } from '../../actions/AppActions';
 import UsersGrid from './components/UsersGrid'
@@ -76,14 +76,14 @@ class Home extends React.Component {
     dispatch(loadUserProfile(auth.user.id));
     dispatch(loadMyGallery(auth.user.id));
     dispatch(getModifiables(auth.user.id));
+
   }
 
   loadUsers = () => {
     this.loadProfile();
-    
     this.fetchNearByUsers(false);
-    
     this.fetchNewUsers();
+    this.fetchTopUsers();
 
   }
 
@@ -175,6 +175,22 @@ class Home extends React.Component {
     dispatch(getNewUsers(data));
   }
 
+  fetchTopUsers = () => {
+    const { auth, dispatch } = this.props;
+    const { onlineBit } = this.state;
+    if(!auth.user)
+    return;
+    let data = {
+      id: auth.user.id,
+      limit : 15, 
+      offset : 0,
+      online: onlineBit
+    }
+    console.log("fetchTopUsers", data);
+    dispatch(getTopUsers(data));
+  }
+
+
   fetchNearByUsers = (online) => {
     const { auth, dispatch } = this.props;
 
@@ -200,7 +216,7 @@ class Home extends React.Component {
 
   getTopToolBar = (searchon, locationon, eyeon, filteron, online ) => {
     return <View style={styles.topToolbarContainer}>
-      <View style={{width:40, height:40}}>
+      <View style={{width:40, height:40, marginLeft: 8}}>
         <TouchableOpacity style={{flex: 1, alignItems:'center', justifyContent: 'center'}}
           onPress={this.onSearchPress}
         >
@@ -208,11 +224,11 @@ class Home extends React.Component {
         </TouchableOpacity>
       </View>
       <View style={{width:40, flexDirection: 'row', alignItems:'center', justifyContent:'flex-end'}}>
-          <TouchableOpacity style={{ alignItems:'center', justifyContent: 'center', width: 40, height:40}}>
+          <TouchableOpacity style={{ alignItems:'center', justifyContent: 'center', width: 40, height:40, marginRight:16}}>
             <Image style={styles.icon} source={locationon ? require('../../../assets/images/locationon.png') : require('../../../assets/images/locationoff.png')}/>
           </TouchableOpacity>
           <TouchableOpacity 
-            style={{ alignItems:'center', justifyContent: 'center', width: 40, height:40}}
+            style={{ alignItems:'center', justifyContent: 'center', width: 40, height:40,  marginRight:16}}
             onPress={()=>{
               this.onEyePress(eyeon);
             }}>
@@ -248,7 +264,7 @@ class Home extends React.Component {
               <UsersGrid onRefresh={()=> {this.loadUsers()}} navigation={this.props.navigation}/>
               {
                 searchon &&
-                <UserSearchView/>
+                <UserSearchView navigation={this.props.navigation}/>
               }
             </View>
             
@@ -277,9 +293,9 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   topToolbarContainer: {
-    height: 40,
+    height: 60,
     alignSelf: 'stretch',
-    borderBottomColor: '#2b2b2b',
+    borderBottomColor: 'white',
     borderBottomWidth: 0.5,
     alignItems: 'center',
     flexDirection: 'row',

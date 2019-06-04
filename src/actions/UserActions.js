@@ -90,6 +90,22 @@ export function  getNearByUsers(data) {
     }
 }
 
+
+export function getTopUsers(data) {
+  console.log("Action-getTopUsers");
+  let params = {
+      id : data.id,
+      limit : data.limit,
+      offset : data.offset
+  }
+  return {
+      type: ACTION_TYPES.GET_TOP_USERS,
+      request: {
+        url: `${api.baseURL}/api/user/${params.id}/top/limit/${params.limit}/offset/${params.offset}`,
+      },
+    }
+} 
+
 export function getNewUsers(data) {
     console.log("Action-getNewUsers");
     let params = {

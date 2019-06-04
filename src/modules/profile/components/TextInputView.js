@@ -60,8 +60,9 @@ class TextInputView extends React.Component {
                     underlineColorAndroid='transparent'
                     placeholderTextColor={colors.gray}
                     placeholder={this.state.title}
+                    value={value}
                     onChangeText={(text) => {
-                    this.setState({ bio: text });
+                    this.setState({ value: text });
                     }}
                 />
                 
