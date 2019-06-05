@@ -6,7 +6,8 @@ const INITIAL_STATE = {
   error: null,
   user: null,
   userToUser: null,
-  gallery:[]
+  gallery:[],
+  ratedValue: 0
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -15,7 +16,9 @@ export default (state = INITIAL_STATE, action) => {
         case ACTION_TYPES.LOAD_PUBLIC_PROFILE:
         return { ...state, isLoading: true, success: false, error: null, currentAction: action.type };
         case ACTION_TYPES.LOAD_PUBLIC_PROFILE_SUCCESS:
-        return { ...state, isLoading: false, success: true, error: null, user: action.data.data.user, userToUser: action.data.data.userToUser, currentAction: action.type };
+        return { ...state, isLoading: false, success: true, error: null, 
+                user: action.data.data.user, userToUser: action.data.data.userToUser, 
+                ratedValue: action.data.data.ratedValue, currentAction: action.type };
         case ACTION_TYPES.LOAD_PUBLIC_PROFILE_FAILURE:
             return { ...state, isLoading: false, error: 'An error occured', success: false, currentAction: action.type };
         
@@ -27,7 +30,26 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, isLoading: false, success: true, error: null, userToUser, currentAction: action.type};
         case ACTION_TYPES.BONE_USER_FAILURE:
             return { ...state, isLoading: false, error: 'An error occured', success: false, currentAction: action.type};
-                        
+            
+        case ACTION_TYPES.RATE_USER:
+            return { ...state, isLoading: true, success: false, error: null, currentAction: action.type };
+        case ACTION_TYPES.RATE_USER_SUCCESS:
+            let user = this.state.user;
+            if(user) 
+                user.rating = action.data.data.newRating;
+            return { ...state, isLoading: false, success: true, error: null, currentAction: action.type, ratedValue: action.rating, user };
+        case ACTION_TYPES.RATE_USER_FAILURE:
+            return { ...state, isLoading: false, error: action.message ? action.message : null, success: false, currentAction: action.type};
+        
+        case ACTION_TYPES.REPORT_USER:
+            return { ...state, isLoading: true, success: false, error: null, currentAction: action.type };
+        case ACTION_TYPES.REPORT_USER_SUCCESS:
+            return { ...state, isLoading: false, success: true, error: null, currentAction: action.type};
+        case ACTION_TYPES.REPORT_USER_FAILURE:
+            return { ...state, isLoading: false, error: action.message ? action.message : null, success: false, currentAction: action.type};
+                
+        
+
         case ACTION_TYPES.UNBONE_USER:
             return { ...state, isLoading: true, success: false, error: null, currentAction: action.type };
         case ACTION_TYPES.UNBONE_USER:

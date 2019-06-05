@@ -12,16 +12,20 @@ import {
 
 import { connect } from 'react-redux';
 
-import { calculatePortraitDimension } from '../../helpers';
+import { calculatePortraitDimension, showAlert } from '../../helpers';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import BottomSheet from './components/BottomSheet';
 import { ImageView, TopNavigatorView } from '../../components';
-import { loadUserProfile, blockUser,unblockUser,boneUser,unboneUser, watchUser,unwatchUser } from '../../actions/PublicUserActions'; 
+import { loadUserProfile, blockUser,unblockUser,
+          boneUser,unboneUser, watchUser,unwatchUser, reportUser } from '../../actions/PublicUserActions'; 
 import BlockUserModal from './components/BlockUserModal';
+import ReportUserModal from './components/ReportUserModal';
 const { height : deviceHeight } = calculatePortraitDimension();
+import * as ACTION_TYPES from '../../actions/ActionTypes';
+import StarRating from 'react-native-star-rating';
 
 class PublicProfile extends React.Component {
-
+  
   constructor(props) {
     super(props);
     this.state={
@@ -29,10 +33,17 @@ class PublicProfile extends React.Component {
         user: {},
         gallery: [],
         isBlockUserVisible: false,
-
+        isReportUserVisible: false,
+        floatButtonVisible: true
     }
 
   }
+  componentWillReceiveProps(nextProps) {
+    if(this.props.publicUser.error != nextProps.publicUser.error && nextProps.publicUser.currentAction == ACTION_TYPES.REPORT_USER_FAILURE) {
+      showAlert('Whoops', nextProps.publicUser.error);
+    }
+  }
+
   componentDidMount() {
     this.props.dispatch(loadUserProfile(this.props.auth.user.id, this.state.userId))
   }
@@ -60,6 +71,7 @@ class PublicProfile extends React.Component {
   }
   onReportProfile = () => {
     //show report dialog
+    this.setState({isReportUserVisible: true})
   }
   getRightComponent = (isBlocking, isWatching) => {
     return <View style={{flexDirection:'row', justifyContent:'flex-end'}}>
@@ -81,7 +93,7 @@ class PublicProfile extends React.Component {
   }
 
   getFloatButtons = () => {
-      return <View style={{position:'absolute', right: 16, bottom: 120, flexDirection: 'column', 
+      return <View style={{position:'absolute', right: 16, bottom: 160, flexDirection: 'column', 
                            height: 180, width: 60, 
                            justifyContent:'space-between', alignItems:'center' }}>
           <TouchableOpacity 
@@ -112,11 +124,9 @@ class PublicProfile extends React.Component {
       rightComponent={this.getRightComponent(isBlocking, isWatching)}
     />
   }
-  getContent = (user, userToUser, gallery) =>{
-     console.log(user);
+  getContent = (user, userToUser, gallery, ratedValue) =>{
       let isBlocking = userToUser ? userToUser.isBlocking : false;
       let isWatching = userToUser ? userToUser.isWatching : false;
-
     return <View style={styles.container}>
 
         <TouchableOpacity 
@@ -129,15 +139,20 @@ class PublicProfile extends React.Component {
         </TouchableOpacity>
         {this.getTopNavigator(isBlocking, isWatching)}
         {
+          this.state.floatButtonVisible &&
             this.getFloatButtons()
         }
         <BottomSheet
         user={user}
+        ratedValue={ratedValue}
         gallery={gallery}
         isPublic={true}
         navigation={this.props.navigation}
         onBonePress={(isBoning) => {
             this.onBonePress(isBoning)
+        }}
+        onSheetOpening={(isOpening)=>{
+          this.setState({floatButtonVisible: !isOpening})
         }}
         />
         <BlockUserModal
@@ -151,6 +166,18 @@ class PublicProfile extends React.Component {
           }}
           isVisible={this.state.isBlockUserVisible}
           user={user}
+          
+        />
+        <ReportUserModal
+          onReport={(reason, comment)=>{
+            this.setState({isReportUserVisible: false})
+            this.props.dispatch(reportUser(this.props.auth.user.id, this.state.userId, reason, comment)) 
+          }}
+          onCancel={()=>{
+            this.setState({isReportUserVisible: false})
+          }}
+          isVisible={this.state.isReportUserVisible}
+          user={user}
         />
 
   
@@ -158,12 +185,12 @@ class PublicProfile extends React.Component {
   }
 
   render() {
-    const { user, userToUser } = this.props.publicUser;
+    const { user, userToUser, ratedValue } = this.props.publicUser;
     return (
       <View style={styles.background}>
         {
             user &&
-            this.getContent(user, userToUser, user.userPhotos)        
+            this.getContent(user, userToUser, user.userPhotos, ratedValue)        
         }   
 
       </View>

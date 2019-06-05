@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     },
     dim: { flex: 1, backgroundColor: 'rgba(33, 33, 33, 0.9)', alignItems:'center', justifyContent:'center' },
     modalStyle: {
-        backgroundColor: '#FFF',
+        backgroundColor: '#eeeeee',
         width: 350,
         height: 250,
         alignItems: 'center'

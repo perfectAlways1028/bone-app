@@ -53,7 +53,7 @@ class ProfileEdit extends React.Component {
     onSave = () => {
       const { user, gallery } = this.props.auth;
       const { username, age, about, height, weight, role, bodyType,
-        sexualStatus, place, hivStatus, lastTestDate, tribes, lookingFors } = this.state;
+        sexualStatus, hasPlace, hivStatus, lastTestDate, tribes, lookingFors } = this.state;
       let tribeIds = tribes ? tribes.map(item=> item.id): [];
       let lookingForIds = lookingFors ? lookingFors.map(item=>item.id): [];
       let body = {
@@ -65,7 +65,7 @@ class ProfileEdit extends React.Component {
         roleId: role.id,
         bodyTypeId: bodyType.id,
         sexualStatusId: sexualStatus.id,
-        place,
+        hasPlace: hasPlace ? 'true': 'false',
         hivStatusId: hivStatus.id,
         lastTestDate,
         tribeIds,
@@ -121,7 +121,7 @@ class ProfileEdit extends React.Component {
         const { user, gallery } = this.props.auth;
 
         const { username, age, about, height, weight, role, bodyType,
-          sexualStatus, place, hivStatus, lastTestDate, tribes, lookingFors } = this.state;
+          sexualStatus, hasPlace, hivStatus, lastTestDate, tribes, lookingFors } = this.state;
         const { modifiables } = this.props.app;
         return (
             <View style={styles.background}>
@@ -239,9 +239,9 @@ class ProfileEdit extends React.Component {
                     title={'Place'}
                     rightIconImageOn={require('../../../assets/images/boneoncb.png')}
                     rightIconImageOff={require('../../../assets/images/boneoffcb.png')}
-                    value={place}
+                    value={hasPlace}
                     onChangeState={(value)=>{
-                      this.setState({place: value})
+                      this.setState({hasPlace: value})
                     }}
                   />
                   <ListItem

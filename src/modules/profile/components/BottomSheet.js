@@ -16,17 +16,32 @@ import SlidingUpPanel from 'rn-sliding-up-panel'
 import { calculatePortraitDimension } from '../../../helpers';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import StarRating from 'react-native-star-rating';
+import { rateUser } from '../../../actions/PublicUserActions';
+
 import { colors } from '../../../styles';
 import PhotosPanel from './PhotosPanel';
 import { BlurView } from '@react-native-community/blur'
+import RateUserModal from './RateUserModal'
 const { height : deviceHeight } = calculatePortraitDimension();
+import * as ACTION_TYPES from '../../../actions/ActionTypes';
+import { showAlert } from '../../../helpers';
 
 class BottomSheet extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+          RatingUserModalVisible: false,
+          ratedValue: 0
+        }
     }
 
+    componentWillReceiveProps(nextProps) {
+      if(this.props.publicUser.error != nextProps.publicUser.error && nextProps.publicUser.currentAction == ACTION_TYPES.RATE_USER_FAILURE) {
+        showAlert('Whoops', nextProps.publicUser.error);
+        this.setState({RatingUserModalVisible: false});
+      }
+    }
     static defaultProps = {
         draggableRange: {
         top: deviceHeight  - getStatusBarHeight() +60,
@@ -34,20 +49,26 @@ class BottomSheet extends React.Component {
         }
     }
 
+    onStarRatingPress = (rating) => {
+      this.setState({ratedValue: rating, RatingUserModalVisible: true})
+    
+    }
+
     getRatingSection = ( rating ) => {
       return <View style={{backgroundColor: colors.black, 
         flexDirection: 'row', height: 50, 
         alignItems:'center', justifyContent:'center', marginTop: 16}}>
           <StarRating     
-            disabled={true}
+            disabled={false}
             maxStars={5}
             emptyStar="ios-star-outline"
             fullStar="ios-star"
             halfStar="ios-star-half"
             iconSet="Ionicons"
+            rating = {rating}
             fullStarColor={colors.red}
             starStyle={{padding:8}}
-            rating={rating}
+            selectedStar={(rating => this.onStarRatingPress(rating))}
             starSize={30}
         />
       </View>
@@ -162,7 +183,7 @@ class BottomSheet extends React.Component {
             return styles.online;
         }
     }
-    getPanelHeaderView = ( onlineStatus, name, age, rating, isPublic, isBoning) => {
+    getPanelHeaderView = ( onlineStatus, name, age, rating, isPublic, isBoning, hasPlace) => {
         return <View style={styles.panelHeader}>
             <View style={styles.panelHeaderHandleContainer}>
                 <View style={styles.panelHeaderHandle}/>
@@ -174,9 +195,10 @@ class BottomSheet extends React.Component {
                         <View style={[styles.statusMark, this.getOnlineStyle(onlineStatus), {marginLeft:16}]}/>
                         <Text style={[styles.name, {marginLeft: 16}]}>{name + ', '+ age}</Text>
                     </View>
-                    {/**
+                    {
+                    hasPlace &&
                     <Text style={[styles.host, {marginLeft: 42, marginTop:4}]}>{'CAN HOST'}</Text>
-                     */}
+                     }
                     
                     <View style={{marginLeft: 36, marginBottom:6}}>
                         <StarRating     
@@ -237,7 +259,7 @@ class BottomSheet extends React.Component {
     this.props.navigation.navigate("ProfileEdit", {user: user});
    }
   render() {
-    const{ user, gallery, isPublic } = this.props;
+    const{ user, gallery, isPublic, ratedValue } = this.props;
     const {top, bottom} = this.props.draggableRange
 
     const draggedValue = this._draggedValue.interpolate({
@@ -256,11 +278,12 @@ class BottomSheet extends React.Component {
           draggableRange={this.props.draggableRange}
           animatedValue={this._draggedValue}
           friction={0.1}
-          allowMomentum={true}>
+         >
           <View style={styles.panel}>
 
             <View style={styles.panelHeader}>
-              {this.getPanelHeaderView(user.onlineStatus, user.username, user.age, user.rating, isPublic, isBoning)}
+              {this.getPanelHeaderView(user.onlineStatus, user.username, 
+                user.age, user.rating, isPublic, isBoning, user.hasPlace)}
             </View>
             <View style={styles.container}>
               <BlurView
@@ -281,7 +304,19 @@ class BottomSheet extends React.Component {
               }
               {this.getHivStatusSection(user.hivStatus? user.hivStatus.name : "NONE",  user.lastTestDate || "")}
 
-              {isPublic && this.getRatingSection(user.rating)}
+              {isPublic && this.getRatingSection(ratedValue)}
+
+              <RateUserModal
+                onRate={(rating)=>{
+                  this.props.dispatch(rateUser(this.props.auth.user.id, this.props.user.id, rating));
+                }}
+                onCancel={()=>{
+                  this.setState({RatingUserModalVisible: false})
+                }}
+                isVisible={this.state.RatingUserModalVisible}
+                user={user}
+                rating={this.state.ratedValue}
+              />
             </View>
           </View>
 
@@ -292,8 +327,10 @@ class BottomSheet extends React.Component {
 
 BottomSheet.proptypes = { 
   user: PropTypes.object.isRequired,
+  ratedValue: PropTypes.number,
   gallery: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  onSheetOpening: PropTypes.func
 };
 
 const styles = StyleSheet.create({
@@ -383,6 +420,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => ({ app: state.app });
+const mapStateToProps = (state) => ({ app: state.app, auth: state.auth, publicUser: state.publicUser });
 
 export default connect(mapStateToProps)(BottomSheet);

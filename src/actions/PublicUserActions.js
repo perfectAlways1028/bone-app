@@ -13,6 +13,35 @@ export function loadUserProfile(userId, otherUserId) {
     }
 }
 
+export function rateUser(userId, otherUserId, rating) {
+    let body = {
+        rating: rating
+    }
+    return {
+        type: ACTION_TYPES.RATE_USER,
+        request: {
+          url: `${api.baseURL}/api/review/Rating/${userId}/${otherUserId}`,
+          method: 'post',
+          body: JSON.stringify(body)
+        },
+        rating
+      }
+}
+
+export function reportUser(reporter, reported, reason, comment) {
+    let body = {
+        reasonReported: reason,
+        reportComment: comment
+    }
+    return {
+        type: ACTION_TYPES.REPORT_USER,
+        request: {
+            url: `${api.baseURL}/api/report/${reporter}/profile/${reported}`,
+            method: 'post',
+            body: JSON.stringify(body)
+        }
+    }
+}
 export function blockUser(fromUserId, toUserId) {
     return {
         type: ACTION_TYPES.BLOCK_USER,

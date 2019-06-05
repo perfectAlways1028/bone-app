@@ -10,6 +10,7 @@ const blueVersion = {
   secondary: '#97211e',
   grey: '#acacac',
   gray: '#5f5f5f',
+  lightGray2: '#c1c0c1',
   darkGray: '#1f1f21',
   lightGray: '#9b9b9b',
   white: '#f7f7f7',
