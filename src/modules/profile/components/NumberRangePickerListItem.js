@@ -13,7 +13,7 @@ class NumberRangePickerListItem extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({text: nextProps.value})
+    this.setState({text: (nextProps.fromValue != null && nextProps.toValue != null) ? nextProps.fromValue + '-' + nextProps.toValue : ""})
   }
 
   openPicker(){

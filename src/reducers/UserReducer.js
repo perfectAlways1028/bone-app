@@ -74,6 +74,7 @@ export default (state = INITIAL_STATE, action) => {
       return {...state, locationon: action.locationon, eyeon: false, filteron: false}
     case ACTION_TYPES.UPDATE_FILTER:
       let filter = { ...state.filters, ...action.filters  }
+      console.log("filter", filter);
       return {...state, filters: filter}
     case ACTION_TYPES.RESET_FILTER:
       return {...state, filters: {}}

@@ -116,7 +116,7 @@ class UserFilter extends React.Component {
                     toValue={filters.maxAge}
                     min={18}
                     max={120}
-                    onChangeState={(min, max)=>{
+                    onPickRange={(min, max)=>{
                         let filter = {
                             minAge : min,
                             maxAge: max
@@ -130,7 +130,7 @@ class UserFilter extends React.Component {
                     toValue={filters.maxHeight}
                     min={100}
                     max={250}
-                    onChangeState={(min, max)=>{
+                    onPickRange={(min, max)=>{
                         let filter = {
                             minHeight : min,
                             maxHeight: max
