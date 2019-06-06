@@ -6,6 +6,7 @@ import {
   Animated,
   Image,
   TouchableOpacity,
+  TextInput,
   Modal
 } from 'react-native';
 

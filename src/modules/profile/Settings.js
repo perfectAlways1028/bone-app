@@ -54,7 +54,7 @@ class Settings extends React.Component {
       const { user } = this.props.auth;
       const { username, age, about, height, weight, role, bodyType,
         sexualStatus, place, hivStatus, lastTestDate } = user;
-      const { incognito, showDistance, isIncognito, approveAllComments } = this.state;
+      const { incognito, showDistance, isIncognito, allowsAllComments } = this.state;
       let body = {
           username,
           age, 
@@ -70,8 +70,9 @@ class Settings extends React.Component {
           incognito,
           showDistance,
           isIncognito,
-          approveAllComments
+          approveAllComments: allowsAllComments? "true" : "false"
       }
+      console.log("updateProfile", body)
       this.props.dispatch(updateProfile(user.id, body));
     }
 
@@ -329,7 +330,11 @@ class Settings extends React.Component {
                     title={'Approve All Comments'}
                     rightIconImageOn={require('../../../assets/images/boneoncb.png')}
                     rightIconImageOff={require('../../../assets/images/boneoffcb.png')}
+                    value={this.state.allowsAllComments}
                     onChangeState={(value)=>{
+                      this.setState({allowsAllComments: value}, ()=>{
+                        this.updateProfile();
+                      })
                     }}
                   />
 

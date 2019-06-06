@@ -22,9 +22,11 @@ import { colors } from '../../../styles';
 import PhotosPanel from './PhotosPanel';
 import { BlurView } from '@react-native-community/blur'
 import RateUserModal from './RateUserModal'
+import CommentView from './CommentView'
 const { height : deviceHeight } = calculatePortraitDimension();
 import * as ACTION_TYPES from '../../../actions/ActionTypes';
 import { showAlert } from '../../../helpers';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 class BottomSheet extends React.Component {
 
@@ -274,51 +276,67 @@ class BottomSheet extends React.Component {
         <SlidingUpPanel
           showBackdrop={true}
           ref={c => (this._panel = c)}
-          snappingPoints={[160,deviceHeight- getStatusBarHeight()]}
+          snappingPoints={[160,deviceHeight- getStatusBarHeight()+60]}
           draggableRange={this.props.draggableRange}
           animatedValue={this._draggedValue}
           friction={0.1}
          >
+         {dragHandler => (
           <View style={styles.panel}>
-
-            <View style={styles.panelHeader}>
+            <View style={styles.panelHeader} {...dragHandler}>
               {this.getPanelHeaderView(user.onlineStatus, user.username, 
                 user.age, user.rating, isPublic, isBoning, user.hasPlace)}
             </View>
-            <View style={styles.container}>
-              <BlurView
-                style={styles.absolute}
-                blurType="dark"
-                blurAmount={10}
-              />
-              {this.getStatusSection(user.weight+' kg',
-                                     user.height+' cm', 
-                                     user.bodyType? user.bodyType.name : "", 
-                                     user.role? user.role.abbreviatedName: "", 
-                                     user.sexualStatus? user.sexualStatus.name: "")}
-              {gallery && this.getPhotoSection(gallery, isPublic)}
-              {this.getTribesSection(user.tribes)}
-              {
-                user.about != '' &&
-                this.getAboutSection(user.about)
-              }
-              {this.getHivStatusSection(user.hivStatus? user.hivStatus.name : "NONE",  user.lastTestDate || "")}
+            <View style={{flex:1}}>
+                <BlurView
+                  style={styles.absolute}
+                  blurType="dark"
+                  blurAmount={10}
+                />
+                <KeyboardAwareScrollView keyboardShouldPersistTaps='always'>
+                  <View style={styles.container}>
 
-              {isPublic && this.getRatingSection(ratedValue)}
+                    {this.getStatusSection(user.weight+' kg',
+                                          user.height+' cm', 
+                                          user.bodyType? user.bodyType.name : "", 
+                                          user.role? user.role.abbreviatedName: "", 
+                                          user.sexualStatus? user.sexualStatus.name: "")}
+                    {gallery && this.getPhotoSection(gallery, isPublic)}
+                    {this.getTribesSection(user.tribes)}
+                    {
+                      user.about != '' &&
+                      this.getAboutSection(user.about)
+                    }
 
-              <RateUserModal
-                onRate={(rating)=>{
-                  this.props.dispatch(rateUser(this.props.auth.user.id, this.props.user.id, rating));
-                }}
-                onCancel={()=>{
-                  this.setState({RatingUserModalVisible: false})
-                }}
-                isVisible={this.state.RatingUserModalVisible}
-                user={user}
-                rating={this.state.ratedValue}
-              />
+                    {this.getHivStatusSection(user.hivStatus? user.hivStatus.name : "NONE",  user.lastTestDate || "")}
+
+                    {isPublic && this.getRatingSection(ratedValue)}
+
+                    <CommentView
+                      user={user}
+                      navigation={this.props.navigation}
+                      isPublic={isPublic}
+                    />
+                    <RateUserModal
+                      onRate={(rating)=>{
+                        this.props.dispatch(rateUser(this.props.auth.user.id, this.props.user.id, rating));
+                      }}
+                      onCancel={()=>{
+                        this.setState({RatingUserModalVisible: false})
+                      }}
+                      isVisible={this.state.RatingUserModalVisible}
+                      user={user}
+                      rating={this.state.ratedValue}
+                    />
+                  </View>
+          
+                  </KeyboardAwareScrollView>
             </View>
+            
           </View>
+         
+         )}
+          
 
         </SlidingUpPanel>
     )

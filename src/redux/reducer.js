@@ -7,6 +7,7 @@ import auth from '../reducers/AuthReducer';
 import users from '../reducers/UserReducer';
 import publicUser from '../reducers/PublicUserReducer';
 import gallery from '../reducers/GalleryReducer';
+import comment from  '../reducers/CommentReducer'
 
 const authPersistConfig = {
   key: 'auth',
@@ -26,7 +27,8 @@ export default combineReducers({
   auth: persistReducer(authPersistConfig, auth),
   users,
   publicUser,
-  gallery
+  gallery,
+  comment
 });
 
 

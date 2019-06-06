@@ -22,7 +22,7 @@ const blueVersion = {
   yellow: '#ffc247',
   redLight: '#97211e',
   transparentBlack: 'rgba(0,0,0, 0.6)',
-  red: '#C00D0D'
+  red: '#831818'
 };
 
 export default blueVersion;

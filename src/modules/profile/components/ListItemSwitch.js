@@ -52,11 +52,7 @@ export default class ListItemSwitch extends React.Component {
                         
                         {
                             (rightIconImageOn && rightIconImageOff) &&
-                            <Image source={ this.state.value ? rightIconImageOn : rightIconImageOff}  style={[{height:24, width: 24}, this.props.imageStyle]}/>
-                        }
-                        {
-                            (rightIconOnShortUrl && rightIconOffShortUrl) &&
-                            <ImageView svg height={20} shortUrl={ this.state.value ? rightIconOnShortUrl : rightIconOffShortUrl}  style={[{height:20, marginRight: 0, justifyContent:'flex-end'}, this.props.imageStyle]}/>
+                            <Image source={ this.state.value ? rightIconImageOn : rightIconImageOff}  style={[{height:24, width:24}, this.props.imageStyle]} resizeMode={'contain'}/>
                         }
                     </View>
                 </View>
@@ -80,8 +76,8 @@ ListItemSwitch.proptypes = {
   colorOff: PropTypes.string,
   hideText: PropTypes.bool,
   onChangeState: PropTypes.func,
-  value: PropTypes.bool
-
+  value: PropTypes.bool,
+  imageStyle: PropTypes.object
 };
 
 const styles = StyleSheet.create({
