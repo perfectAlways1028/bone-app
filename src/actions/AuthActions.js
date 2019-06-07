@@ -250,3 +250,33 @@ export function getMyAcceptedComments(userId) {
       }
   } 
 }
+
+export function deleteComment(reviewId, userId) {
+  let body = {
+    reviewId: reviewId
+  }
+  return {
+      type: ACTION_TYPES.DELETE_MY_COMMENT,
+      request: {
+        url: `${api.baseURL}/api/review/${reviewId}/user/${userId}/delete`,
+        method: 'post',
+        body: JSON.stringify(body)
+      },
+      reviewId
+  }
+}
+
+export function reportUserComment(reporter, reported, reason, comment) {
+  let body = {
+      reasonReported: reason,
+      reportComment: comment
+  }
+  return {
+      type: ACTION_TYPES.REPORT_USER_COMMENT,
+      request: {
+          url: `${api.baseURL}/api/report/${reporter}/profile/${reported}`,
+          method: 'post',
+          body: JSON.stringify(body)
+      }
+  }
+}

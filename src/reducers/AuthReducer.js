@@ -100,8 +100,27 @@ export default (state = INITIAL_STATE, action) => {
         return { ...state, isLoading: false, success: true, error: null, currentAction: action.type, comments: action.data.data.reviews, userId: action.userId};
     case ACTION_TYPES.GET_MY_ACCEPTED_COMMENTS_FAILURE:
         return { ...state, isLoading: false, error: 'An error occured', success: false, currentAction: action.type};         
-            
     
+    case ACTION_TYPES.DELETE_MY_COMMENT:
+        return { ...state, isLoading: true, success: false, error: null , currentAction: action.type};
+    case ACTION_TYPES.DELETE_MY_COMMENT_SUCCESS:
+        let newReviews = []
+        state.comments.map(review => {
+          if(review.id != action.reviewId)
+            newReviews.push(review) ;
+        })
+        return { ...state, isLoading: false, success: true, error: null, currentAction: action.type, comments: newReviews, userId: action.userId};
+    case ACTION_TYPES.DELETE_MY_COMMENT_FAILURE:
+        return { ...state, isLoading: false, error: 'An error occured', success: false, currentAction: action.type};         
+    
+    case ACTION_TYPES.REPORT_USER_COMMENT:
+        return { ...state, isLoading: true, success: false, error: null, currentAction: action.type };
+    case ACTION_TYPES.REPORT_USER_COMMENT_SUCCESS:
+        return { ...state, isLoading: false, success: true, error: null, currentAction: action.type};
+    case ACTION_TYPES.REPORT_USER_COMMENT_FAILURE:
+        return { ...state, isLoading: false, error: action.message ? action.message : null, success: false, currentAction: action.type};
+            
+        
     case ACTION_TYPES.UPDATE_SETTINGS:
       return { ...state, settings: action.settings, currentAction: action.type}
 

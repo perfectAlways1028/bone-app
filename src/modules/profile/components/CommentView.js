@@ -10,21 +10,27 @@ import {
 } from 'react-native';
 
 import PropTypes from 'prop-types';
+import ActionSheet from 'react-native-actionsheet'
+
 import { connect } from 'react-redux';
 import {colors} from '../../../styles';
 import { showAlert } from '../../../helpers'; 
 import * as ACTION_TYPES from '../../../actions/ActionTypes';
 
 import { postComment, getAcceptedComments } from '../../../actions/CommentActions';
-import { getMyAcceptedComments } from '../../../actions/AuthActions';
+import { getMyAcceptedComments, deleteComment, reportUserComment } from '../../../actions/AuthActions';
+
 import { ImageView } from '../../../components';
+import ReportUserModal from './ReportUserModal';
 
 class CommentView extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            comment : ""
+            comment : "",
+            selectedComment : null,
+            isReportUserVisible : false
         }
     }
     componentDidMount() {
@@ -60,6 +66,7 @@ class CommentView extends React.Component {
         }
        
     }
+
     onSend = (text) => {
         const { auth, user} = this.props;
         console.log("onSend", user);
@@ -67,6 +74,33 @@ class CommentView extends React.Component {
             console.log("commentView write text",text);
             this.props.dispatch(postComment(auth.user.id, user.id, text));
             this.setState({comment: ''})
+        }
+    }
+    onDeleteComment = () => {
+        const {selectedComment} = this.state;
+        if(selectedComment) {
+            this.props.dispatch(deleteComment(selectedComment.id, selectedComment.reviewedById));
+        }
+    }
+
+    onReportUser = () => {
+        this.setState({isReportUserVisible: true});
+    }
+
+    onChatUser = () => {
+
+    }
+    onMenuPress = (index) => {
+        switch(index) {
+            case 0: 
+                this.onDeleteComment()
+                return;
+            case 1:
+                this.onReportUser()
+                return;
+            case 2:
+                this.onChatUser()
+                return;
         }
     }
     getWriteComment(){
@@ -117,7 +151,13 @@ class CommentView extends React.Component {
                 {
                     !this.props.isPublic && 
                     
-                    <TouchableOpacity style={{ width:64, height:64, justifyContent:'center', alignItems:'center', alignSelf:'flex-end'}}>
+                    <TouchableOpacity 
+                    style={{ width:64, height:64, justifyContent:'center',
+                    alignItems:'center', alignSelf:'flex-end'}}
+                        onPress={()=>{
+                            this.openMenu(comment);
+                        }}
+                    >
                         <Image style={{width: 32, height: 32}} source={require('../../../../assets/images/dot_chat.png')} resizeMode='contain'/>
                     </TouchableOpacity>
                 }
@@ -125,11 +165,15 @@ class CommentView extends React.Component {
             <View style={{alignSelf:'stretch',height:0.5, marginHorizontal:16, backgroundColor:colors.gray}}/>
         </View>
     }
-    
+    openMenu(comment) {
+        this.setState({selectedComment : comment}, () => {
+            this.ActionSheet.show();
+        })
+    }
     getComments(isPublic) {
         const { comments } =  isPublic ? this.props.comment : this.props.auth;
 
-        return <View style={{alignSelf:'stretch', backgroundColor:colors.black}}>
+        return <View style={{alignSelf:'stretch', backgroundColor:colors.black, marginBottom:32 }}>
       
             {
                 comments.map(comment => {return this.getCommentItem(comment)})
@@ -146,6 +190,31 @@ class CommentView extends React.Component {
             {
                 this.getComments(this.props.isPublic)
             }
+        {
+            !this.props.isPublic &&
+            <ActionSheet
+                ref={o => this.ActionSheet = o}
+                options={['Delete', 'Report', 'Chat', 'Cancel']}
+                cancelButtonIndex={3}
+                onPress={(index) => { 
+                    this.onMenuPress(index);
+                }}
+            />
+        }
+        {
+           !this.props.isPublic &&
+            <ReportUserModal
+            onReport={(reason, comment)=>{
+                this.setState({isReportUserVisible: false})
+                this.props.dispatch(reportUserComment(this.props.auth.user.id, this.state.selectedComment.reviewedById, reason, comment)) 
+            }}
+            onCancel={()=>{
+                this.setState({isReportUserVisible: false})
+            }}
+            isVisible={this.state.isReportUserVisible}
+            />
+        }
+
 
         </View>
         );

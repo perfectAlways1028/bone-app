@@ -86,6 +86,9 @@ export default class ReportUserModal extends React.Component {
                 <View style={styles.dim}>
                     <TouchableOpacity style={{position:'absolute', left:0, top:0, right:0, bottom:0, backgroundColor:'transparent'}} onPress={() => {
                         this.setState({isVisible: false})  
+                        if(this.props.onCancel){
+                            this.props.onCancel();
+                        }
                     }}>
                     </TouchableOpacity>
                     <View style={styles.modalStyle}>
