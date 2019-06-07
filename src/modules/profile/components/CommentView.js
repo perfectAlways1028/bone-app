@@ -12,12 +12,13 @@ import {
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {colors} from '../../../styles';
-import { showAlertWithCallback } from '../../../helpers'; 
+import { showAlert } from '../../../helpers'; 
 import * as ACTION_TYPES from '../../../actions/ActionTypes';
 
 import { postComment, getAcceptedComments } from '../../../actions/CommentActions';
+import { getMyAcceptedComments } from '../../../actions/AuthActions';
 import { ImageView } from '../../../components';
-_isAlertShowing = false;
+
 class CommentView extends React.Component {
 
     constructor(props) {
@@ -30,35 +31,40 @@ class CommentView extends React.Component {
         this.onRefresh();
     }
 
-    getCommentItem() {
-
-    }
 
     componentWillReceiveProps(nextProps) {
-        if(this.props.comment.success == false && nextProps.comment.success == true &&
-            nextProps.comment.currentAction == ACTION_TYPES.POST_COMMENT_SUCCESS) {
-                this.onRefresh();
-        } 
-        if(this.props.comment.error != nextProps.comment.error && nextProps.comment.error &&
-            nextProps.comment.currentAction == ACTION_TYPES.POST_COMMENT_FAILURE) {
-                if(_isAlertShowing) return;
-                _isAlertShowing = true;
-                showAlertWithCallback("Whoops", nextProps.comment.error, ()=>{
-                    _isAlertShowing = false;
-                });
-        } 
+        if(this.props.isPublic) {
+            if(this.props.comment.success == false && nextProps.comment.success == true &&
+                nextProps.comment.currentAction == ACTION_TYPES.POST_COMMENT_SUCCESS) {
+                    this.onRefresh();
+
+            } 
+    
+            if(this.props.comment.error != nextProps.comment.error && nextProps.comment.error &&
+                nextProps.comment.currentAction == ACTION_TYPES.POST_COMMENT_FAILURE) {
+                    showAlert("Whoops", nextProps.comment.error);
+            } 
+        }
+
     }
 
     onRefresh = () => {
-        const { user } = this.props; 
-        if( user && user.id) {
-            this.props.dispatch(getAcceptedComments(user.id))
-       
+        const { user, isPublic } = this.props; 
+        if(user && user.id) {
+            if(isPublic) {
+                this.props.dispatch(getAcceptedComments(user.id))
+            } else {
+                this.props.dispatch(getMyAcceptedComments(user.id))
+            }
+           
         }
+       
     }
     onSend = (text) => {
         const { auth, user} = this.props;
+        console.log("onSend", user);
         if(text && text.length >0) {
+            console.log("commentView write text",text);
             this.props.dispatch(postComment(auth.user.id, user.id, text));
             this.setState({comment: ''})
         }
@@ -121,11 +127,11 @@ class CommentView extends React.Component {
     }
     
     getComments(isPublic) {
-        const { comments } = this.props.comment;
+        const { comments } =  isPublic ? this.props.comment : this.props.auth;
+
         return <View style={{alignSelf:'stretch', backgroundColor:colors.black}}>
       
             {
-                
                 comments.map(comment => {return this.getCommentItem(comment)})
             }
         </View>
@@ -160,7 +166,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const mapStateToProps = (state) => ({ auth: state.auth, comment: state.comment });
+const mapStateToProps = (state) => ({ auth: state.auth, comment: state.comment,  });
 
 export default connect(mapStateToProps)(CommentView);
   

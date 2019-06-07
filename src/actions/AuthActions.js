@@ -242,3 +242,11 @@ export function uploadProfileImage(userId, media) {
   }
 }
 
+export function getMyAcceptedComments(userId) {
+  return {
+      type: ACTION_TYPES.GET_MY_ACCEPTED_COMMENTS,
+      request: {
+        url: `${api.baseURL}/api/review/${userId}/acceptedReviews`
+      }
+  } 
+}

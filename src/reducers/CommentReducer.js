@@ -4,7 +4,8 @@ const INITIAL_STATE = {
   isLoading: false,
   success: false,
   error: null,
-  comments: []
+  comments: [],
+  userId: null
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -19,7 +20,7 @@ export default (state = INITIAL_STATE, action) => {
         case ACTION_TYPES.GET_ACCEPTED_COMMENTS:
             return { ...state, isLoading: true, success: false, error: null , currentAction: action.type};
         case ACTION_TYPES.GET_ACCEPTED_COMMENTS_SUCCESS:
-            return { ...state, isLoading: false, success: true, error: null, currentAction: action.type, comments: action.data.data.reviews};
+            return { ...state, isLoading: false, success: true, error: null, currentAction: action.type, comments: action.data.data.reviews, userId: action.userId};
         case ACTION_TYPES.GET_ACCEPTED_COMMENTS_FAILURE:
             return { ...state, isLoading: false, error: 'An error occured', success: false, currentAction: action.type};         
                 

@@ -99,6 +99,34 @@ class Home extends React.Component {
     this.fetchTopUsers();
 
   }
+  updateLocation = () => {
+    const { auth, dispatch, users } = this.props;
+    if(!auth.user)
+    return;
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        
+        const body = {
+          id: auth.user.id,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        };
+        dispatch(saveCurrentLocation(body))
+        if(!users.locationon) {
+          dispatch(changeLocation(body));
+        }
+
+      },
+      (error) => {
+        // console.log(error);
+      },
+      {
+        enableHighAccuracy: Platform.OS != 'android',
+        timeout: 20000,
+        maximumAge: 1000,
+      }
+    );
+  }
 
   watchLocation = () => {
     const { auth, dispatch, users } = this.props;
@@ -133,6 +161,7 @@ class Home extends React.Component {
       Permissions.checkMultiple(['location']).then((response) => {
         if (response.location === 'authorized') {
           this.watchLocation();
+          this.updateLocation();
         } else if (response.location === 'undetermined') {
           this._requestLocationPermission(dispatch);
         }
@@ -144,6 +173,7 @@ class Home extends React.Component {
     Permissions.request('location', { type: 'always' }).then((response) => {
       if (response.location === 'authorized') {
         this.watchLocation();
+        this.updateLocation();
       }
     });
   }
@@ -284,7 +314,7 @@ class Home extends React.Component {
             {this.getTopToolBar(searchon, locationon, eyeon, filteron, online)}
             <View style={styles.content}>
 
-              <HorizontalUserList onRefresh={()=> {this.loadUsers()}}/>
+              <HorizontalUserList navigation={this.props.navigation} onRefresh={()=> {this.loadUsers()}}/>
               <UsersGrid onRefresh={()=> {this.loadUsers()}} navigation={this.props.navigation}/>
               {
                 searchon &&

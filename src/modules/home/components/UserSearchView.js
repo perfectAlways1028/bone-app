@@ -114,6 +114,7 @@ class UserSearchView extends React.Component {
                       
                                 return <HorizontalUserList
                                     type={'search'}
+                                    navigation={this.props.navigation}
                                     showType={collapsed? 'horizontal': 'grid'}
                                 />
                        

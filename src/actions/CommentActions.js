@@ -11,7 +11,7 @@ export function postComment(fromUserId, toUserId, comment) {
           url: `${api.baseURL}/api/review/${fromUserId}/submit/${toUserId}`,
           method: 'post',
           body: JSON.stringify(body)
-        }
+        }, 
       } 
 }
 
@@ -37,6 +37,7 @@ export function getAcceptedComments(userId) {
           url: `${api.baseURL}/api/review/${userId}/acceptedReviews`
 
         },
+        userId
         
     } 
 }

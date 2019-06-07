@@ -25,9 +25,9 @@ import RateUserModal from './RateUserModal'
 import CommentView from './CommentView'
 const { height : deviceHeight } = calculatePortraitDimension();
 import * as ACTION_TYPES from '../../../actions/ActionTypes';
-import { showAlert } from '../../../helpers';
+import { showAlertWithCallback } from '../../../helpers';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
+var isModalOpened = false;
 class BottomSheet extends React.Component {
 
     constructor(props) {
@@ -39,8 +39,14 @@ class BottomSheet extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-      if(this.props.publicUser.error != nextProps.publicUser.error && nextProps.publicUser.currentAction == ACTION_TYPES.RATE_USER_FAILURE) {
-        showAlert('Whoops', nextProps.publicUser.error);
+      if( this.props.publicUser.error != nextProps.publicUser.error && nextProps.publicUser.currentAction == ACTION_TYPES.RATE_USER_FAILURE) {
+        if(isModalOpened)
+        return;
+        isModalOpened = true;
+        showAlertWithCallback('Whoops', nextProps.publicUser.error, () => {
+          isModalOpened = false;
+        });
+
         this.setState({RatingUserModalVisible: false});
       }
     }
@@ -195,7 +201,7 @@ class BottomSheet extends React.Component {
                 <View style={{flex: 1, flexDirection:'column', alignItems:'flex-start', justifyContent:'space-between'}}>
                     <View style={{flexDirection:'row', alignItems:'center', marginTop: 16}}>
                         <View style={[styles.statusMark, this.getOnlineStyle(onlineStatus), {marginLeft:16}]}/>
-                        <Text style={[styles.name, {marginLeft: 16}]}>{name + ', '+ age}</Text>
+                        <Text style={[styles.name, {marginLeft: 16, marginRight:16}]}>{name + ', '+ age}</Text>
                     </View>
                     {
                     hasPlace &&
@@ -320,6 +326,7 @@ class BottomSheet extends React.Component {
                     <RateUserModal
                       onRate={(rating)=>{
                         this.props.dispatch(rateUser(this.props.auth.user.id, this.props.user.id, rating));
+                        this.setState({RatingUserModalVisible: false});
                       }}
                       onCancel={()=>{
                         this.setState({RatingUserModalVisible: false})

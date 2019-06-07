@@ -15,7 +15,7 @@ export default (state = INITIAL_STATE, action) => {
     var userToUser = {}
     switch (action.type) {
         case ACTION_TYPES.LOAD_PUBLIC_PROFILE:
-        return { ...state, isLoading: true, success: false, error: null, currentAction: action.type };
+        return { ...INITIAL_STATE, isLoading: true, success: false, error: null, currentAction: action.type };
         case ACTION_TYPES.LOAD_PUBLIC_PROFILE_SUCCESS:
         return { ...state, isLoading: false, success: true, error: null, 
                 user: action.data.data.user, userToUser: action.data.data.userToUser, 
@@ -35,7 +35,7 @@ export default (state = INITIAL_STATE, action) => {
         case ACTION_TYPES.RATE_USER:
             return { ...state, isLoading: true, success: false, error: null, currentAction: action.type };
         case ACTION_TYPES.RATE_USER_SUCCESS:
-            let user = this.state.user;
+            let user = state.user;
             if(user) 
                 user.rating = action.data.data.newRating;
             return { ...state, isLoading: false, success: true, error: null, currentAction: action.type, ratedValue: action.rating, user };
