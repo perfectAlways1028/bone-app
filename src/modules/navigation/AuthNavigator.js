@@ -7,6 +7,7 @@ import Auth from '../auth/Auth';
 import Login from '../auth/Login';
 import Register from '../auth/Register';
 import Terms from '../term/Terms';
+import ForgotPassword from '../auth/ForgotPassword';
 
 import { colors, fonts } from '../../styles';
 
@@ -26,6 +27,12 @@ const stackNavigator = createStackNavigator(
     },
     Register: {
       screen: Register,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    ForgotPassword: {
+      screen: ForgotPassword,
       navigationOptions: {
         header: null,
       },

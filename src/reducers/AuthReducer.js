@@ -27,6 +27,16 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, isLoading: false, success: true, error: null, user: action.auth.user, token: action.auth.token, currentAction: action.type };
     case ACTION_TYPES.SIGNUP_FAILURE:
         return { ...state, isLoading: false, error: 'An error occured', success: false, currentAction: action.type };
+    
+    case ACTION_TYPES.FORGOT_PASSWORD:
+      return { ...state, isLoading: true, success: false, error: null, currentAction: action.type };
+    case ACTION_TYPES.FORGOT_PASSWORD_SUCCESS:
+      return { ...state, isLoading: false, success: true, error: null, currentAction: action.type };
+    case ACTION_TYPES.FORGOT_PASSWORD_FAILURE:
+        return { ...state, isLoading: false, error: 'An error occured', success: false, currentAction: action.type };
+
+    
+    
     case ACTION_TYPES.LOAD_PROFILE:
       return { ...state, isLoading: true, success: false, error: null, currentAction: action.type };
     case ACTION_TYPES.LOAD_PROFILE_SUCCESS:

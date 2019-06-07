@@ -17,11 +17,11 @@ import { calculatePortraitDimension, showToast, emailValidate, passwordValidate,
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { connect } from 'react-redux';
 
-import { login } from '../../actions/AuthActions';
+import { forgotPassword } from '../../actions/AuthActions';
 
 const { width: deviceWidth, height: deviceHeight } = calculatePortraitDimension();
 
-class Login extends React.Component {
+class ForgotPassword extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,13 +36,12 @@ class Login extends React.Component {
   
   componentWillReceiveProps(nextProps) {
     if (this.props.auth.error !== nextProps.auth.error && nextProps.auth.error) {
-      //login faild
-      console.log("login faild");
-      showToast("Invalid email or password.", "short")
+      //forgot password faild
+      showToast("Invalid email.", "short")
     } else if (this.props.auth.success !== nextProps.auth.success && nextProps.auth.success) {
-      //login success
-      console.log("login success");
-      
+      //forgot success
+      this.setState({email: ''});
+      showToast("Email is sent successfully.", "short")
     }
   }
 
@@ -65,12 +64,6 @@ class Login extends React.Component {
           <View style={{'position':'absolute', left:0, top:0, right:0, bottom: 0, backgroundColor:'rgba(75,75,75, 0.6)' }}/>
           {this.getBackButton()}
         </ImageBackground>
-        <View style={{ justifyContent: 'center', alignItems: 'center', height: 120, alignSelf:'stretch'}}>
-            <View style={{flexDirection:'row'}}>
-              <Text style={{fontSize: 32, color:'rgba(255,255,255,0.6)', marginTop:3 }}>{"Let's"}</Text>
-              <Text style={{fontSize: 36, fontWeight:'bold', color:'white'}}> {"BONE"}</Text>
-            </View>
-        </View>
       </View>
   }
 
@@ -83,9 +76,6 @@ class Login extends React.Component {
               ref={(instance) => {
                 this.emailTxt = instance;
               }}
-              onSubmitEditing={() => {
-                this.passwordTxt.focus();
-              }}
               onChangeText={text => {
                 this.setState({ email : text})
               }}
@@ -95,41 +85,8 @@ class Login extends React.Component {
               containerStyle={{marginTop: 0}}
               returnKeyType='next'
               keyboardType='email-address'
-              
             />
-            <IconizedTextInput
-              placeholder="Password"
-              ref={(instance) => {
-                this.passwordTxt = instance;
-              }}
-              onChangeText={text => {
-                this.setState({ password : text})
-              }}
-              onSubmitEditing={() => {
-  
-              }}
-              seePassword={(visible) => {
-                this.setState({seePassword: visible})
-              }}
-              seePasswordEyeIcon={<Icon name="eye" size={24} color="white" light />}
-              seePasswordEyeSlashIcon={<Icon name="eye-slash" size={24} color="white" light />}
-              value={password}
-              secureTextEntry={!seePassword}
-              textContentType='password'
-              autoCapitalize="none"
-              autoCorrect={false}
-              containerStyle={{marginTop: 16}}
-              returnKeyType='next'
-            />
-            <TouchableOpacity 
-                  style={{alignSelf:'stretch', alignItems:'center', 
-                          flexDirection:'row', justifyContent:'flex-end'}}
-                  onPress={()=>{
-                    this.props.navigation.navigate("ForgotPassword");
-                  }}
-                  >
-              <Text style={styles.forgot}>Forgot Password?</Text>
-            </TouchableOpacity>
+         
       </View>
   }
 
@@ -138,30 +95,23 @@ class Login extends React.Component {
         <Button
             primary
             style={{ alignSelf: 'stretch', marignLeft :0, marginRight:0 }}
-            caption={'LOGIN'}
+            caption={'Submit'}
             onPress={() => {
-              this.loginAction();
+              this.onSubmit();
             }}
         />
       </View>
   }
 
-  loginAction = () => {
+  onSubmit = () => {
     const {email, password} = this.state;
     const { dispatch } = this.props;
     if (!emailValidate(email)) {
-      showToast('Invalid email address.')
+      showToast('Invalid email address.', 'short')
       return;
     }
-
-    sha256Hash(password, ( hashedPassword)=>{
-      let credential = {
-        email: email,
-        password: hashedPassword,
-        firebaseToken : ''
-      }
-      dispatch(login(credential));
-    })
+    dispatch(forgotPassword(email));
+  
   }
   
   render() {
@@ -211,4 +161,4 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({ app: state.app, auth: state.auth });
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps)(ForgotPassword);

@@ -81,6 +81,19 @@ export function signup(credential) {
   }
 }
 
+export function forgotPassword(email){
+  let body = {
+    email
+  }
+  return {
+    type: ACTION_TYPES.FORGOT_PASSWORD,
+    request: {
+      url: `${api.baseURL}/api/user/forgotPassword`,
+      method: 'post',
+      body: JSON.stringify(body)
+    },
+  }
+}
 
 export function _persistAuth(auth) {
     return AsyncStorage.setItem('auth', JSON.stringify(auth));
