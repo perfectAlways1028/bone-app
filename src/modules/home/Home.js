@@ -13,20 +13,22 @@ import {
 import { connect } from 'react-redux';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import Permissions from 'react-native-permissions';
-import { getNearByUsers, getWatchList, getNewUsers, getTopUsers, setFlag, changeLocation, refreshUsers, getFilterUsers, enableEye, enableOnline } from '../../actions/UserActions';
+import { getNearByUsers, getWatchList, getNewUsers, getTopUsers, setFlag, changeLocation, refreshUsers, getFilterUsers, enableEye, enableOnline, enableLocation } from '../../actions/UserActions';
 import { loadUserProfile, loadMyGallery, saveCurrentLocation } from '../../actions/AuthActions';
 import * as ACTION_TYPES from '../../actions/ActionTypes';
 import { getModifiables } from '../../actions/AppActions';
 import UsersGrid from './components/UsersGrid'
 import HorizontalUserList from './components/HorizontalUserList'
 import UserSearchView from './components/UserSearchView'
-
+import RelocateView from './components/RelocateView'
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state ={
       onlineBit: 0,
-      gridType: 'nearby' // nearby, watchlist, filter
+      gridType: 'nearby', // nearby, watchlist, filter
+      isVisibleMap: false,
+      
     }
   }
 
@@ -95,9 +97,10 @@ class Home extends React.Component {
   }
 
   watchLocation = () => {
-    const { auth, dispatch } = this.props;
+    const { auth, dispatch, users } = this.props;
     if(!auth.user)
     return;
+
     navigator.geolocation.watchPosition(
       (position) => {
         const body = {
@@ -105,7 +108,10 @@ class Home extends React.Component {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
         };
-        dispatch(changeLocation(body));
+        if(!users.locationon) {
+          dispatch(changeLocation(body));
+        }
+        dispatch(saveCurrentLocation(body))
       },
       (error) => {
         // console.log(error);
@@ -136,35 +142,6 @@ class Home extends React.Component {
         this.watchLocation();
       }
     });
-  }
-
-  updateLocation = () => {
-    const { auth, dispatch, users } = this.props;
-    if(!auth.user)
-    return;
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        
-        const body = {
-          id: auth.user.id,
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        };
-        dispatch(saveCurrentLocation(body))
-        if(!users.locationon) {
-          dispatch(changeLocation(body));
-        }
-
-      },
-      (error) => {
-        // console.log(error);
-      },
-      {
-        enableHighAccuracy: Platform.OS != 'android',
-        timeout: 20000,
-        maximumAge: 1000,
-      }
-    );
   }
   
   fetchNewUsers = () => {
@@ -221,6 +198,21 @@ class Home extends React.Component {
     this.props.dispatch(enableEye(!eyeon))
   }
 
+  onLocation = (locationon) => {
+    if(!locationon ) {
+      this.setState({isVisibleMap: !this.state.isVisibleMap});
+    }
+
+    if(locationon && this.state.isVisibleMap) {
+      this.setState({isVisibleMap: false});
+      this.props.dispatch(enableLocation(false))
+    }
+    if(locationon && !this.state.isVisibleMap) {
+      this.props.dispatch(enableLocation(false))
+    }
+    
+  }
+
   getTopToolBar = (searchon, locationon, eyeon, filteron, online ) => {
     return <View style={styles.topToolbarContainer}>
       <View style={{width:40, height:40, marginLeft: 8}}>
@@ -231,7 +223,13 @@ class Home extends React.Component {
         </TouchableOpacity>
       </View>
       <View style={{width:40, flexDirection: 'row', alignItems:'center', justifyContent:'flex-end'}}>
-          <TouchableOpacity style={{ alignItems:'center', justifyContent: 'center', width: 40, height:40, marginRight:16}}>
+          <TouchableOpacity 
+            style={{ alignItems:'center', justifyContent: 'center', 
+                     width: 40, height:40, marginRight:16}}
+            onPress={()=>{
+              this.onLocation(locationon);
+            }}
+            >
             <Image style={styles.icon} source={locationon ? require('../../../assets/images/locationon.png') : require('../../../assets/images/locationoff.png')}/>
           </TouchableOpacity>
           <TouchableOpacity 
@@ -261,6 +259,7 @@ class Home extends React.Component {
   }
   render() {
     const { searchon, locationon, eyeon, filteron, online } = this.props.users;
+    console.log("currentLocation", this.props.auth.currentLocation)
     return (
       <View style={styles.background}>
           <View style={styles.container}>
@@ -272,6 +271,10 @@ class Home extends React.Component {
               {
                 searchon &&
                 <UserSearchView navigation={this.props.navigation}/>
+              }
+              {
+                this.state.isVisibleMap &&
+                <RelocateView location={this.props.auth.currentLocation} navigation={this.props.navigation}/>
               }
             </View>
             
