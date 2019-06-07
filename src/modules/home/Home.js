@@ -53,7 +53,7 @@ class Home extends React.Component {
       }
       this.props.dispatch(getWatchList(data));
     }else if(locationon) {
-
+      this.fetchNearByUsers(online);
     } else {
       this.fetchNearByUsers(online);
     }
@@ -68,7 +68,11 @@ class Home extends React.Component {
         nextProps.publicUser.currentAction == ACTION_TYPES.BLOCK_USER_SUCCESS) {
         this.props.dispatch(refreshUsers(true));
     }
-
+    if(this.props.users.success == false && 
+      nextProps.users.success == true && 
+      nextProps.users.currentAction == ACTION_TYPES.CHANGE_LOCATION_SUCCESS) {
+      this.props.dispatch(refreshUsers(true));
+    }
   }
 
   componentDidMount() {
@@ -198,6 +202,18 @@ class Home extends React.Component {
     this.props.dispatch(enableEye(!eyeon))
   }
 
+  changeWithCurrentLocation = () => {
+    const {auth, users} = this.props;
+    const body = {
+      id: auth.user.id,
+      latitude: auth.currentLocation.latitude,
+      longitude: auth.currentLocation.longitude,
+    };
+   
+      this.props.dispatch(changeLocation(body));
+   
+  }
+
   onLocation = (locationon) => {
     if(!locationon ) {
       this.setState({isVisibleMap: !this.state.isVisibleMap});
@@ -205,10 +221,13 @@ class Home extends React.Component {
 
     if(locationon && this.state.isVisibleMap) {
       this.setState({isVisibleMap: false});
+
       this.props.dispatch(enableLocation(false))
+      this.changeWithCurrentLocation();
     }
     if(locationon && !this.state.isVisibleMap) {
       this.props.dispatch(enableLocation(false))
+      this.changeWithCurrentLocation();
     }
     
   }
@@ -230,7 +249,7 @@ class Home extends React.Component {
               this.onLocation(locationon);
             }}
             >
-            <Image style={styles.icon} source={locationon ? require('../../../assets/images/locationon.png') : require('../../../assets/images/locationoff.png')}/>
+            <Image style={styles.icon} source={locationon || this.state.isVisibleMap ? require('../../../assets/images/locationon.png') : require('../../../assets/images/locationoff.png')}/>
           </TouchableOpacity>
           <TouchableOpacity 
             style={{ alignItems:'center', justifyContent: 'center', width: 40, height:40,  marginRight:16}}
@@ -259,7 +278,6 @@ class Home extends React.Component {
   }
   render() {
     const { searchon, locationon, eyeon, filteron, online } = this.props.users;
-    console.log("currentLocation", this.props.auth.currentLocation)
     return (
       <View style={styles.background}>
           <View style={styles.container}>
@@ -274,7 +292,11 @@ class Home extends React.Component {
               }
               {
                 this.state.isVisibleMap &&
-                <RelocateView location={this.props.auth.currentLocation} navigation={this.props.navigation}/>
+                <RelocateView onRelocate={()=>{
+                  this.setState({isVisibleMap: false});
+                  
+                }} 
+                location={this.props.auth.currentLocation} navigation={this.props.navigation}/>
               }
             </View>
             
